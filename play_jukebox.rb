@@ -19,23 +19,45 @@ class Jukebox < Array
     generate_song_list
   end
 
+  #def play_loop_in_thread
+  #  Thread.new do
+  #    play_loop
+  #  end
+  #end
+
+  def play_loop
+    while true do
+      play
+    end
+  end
+
   def play
     begin
       play_random_song
     rescue SystemExit, Interrupt => e
-      Process.kill("SIGHUP",@playing_pid)
+      terminate_current_song
       puts "\nMusic terminated by user"
       #system('stty', @stty_save)
       exit
-    end while true
+    end
+  end
+
+  def skip_song
+    terminate_current_song
   end
 
   private
 
   def play_random_song
+    terminate_current_song
     puts "Press Ctrl-C to stop the music and exit this program"
     mp3_file = @songs[rand(@songs.length)]
-    @playing_pid = play_file(mp3_file)
+    play_file(mp3_file)
+    #@playing_pid = nil
+  end
+
+  def terminate_current_song
+    Process.kill("SIGHUP",@playing_pid) if @playing_pid
   end
 
   def generate_directories_list
@@ -58,8 +80,6 @@ class Jukebox < Array
       @songs = @songs + files
     end
     #songs = ["~/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
-    #         "~/Music/Artie_Shaw/Dancing In The Dark 1941.mp3",
-    #         "~/Music/Jelly_Roll_Morton/Georgia Swing 1928.mp3",
     #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
   end
 
@@ -67,19 +87,34 @@ class Jukebox < Array
     system_yield_pid("mpg123", File.expand_path(mp3_file)) { |pid|
       @playing_pid = pid 
     }
+    @playing_pid = nil
   end
 
 end
 
+jj = Jukebox.new
+
+play_loop_thread = Thread.new do
+  jj.play_loop
+end
+
 input_thread = Thread.new do
-  loop do
-    puts "Press 'q' to quit program and stop playing music"
+  while true do
+    puts "Press 'q' to quit program or 'n' for the next song"
     line = Readline.readline('> ', true)
-    exit if line.strip == "q"
+    case line.strip
+    when "q"
+      puts "Pressed 'q'"
+      Thread.main.exit
+    when "n"
+      jj.skip_song
+    else
+      puts "'q' for quit, 'n' for next song"
+    end
     puts line
   end
 end
 
-jj = Jukebox.new
-jj.play
+play_loop_thread.join
+input_thread.join
 
