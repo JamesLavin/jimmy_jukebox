@@ -1,5 +1,6 @@
 require 'readline'
 
+# make system call and get pid so you can terminate process
 def system_yield_pid(*cmd)
   pid = fork do
     exec(*cmd)
@@ -13,17 +14,10 @@ end
 class Jukebox < Array
 
   def initialize
-    #@stty_save = `stty -g`.chomp
     @music_directories_file = 'jimmy_jukebox_directories.txt'
     @music_directories_file = ARGV[0] if ARGV[0] && ARGV[0].match(/.*\.txt/)
     generate_song_list
   end
-
-  #def play_loop_in_thread
-  #  Thread.new do
-  #    play_loop
-  #  end
-  #end
 
   def play_loop
     while true do
@@ -37,7 +31,6 @@ class Jukebox < Array
     rescue SystemExit, Interrupt => e
       terminate_current_song
       puts "\nMusic terminated by user"
-      #system('stty', @stty_save)
       exit
     end
   end
@@ -53,7 +46,6 @@ class Jukebox < Array
     puts "Press Ctrl-C to stop the music and exit this program"
     mp3_file = @songs[rand(@songs.length)]
     play_file(mp3_file)
-    #@playing_pid = nil
   end
 
   def terminate_current_song
@@ -84,9 +76,9 @@ class Jukebox < Array
   end
 
   def play_file(mp3_file)
-    system_yield_pid("mpg123", File.expand_path(mp3_file)) { |pid|
+    system_yield_pid("mpg123", File.expand_path(mp3_file)) do |pid|
       @playing_pid = pid 
-    }
+    end
     @playing_pid = nil
   end
 
