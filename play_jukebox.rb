@@ -1,26 +1,42 @@
+require 'readline'
+
+def system_yield_pid(*cmd)
+  pid = fork do
+    exec(*cmd)
+    exit! 127
+  end
+  yield pid if block_given?
+  Process.waitpid(pid)
+  $?
+end
 
 class Jukebox < Array
 
   def initialize
+    #@stty_save = `stty -g`.chomp
     @music_directories_file = 'jimmy_jukebox_directories.txt'
     @music_directories_file = ARGV[0] if ARGV[0] && ARGV[0].match(/.*\.txt/)
     generate_song_list
-    #puts 'MP3 directories: ' + @mp3_directories.to_s
-    #puts 'Songs: ' + @songs.to_s
   end
 
   def play
     begin
-      puts "Press Ctrl-C to stop the music and exit this program"
-      mp3_file = @songs[rand(@songs.length)]
-      play_file(mp3_file)
-    rescue Interrupt => e
+      play_random_song
+    rescue SystemExit, Interrupt => e
+      Process.kill("SIGHUP",@playing_pid)
       puts "\nMusic terminated by user"
-      exit!
+      #system('stty', @stty_save)
+      exit
     end while true
   end
 
   private
+
+  def play_random_song
+    puts "Press Ctrl-C to stop the music and exit this program"
+    mp3_file = @songs[rand(@songs.length)]
+    @playing_pid = play_file(mp3_file)
+  end
 
   def generate_directories_list
     @mp3_directories = []
@@ -48,10 +64,22 @@ class Jukebox < Array
   end
 
   def play_file(mp3_file)
-    system("mpg123", File.expand_path(mp3_file))
+    system_yield_pid("mpg123", File.expand_path(mp3_file)) { |pid|
+      @playing_pid = pid 
+    }
   end
 
 end
 
+input_thread = Thread.new do
+  loop do
+    puts "Press 'q' to quit program and stop playing music"
+    line = Readline.readline('> ', true)
+    exit if line.strip == "q"
+    puts line
+  end
+end
+
 jj = Jukebox.new
 jj.play
+
