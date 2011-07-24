@@ -13,9 +13,12 @@ end
 
 class Jukebox < Array
 
+  attr_reader :stty_save
+
   def initialize
     @music_directories_file = 'jimmy_jukebox_directories.txt'
     @music_directories_file = ARGV[0] if ARGV[0] && ARGV[0].match(/.*\.txt/)
+    @stty_save = `stty -g`.chomp
     generate_song_list
   end
 
@@ -31,6 +34,7 @@ class Jukebox < Array
     rescue SystemExit, Interrupt => e
       terminate_current_song
       puts "\nMusic terminated by user"
+      system('stty', @stty_save)
       exit
     end
   end
@@ -91,19 +95,25 @@ play_loop_thread = Thread.new do
 end
 
 input_thread = Thread.new do
-  while true do
-    puts "Press 'q' to quit program or 'n' for the next song"
-    line = Readline.readline('> ', true)
-    case line.strip
-    when "q"
-      puts "Pressed 'q'"
-      Thread.main.exit
-    when "n"
-      jj.skip_song
-    else
-      puts "'q' for quit, 'n' for next song"
+  begin
+    while true do
+      puts "Press 'q' to quit program or 'n' for the next song"
+      line = Readline.readline('> ', true)
+      case line.strip
+      when "q"
+        puts "Pressed 'q'"
+        Thread.main.exit
+      when "n"
+        jj.skip_song
+      else
+        puts "'q' for quit, 'n' for next song"
+      end
+      puts line
     end
-    puts line
+  rescue Interrupt => e
+    puts "\nMusic terminated by user"
+    system('stty', jj.stty_save)
+    exit
   end
 end
 
