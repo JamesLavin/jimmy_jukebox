@@ -13,10 +13,10 @@ end
 
 class Jukebox < Array
 
-  attr_reader :stty_save
+  attr_reader :stty_save, :current_song_paused
 
   def initialize
-    @music_directories_file = 'jimmy_jukebox_directories.txt'
+    @music_directories_file = 'all.txt'
     @music_directories_file = ARGV[0] if ARGV[0] && ARGV[0].match(/.*\.txt/)
     @stty_save = `stty -g`.chomp
     generate_song_list
@@ -43,6 +43,16 @@ class Jukebox < Array
     terminate_current_song
   end
 
+  def pause_current_song
+    @current_song_paused = true
+    system("kill -s STOP #{@playing_pid}") if @playing_pid
+  end
+
+  def unpause_current_song
+    @current_song_paused = false
+    system("kill -s CONT #{@playing_pid}") if @playing_pid
+  end
+
   private
 
   def play_random_song
@@ -57,6 +67,11 @@ class Jukebox < Array
   end
 
   def generate_directories_list
+    load_top_level_directories
+    add_all_subdirectories
+  end
+
+  def load_top_level_directories
     @mp3_directories = []
     File.open(@music_directories_file, "r") do |inf|
       while (line = inf.gets)
@@ -64,6 +79,15 @@ class Jukebox < Array
         @mp3_directories << File.expand_path(line)
       end
     end
+  end
+
+  def add_all_subdirectories
+    new_dirs = []
+    @mp3_directories.each do |dir|
+      Dir.chdir(dir)
+      new_dirs += Dir.glob("**/")
+    end
+    @mp3_directories += new_dirs
   end
 
   def generate_song_list
@@ -95,20 +119,34 @@ play_loop_thread = Thread.new do
 end
 
 input_thread = Thread.new do
+  display_string = "Press 'p' to (un)pause, 'q' to quit, or 's' to skip the song"
   begin
     while true do
-      puts "Press 'q' to quit program or 'n' for the next song"
+      puts display_string
       line = Readline.readline('> ', true)
       case line.strip
       when "q"
-        puts "Pressed 'q'"
+        puts "Quit requested"
         Thread.main.exit
-      when "n"
+      when "p"
+        if play_loop_thread && jj.current_song_paused
+          puts "Unpause requested"
+          jj.unpause_current_song
+          #play_loop_thread.run
+        elsif play_loop_thread
+          puts "Pause requested"
+          jj.pause_current_song
+          #play_loop_thread.stop
+        else
+          raise "Can't find play_loop_thread"
+        end
+        puts display_string
+      when "s"
+        puts "Skip song requested"
         jj.skip_song
       else
-        puts "'q' for quit, 'n' for next song"
+        puts display_string
       end
-      puts line
     end
   rescue Interrupt => e
     puts "\nMusic terminated by user"
