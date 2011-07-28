@@ -11,14 +11,13 @@ def system_yield_pid(*cmd)
   $?
 end
 
-class Jukebox < Array
+class Jukebox
 
-  attr_reader :stty_save, :current_song_paused
+  attr_reader :stty_save, :current_song_paused, :playing_pid
 
   def initialize
-    @music_directories_file = 'all.txt'
-    @music_directories_file = ARGV[0] if ARGV[0] && ARGV[0].match(/.*\.txt/)
     @stty_save = `stty -g`.chomp
+    generate_directories_list
     generate_song_list
   end
 
@@ -55,6 +54,15 @@ class Jukebox < Array
 
   private
 
+  def generate_top_dirs
+    @music_directories_file = 'all.txt'
+    generate_top_dirs_from_file if ARGV[0] && ARGV[0].match(/.*\.txt/)
+  end
+
+  def generate_top_dirs_from_file
+    @music_directories_file = ARGV[0] if ARGV[0] && ARGV[0].match(/.*\.txt/)
+  end
+
   def play_random_song
     terminate_current_song
     puts "Press Ctrl-C to stop the music and exit this program"
@@ -67,11 +75,12 @@ class Jukebox < Array
   end
 
   def generate_directories_list
-    load_top_level_directories
+    generate_top_dirs
+    load_top_level_directories_from_file
     add_all_subdirectories
   end
 
-  def load_top_level_directories
+  def load_top_level_directories_from_file
     @mp3_directories = []
     File.open(@music_directories_file, "r") do |inf|
       while (line = inf.gets)
@@ -91,7 +100,6 @@ class Jukebox < Array
   end
 
   def generate_song_list
-    generate_directories_list
     @songs = []
     @mp3_directories.each do |mp3_dir|
       files = Dir.entries(File.expand_path(mp3_dir))
@@ -127,6 +135,9 @@ input_thread = Thread.new do
       case line.strip
       when "q"
         puts "Quit requested"
+        playing_pid = jj.playing_pid if play_loop_thread && jj.playing_pid
+        play_loop_thread.exit
+        Process.kill("SIGHUP",playing_pid) if playing_pid
         Thread.main.exit
       when "p"
         if play_loop_thread && jj.current_song_paused
