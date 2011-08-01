@@ -56,12 +56,13 @@ module JimmyJukebox
 
     private
 
-    def generate_top_dirs
-      @music_directories_file = 'all.txt'
-      generate_top_dirs_from_file if ARGV[0] && ARGV[0].match(/.*\.txt/)
+    def set_music_directories_file
+      set_music_directories_file_from_file if ARGV[0] && ARGV[0].match(/.*\.txt/)
+      #set_top_dir_from_dir_name if ARGV[]
+      @music_directories_file ||= 'all.txt'
     end
 
-    def generate_top_dirs_from_file
+    def set_music_directories_file_from_file
       @music_directories_file = ARGV[0] if ARGV[0] && ARGV[0].match(/.*\.txt/)
     end
 
@@ -77,7 +78,8 @@ module JimmyJukebox
     end
 
     def generate_directories_list
-      generate_top_dirs
+      #generate_top_dirs
+      set_music_directories_file
       load_top_level_directories_from_file
       add_all_subdirectories
     end
