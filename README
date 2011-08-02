@@ -1,0 +1,9 @@
+JimmyJukebox README
+
+To play MP3 files, you must have installed the program "mpg123."
+
+To play OGG files, you must have installed the program "ogg123."
+
+By default, JimmyJukebox will play (in random order) all MP3 files in your '~/Music' directory. You can override this default either by passing a directory name as a command line parameter (example: "") or by passing the name of a file containing a list of directory names.
+
+
