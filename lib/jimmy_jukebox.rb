@@ -55,17 +55,12 @@ module JimmyJukebox
     private
 
     def set_music_directories_file
-      set_music_directories_file_from_file if ARGV[0] && ARGV[0].match(/.*\.txt/)
-    end
-
-    def set_music_directories_file_from_file
-      if ARGV[0] && ARGV[0].match(/.*\.txt/)
-        if File.exists?(File.expand_path(ARGV[0]))
-          @music_directories_file = File.expand_path(ARGV[0])
-        elsif File.exists?(File.expand_path("~/.jimmy_jukebox/" + ARGV[0]))
-          @music_directories_file = File.expand_path("~/.jimmy_jukebox/" + ARGV[0])
-        end
+      if File.exists?(File.expand_path(ARGV[0]))
+        @music_directories_file = File.expand_path(ARGV[0])
+      elsif File.exists?(File.expand_path("~/.jimmy_jukebox/" + ARGV[0]))
+        @music_directories_file = File.expand_path("~/.jimmy_jukebox/" + ARGV[0])
       end
+      load_top_level_directories_from_file
     end
 
     def play_random_song
@@ -81,15 +76,25 @@ module JimmyJukebox
 
     def generate_directories_list
       @mp3_directories = []
-      set_music_directories_file
-      if @music_directories_file
-        load_top_level_directories_from_file
-      elsif ARGV[0] && File.directory?(File.expand_path(ARGV[0]))
+      # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
+      if argv0_is_a_txt_file?
+        set_music_directories_file
+      elsif argv0_is_a_directory?
         @mp3_directories << File.expand_path(ARGV[0])
       else
         @mp3_directories << File.expand_path("~/Music")
       end
       add_all_subdirectories
+    end
+
+    def argv0_is_a_txt_file?
+      return false unless ARGV[0]
+      ARGV[0].match(/.*\.txt/) ? true : false
+    end
+
+    def argv0_is_a_directory?
+      return false unless ARGV[0]
+      File.directory?(File.expand_path(ARGV[0])) ? true : false
     end
 
     def load_top_level_directories_from_file

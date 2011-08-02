@@ -8,6 +8,7 @@ add legal disclaimer
 TODO:
 
 handle quoted directory name as command line parameter
+call strip on music directory names
 raise error message if MP3 player not installed
 raise error message if OGG player not installed
 tests!
