@@ -54,7 +54,7 @@ module JimmyJukebox
 
     private
 
-    def set_music_directories_file
+    def set_music_directories_from_file
       if File.exists?(File.expand_path(ARGV[0]))
         @music_directories_file = File.expand_path(ARGV[0])
       elsif File.exists?(File.expand_path("~/.jimmy_jukebox/" + ARGV[0]))
@@ -77,9 +77,9 @@ module JimmyJukebox
     def generate_directories_list
       @mp3_directories = []
       # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
-      if argv0_is_a_txt_file?
-        set_music_directories_file
-      elsif argv0_is_a_directory?
+      if is_a_txt_file?(ARGV[0])
+        set_music_directories_from_file
+      elsif is_a_directory?(ARGV[0])
         @mp3_directories << File.expand_path(ARGV[0])
       else
         @mp3_directories << File.expand_path("~/Music")
@@ -87,14 +87,14 @@ module JimmyJukebox
       add_all_subdirectories
     end
 
-    def argv0_is_a_txt_file?
-      return false unless ARGV[0]
-      ARGV[0].match(/.*\.txt/) ? true : false
+    def is_a_txt_file?(whatever)
+      return false unless whatever
+      whatever.match(/.*\.txt/) ? true : false
     end
 
-    def argv0_is_a_directory?
-      return false unless ARGV[0]
-      File.directory?(File.expand_path(ARGV[0])) ? true : false
+    def is_a_directory?(whatever)
+      return false unless whatever
+      File.directory?(File.expand_path(whatever)) ? true : false
     end
 
     def load_top_level_directories_from_file
