@@ -48,6 +48,7 @@ Method 2 selects one or more music directories:
         ~/My_rock_files/The_Beatles
         ~/My_rock_files/The Eagles
         /home/my_name/My_rock_files/The_Rolling_Stones
+ - To play music stored in the directory trees specified in ~/.jimmy_jukebox/jazz.txt, run "play_jukebox jazz.txt"
 
 == TROUBLESHOOTING
 
