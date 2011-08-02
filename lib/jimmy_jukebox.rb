@@ -17,6 +17,8 @@ module JimmyJukebox
 
     attr_reader :current_song_paused, :playing_pid
 
+    DEFAULT_MP3_DIRECTORY = "~/Music"
+
     def initialize
       generate_directories_list
       generate_song_list
@@ -82,7 +84,7 @@ module JimmyJukebox
       elsif is_a_directory?(ARGV[0])
         @mp3_directories << File.expand_path(ARGV[0])
       else
-        @mp3_directories << File.expand_path("~/Music")
+        @mp3_directories << File.expand_path(DEFAULT_MP3_DIRECTORY)
       end
       add_all_subdirectories
     end
