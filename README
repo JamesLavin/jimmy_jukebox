@@ -1,27 +1,44 @@
-JimmyJukebox README
+= JimmyJukebox
 
-Basic usage:
+== DESCRIPTION
+
+JimmyJukebox plays MP3 and OGG songs in specified directory trees in random order.
+You can pause/unpause a playing song, skip a sing, or quit. By default, JimmyJukebox 
+will play (in random order) all .mp3 and .ogg files in your '~/Music' directory. 
+You can override this default either by passing a directory name as a command line 
+parameter (example: "play_jukebox ~/Music/JAZZ") or by passing the name of a file 
+containing a list of directory names.
+
+== REQUIREMENTS
+ - A Unix/Linux/Mac machine -- JimmyJukebox currently does not run on Windows
+ - The command line program "mpg123" (if you want to play MP3 files)
+ - The command line program "ogg123" (if you want to play OGG files)
+
+== BASIC USAGE
  - On the command line, type "play_jukebox"
  - By default, JimmyJukebox assumes your music is stored in a directory tree descending from "~/Music"
+ - A song will start playing
+ - To skip to the next song, type "s<RETURN>"
+ - To pause the song, type "p<RETURN>"
+ - To restart a paused song, type "p<RETURN>"
+ - To quit, type "q<RETURN>" or "CTRL-C"
 
-Method 1 for telling JimmyJukebox where to find your music:
+== TELLING JIMMYJUKEBOX WHERE TO FIND YOUR MUSIC
+
+Method 1:
  - On the command line, type "play_jukebox DIRECTORY_NAME" where DIRECTORY_NAME is the path to the top of your music directory tree
- - For example, "play_jukebox ~/Music/JAZZ"
+ - For example:
+    - play_jukebox ~/Music/JAZZ
+    - play_jukebox ~/Music/The\ Beatles
+    - play_jukebox "~/Music/The Beatles"
 
-Method 2 for telling JimmyJukebox where to find your music:
+Method 2:
  - Create a ~/.jimmy_jukebox directory
  - Create a file in ~/.jimmy_jukebox named "whatever.txt"
  - Inside the file, each row names the top of a music directory tree
  - For example, ~/.jimmy_jukebox/rock.txt might contain the following:
    ~/My_rock_files/The_Beatles
    /home/my_name/My_rock_files/The_Rolling_Stones
-
-Requirements:
- - A Unix/Linux/Mac machine (because JimmyJukebox currently does not work on Windows)
- - The program "mpg123" to play MP3 files
- - The program "ogg123" to play OGG files
-
-By default, JimmyJukebox will play (in random order) all MP3 files in your '~/Music' directory. You can override this default either by passing a directory name as a command line parameter (example: "") or by passing the name of a file containing a list of directory names.
 
 If you're a JRuby user (like me), you may be disappointed that play_jukebox uses "#!/usr/bin/ruby" rather than "#!/usr/bin/env ruby." I force the use of Matz Ruby because JRuby generates a "NotImplementedError: fork is not available on this platform" exception because "JRuby doesn't implement fork() on any platform, including those where fork() is available in MRI" (http://kenai.com/projects/jruby/pages/DifferencesBetweenMriAndJruby#Fork_is_not_implemented). There is an experimental "fork" feature in JRuby callable on the command line with "-J-Djruby.fork.enabled=true" but the feature is labelled "(EXPERIMENTAL, maybe dangerous)" (see http://kenai.com/projects/jruby/pages/PerformanceTuning#Native_Support_Runtime_Properties).
 
