@@ -46,7 +46,6 @@ input_thread = Thread.new do
     end
   rescue Interrupt => e
     puts "\nMusic terminated by user"
-    system('stty', jj.stty_save)
     exit
   end
 end
