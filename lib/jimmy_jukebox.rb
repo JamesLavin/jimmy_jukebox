@@ -80,18 +80,19 @@ module JimmyJukebox
     end
 
     def generate_directories_list
+      @mp3_directories = []
       set_music_directories_file
       if @music_directories_file
         load_top_level_directories_from_file
+      elsif ARGV[0] && File.directory?(File.expand_path(ARGV[0]))
+        @mp3_directories << File.expand_path(ARGV[0])
       else
-        @mp3_directories = []
         @mp3_directories << File.expand_path("~/Music")
       end
       add_all_subdirectories
     end
 
     def load_top_level_directories_from_file
-      @mp3_directories = []
       File.open(@music_directories_file, "r") do |inf|
         while (line = inf.gets)
           line.strip!
@@ -113,7 +114,7 @@ module JimmyJukebox
       @songs = []
       @mp3_directories.each do |mp3_dir|
         files = Dir.entries(File.expand_path(mp3_dir))
-        files.delete_if { |f| !f.match(/.*\.mp3/) }
+        files.delete_if { |f| !f.match(/.*\.mp3/) && !f.match(/.*\.ogg/) }
         files.map! { |f| File.expand_path(mp3_dir) + '/' + f }
         @songs = @songs + files
       end
@@ -122,8 +123,14 @@ module JimmyJukebox
     end
 
     def play_file(mp3_file)
-      system_yield_pid("mpg123", File.expand_path(mp3_file)) do |pid|
-        @playing_pid = pid 
+      if mp3_file.match(/\.mp3$/)
+        system_yield_pid("mpg123", File.expand_path(mp3_file)) do |pid|
+          @playing_pid = pid 
+        end
+      elsif mp3_file.match(/\.ogg$/)
+        system_yield_pid("ogg123", File.expand_path(mp3_file)) do |pid|
+          @playing_pid = pid 
+        end
       end
       @playing_pid = nil
     end
