@@ -83,7 +83,12 @@ module JimmyJukebox
 
     def generate_directories_list
       set_music_directories_file
-      load_top_level_directories_from_file
+      if @music_directories_file
+        load_top_level_directories_from_file
+      else
+        @mp3_directories = []
+        @mp3_directories << File.expand_path("~/Music")
+      end
       add_all_subdirectories
     end
 
