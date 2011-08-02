@@ -15,10 +15,9 @@ module JimmyJukebox
 
   class Jukebox
 
-    attr_reader :stty_save, :current_song_paused, :playing_pid
+    attr_reader :current_song_paused, :playing_pid
 
     def initialize
-      @stty_save = `stty -g`.chomp
       generate_directories_list
       generate_song_list
     end
@@ -35,7 +34,6 @@ module JimmyJukebox
       rescue SystemExit, Interrupt => e
         terminate_current_song
         puts "\nMusic terminated by user"
-        system('stty', @stty_save)
         exit
       end
     end
