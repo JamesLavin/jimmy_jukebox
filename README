@@ -27,10 +27,13 @@ containing a list of directory names.
 
 Method 1:
  - On the command line, type "play_jukebox DIRECTORY_NAME" where DIRECTORY_NAME is the path to the top of your music directory tree
+ - If your directory name contains characters that must be escaped, you can either escape them or enclose the string in double quotation marks
  - For example:
     - play_jukebox ~/Music/JAZZ
     - play_jukebox ~/Music/The\ Beatles
     - play_jukebox "~/Music/The Beatles"
+    - play_jukebox ~/Music/JAZZ/Jack\ Sheedy\'s\ Dixieland\ Jazz\ Band
+    - play_jukebox "~/Music/JAZZ/Jack Sheedy's Dixieland Jazz Band"
 
 Method 2:
  - Create a ~/.jimmy_jukebox directory

@@ -1,5 +1,6 @@
 
-DONE:
+0.0.1:
+ability to play MP3 and OGG files
 gemify
 handle directory name as command line parameter
 add legal disclaimer
@@ -7,7 +8,6 @@ add legal disclaimer
 TODO:
 
 handle quoted directory name as command line parameter
-play OGG files too
 raise error message if MP3 player not installed
 raise error message if OGG player not installed
 tests!
