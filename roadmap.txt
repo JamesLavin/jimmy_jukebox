@@ -1,0 +1,19 @@
+
+DONE:
+gemify
+handle directory name as command line parameter
+add legal disclaimer
+
+TODO:
+
+handle quoted directory name as command line parameter
+play OGG files too
+raise error message if MP3 player not installed
+raise error message if OGG player not installed
+tests!
+
+download free Dixieland music from Archive.org
+ - download files
+    e.g., http://www.archive.org/details/OriginalDixielandJazzBand-29-3939
+ - chmod ug+rx files
+
