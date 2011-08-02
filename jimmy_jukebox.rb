@@ -58,12 +58,16 @@ module JimmyJukebox
 
     def set_music_directories_file
       set_music_directories_file_from_file if ARGV[0] && ARGV[0].match(/.*\.txt/)
-      #set_top_dir_from_dir_name if ARGV[]
-      @music_directories_file ||= 'all.txt'
     end
 
     def set_music_directories_file_from_file
-      @music_directories_file = ARGV[0] if ARGV[0] && ARGV[0].match(/.*\.txt/)
+      if ARGV[0] && ARGV[0].match(/.*\.txt/)
+        if File.exists?(File.expand_path(ARGV[0]))
+          @music_directories_file = File.expand_path(ARGV[0])
+        elsif File.exists?(File.expand_path("~/.jimmy_jukebox/" + ARGV[0]))
+          @music_directories_file = File.expand_path("~/.jimmy_jukebox/" + ARGV[0])
+        end
+      end
     end
 
     def play_random_song
@@ -78,7 +82,6 @@ module JimmyJukebox
     end
 
     def generate_directories_list
-      #generate_top_dirs
       set_music_directories_file
       load_top_level_directories_from_file
       add_all_subdirectories
