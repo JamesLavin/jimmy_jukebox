@@ -3,7 +3,7 @@
 == DESCRIPTION
 
 JimmyJukebox plays MP3 and OGG songs in specified directory trees in random order.
-You can pause/unpause a playing song, skip a sing, or quit. By default, JimmyJukebox 
+You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox 
 will play (in random order) all .mp3 and .ogg files in your '~/Music' directory. 
 You can override this default either by passing a directory name as a command line 
 parameter (example: "play_jukebox ~/Music/JAZZ") or by passing the name of a file 
