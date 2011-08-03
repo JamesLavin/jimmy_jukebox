@@ -17,7 +17,8 @@ module JimmyJukebox
 
     attr_reader :current_song_paused, :playing_pid
 
-    DEFAULT_MP3_DIRECTORY = "~/Music"
+    DEFAULT_MP3_DIR = "~/Music"
+    DEFAULT_PLAYLIST_DIR = "~/.jimmy_jukebox"
 
     def initialize
       test_existence_of_mpg123_and_ogg123
@@ -88,8 +89,8 @@ module JimmyJukebox
     def set_music_directories_from_file
       if File.exists?(File.expand_path(ARGV[0]))
         @music_directories_file = File.expand_path(ARGV[0])
-      elsif File.exists?(File.expand_path("~/.jimmy_jukebox/" + ARGV[0]))
-        @music_directories_file = File.expand_path("~/.jimmy_jukebox/" + ARGV[0])
+      elsif File.exists?(File.expand_path(DEFAULT_PLAYLIST_DIR + '/' + ARGV[0]))
+        @music_directories_file = File.expand_path(DEFAULT_PLAYLIST_DIR + '/' + ARGV[0])
       end
       load_top_level_directories_from_file
     end
@@ -113,7 +114,7 @@ module JimmyJukebox
       elsif is_a_directory?(ARGV[0])
         @music_directories << File.expand_path(ARGV[0])
       else
-        @music_directories << File.expand_path(DEFAULT_MP3_DIRECTORY)
+        @music_directories << File.expand_path(DEFAULT_MP3_DIR)
       end
       add_all_subdirectories
     end
