@@ -52,7 +52,7 @@ Method 2 selects one or more music directory trees:
 
 == TROUBLESHOOTING
 
-- Are you running a Windows machine? Solution: Get a real Unix/Linux/Mac.
+- Are you running a Windows machine? Solution: Get a real Unix/Linux/Mac machine.
 
 - Are you running JRuby? Solution: Set your GEM_HOME and PATH variables to call "Matz" Ruby (aka CRuby or regular Ruby) before calling JRuby (OPTIONAL: then contact the JRuby gurus and very nicely encourage them to enable "fork")
 
