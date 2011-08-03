@@ -1,18 +1,19 @@
 
 0.0.1:
-ability to play MP3 and OGG files
-gemify
-handle directory name as command line parameter
-add legal disclaimer
+  ability to play MP3 and OGG files
+  ability to skip a song
+  ability to pause a song and later unpause it
+  gemify
+  handle directory name as command line parameter
+  add legal disclaimer
+  if MP3 and OGG players not installed, refuse to play
+  if MP3 player not installed, warn user and skip MP3 songs
+  if OGG player not installed, warn user and skip OGG songs
 
 TODO:
-
 handle quoted directory name as command line parameter
 call strip on music directory names
-raise error message if MP3 player not installed
-raise error message if OGG player not installed
 tests!
-
 download free Dixieland music from Archive.org
  - download files
     e.g., http://www.archive.org/details/OriginalDixielandJazzBand-29-3939
