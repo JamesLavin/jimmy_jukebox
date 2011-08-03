@@ -20,9 +20,10 @@ input_thread = Thread.new do
       case line.strip
       when "q"
         puts "Quit requested"
-        playing_pid = jj.playing_pid if play_loop_thread && jj.playing_pid
-        play_loop_thread.exit
-        Process.kill("SIGHUP",playing_pid) if playing_pid
+        #playing_pid = jj.playing_pid if play_loop_thread && jj.playing_pid
+        #play_loop_thread.exit
+        #Process.kill("SIGHUP",playing_pid) if playing_pid
+        jj.quit
         Thread.main.exit
       when "p"
         if play_loop_thread && jj.current_song_paused

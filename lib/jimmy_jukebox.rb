@@ -27,7 +27,8 @@ module JimmyJukebox
     end
 
     def play_loop
-      while true do
+      @loop = true
+      while @loop do
         play
       end
     end
@@ -40,6 +41,11 @@ module JimmyJukebox
         puts "\nMusic terminated by user"
         exit
       end
+    end
+
+    def quit
+      stop_looping
+      terminate_current_song
     end
 
     def skip_song
@@ -58,6 +64,10 @@ module JimmyJukebox
 
     private
 
+    def stop_looping
+      @loop = false
+    end
+
     def test_existence_of_mpg123_and_ogg123
       if ogg123_exists? && mpg123_exists?
         @ogg123_installed = true
@@ -74,7 +84,9 @@ module JimmyJukebox
         @ogg123_installed = false
         return
       else
-        raise "*** YOU MUST INSTALL ogg123 AND/OR mpg123 BEFORE USING JIMMYJUKEBOX ***"
+        error_msg = "*** YOU MUST INSTALL ogg123 AND/OR mpg123 BEFORE USING JIMMYJUKEBOX ***"
+        puts error_msg
+        raise error_msg
       end
     end
 
