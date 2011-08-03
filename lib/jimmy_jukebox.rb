@@ -20,6 +20,7 @@ module JimmyJukebox
     DEFAULT_MP3_DIRECTORY = "~/Music"
 
     def initialize
+      test_existence_of_mpg123_and_ogg123
       generate_directories_list
       generate_song_list
     end
@@ -56,6 +57,34 @@ module JimmyJukebox
 
     private
 
+    def test_existence_of_mpg123_and_ogg123
+      if ogg123_exists? && mpg123_exists?
+        @ogg123_installed = true
+        @mpg123_installed = true
+        return
+      elsif ogg123_exists? && !mpg123_exists?
+        puts "*** YOU CANNOT PLAY MP3S UNTIL YOU INSTALL MPG123 ***"
+        @ogg123_installed = true
+        @mpg123_installed = false
+        return
+      elsif mpg123_exists? && !ogg123_exists?
+        puts "*** YOU CANNOT PLAY OGG FILES UNTIL YOU INSTALL OGG123 ***"
+        @mpg123_installed = true
+        @ogg123_installed = false
+        return
+      else
+        raise "*** YOU MUST INSTALL ogg123 AND/OR mpg123 BEFORE USING JIMMYJUKEBOX ***"
+      end
+    end
+
+    def ogg123_exists?
+      `which ogg123`.match(/.*\/ogg123$/) ? true : false
+    end
+
+    def mpg123_exists?
+      `which mpg123`.match(/.*\/mpg123$/) ? true : false
+    end
+
     def set_music_directories_from_file
       if File.exists?(File.expand_path(ARGV[0]))
         @music_directories_file = File.expand_path(ARGV[0])
@@ -68,8 +97,8 @@ module JimmyJukebox
     def play_random_song
       terminate_current_song
       puts "Press Ctrl-C to stop the music and exit this program"
-      mp3_file = @songs[rand(@songs.length)]
-      play_file(mp3_file)
+      music_file = @songs[rand(@songs.length)]
+      play_file(music_file)
     end
 
     def terminate_current_song
@@ -129,13 +158,13 @@ module JimmyJukebox
       #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
     end
 
-    def play_file(mp3_file)
-      if mp3_file.match(/\.mp3$/)
-        system_yield_pid("mpg123", File.expand_path(mp3_file)) do |pid|
+    def play_file(music_file)
+      if music_file.match(/\.mp3$/) && @mpg123_installed
+        system_yield_pid("mpg123", File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
         end
-      elsif mp3_file.match(/\.ogg$/)
-        system_yield_pid("ogg123", File.expand_path(mp3_file)) do |pid|
+      elsif music_file.match(/\.ogg$/) && @ogg123_installed
+        system_yield_pid("ogg123", File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
         end
       end
