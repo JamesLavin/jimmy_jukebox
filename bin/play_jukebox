@@ -20,20 +20,15 @@ input_thread = Thread.new do
       case line.strip
       when "q"
         puts "Quit requested"
-        #playing_pid = jj.playing_pid if play_loop_thread && jj.playing_pid
-        #play_loop_thread.exit
-        #Process.kill("SIGHUP",playing_pid) if playing_pid
         jj.quit
         Thread.main.exit
       when "p"
         if play_loop_thread && jj.current_song_paused
           puts "Unpause requested"
           jj.unpause_current_song
-          #play_loop_thread.run
         elsif play_loop_thread
           puts "Pause requested"
           jj.pause_current_song
-          #play_loop_thread.stop
         else
           raise "Can't find play_loop_thread"
         end
