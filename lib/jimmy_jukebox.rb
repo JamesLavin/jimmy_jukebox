@@ -1,6 +1,7 @@
 require 'readline'
 
-module Kernel
+module JimmyJukebox
+
   # make system call and get pid so you can terminate process
   def system_yield_pid(*cmd)
     pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
@@ -11,13 +12,10 @@ module Kernel
     Process.waitpid(pid)      # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
     $?                        # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus; see: http://www.ruby-doc.org/core/classes/Process/Status.html
   end
-end
-
-module JimmyJukebox
 
   class Jukebox
 
-    attr_reader :current_song_paused, :playing_pid
+    attr_reader :loop, :current_song_paused, :playing_pid
 
     DEFAULT_MP3_DIR = "~/Music"
     DEFAULT_PLAYLIST_DIR = "~/.jimmy_jukebox"
@@ -111,19 +109,24 @@ module JimmyJukebox
 
     def play_random_song
       terminate_current_song
-      puts "Press Ctrl-C to stop the music and exit this program"
+      raise "JimmyJukebox has no songs to play!" if @songs.length == 0
       music_file = @songs[rand(@songs.length)]
       play_file(music_file)
     end
 
     def terminate_current_song
-      Process.kill("SIGHUP",@playing_pid) if @playing_pid
+      if @playing_pid
+        Process.kill("SIGHUP",@playing_pid)
+        @playing_pid = nil
+      end
     end
 
     def generate_directories_list
       @music_directories = []
       # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
-      if is_a_txt_file?(ARGV[0])
+      if ARGV.empty?
+        @music_directories << File.expand_path(DEFAULT_MP3_DIR)
+      elsif is_a_txt_file?(ARGV[0])
         set_music_directories_from_file
       elsif is_a_directory?(ARGV[0])
         @music_directories << File.expand_path(ARGV[0])
@@ -156,9 +159,9 @@ module JimmyJukebox
       new_dirs = []
       @music_directories.each do |dir|
         Dir.chdir(dir)
-        new_dirs += Dir.glob("**/")
+        new_dirs = new_dirs + Dir.glob("**/").map { |dir_name| File.expand_path(dir_name) }
       end
-      @music_directories += new_dirs
+      @music_directories = @music_directories + new_dirs
     end
 
     def generate_song_list
@@ -169,19 +172,25 @@ module JimmyJukebox
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
         @songs = @songs + files
       end
+      raise "JimmyJukebox could not find any songs #{@music_directories}" unless @songs.length > 0
       #songs = ["~/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
       #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
     end
 
     def play_file(music_file)
+      # TODO: refactor the duplicate code below into a method
       if music_file =~ /\.mp3$/i && @mpg123_installed
+        puts "Press Ctrl-C to stop the music and exit this program"
         process_status = system_yield_pid("mpg123", File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
         end
       elsif music_file =~ /\.ogg$/i && @ogg123_installed
+        puts "Press Ctrl-C to stop the music and exit this program"
         process_status = system_yield_pid("ogg123", File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
         end
+      else
+        raise "Attempted to play a file format this program cannot play"
       end
       process_status.exitstatus.to_i == 0 ? (@playing_pid = nil) : (raise "Experienced a problem playing a song")
     end
