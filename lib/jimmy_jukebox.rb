@@ -172,7 +172,7 @@ module JimmyJukebox
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
         @songs = @songs + files
       end
-      raise "JimmyJukebox could not find any songs #{@music_directories}" unless @songs.length > 0
+      raise "JimmyJukebox could not find any songs" unless @songs.length > 0
       #songs = ["~/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
       #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
     end
