@@ -1,17 +1,19 @@
 require 'readline'
 
-module JimmyJukebox
-
+module Kernel
   # make system call and get pid so you can terminate process
   def system_yield_pid(*cmd)
-    pid = fork do
-      exec(*cmd)
-      exit! 127
+    pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
+      exec(*cmd)              # replaces current process with system call
+      exit! 127               # exit process and return exit status 127
     end
-    yield pid if block_given?
-    Process.waitpid(pid)
-    $?
+    yield pid if block_given? # call block, passing in the subprocess pid
+    Process.waitpid(pid)      # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
+    $?                        # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus; see: http://www.ruby-doc.org/core/classes/Process/Status.html
   end
+end
+
+module JimmyJukebox
 
   class Jukebox
 
@@ -173,15 +175,15 @@ module JimmyJukebox
 
     def play_file(music_file)
       if music_file =~ /\.mp3$/i && @mpg123_installed
-        system_yield_pid("mpg123", File.expand_path(music_file)) do |pid|
+        process_status = system_yield_pid("mpg123", File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
         end
       elsif music_file =~ /\.ogg$/i && @ogg123_installed
-        system_yield_pid("ogg123", File.expand_path(music_file)) do |pid|
+        process_status = system_yield_pid("ogg123", File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
         end
       end
-      @playing_pid = nil
+      process_status.exitstatus.to_i == 0 ? (@playing_pid = nil) : (raise "Experienced a problem playing a song")
     end
 
   end
