@@ -16,6 +16,9 @@ include JimmyJukebox
 
 describe Jukebox do
 
+  # THESE TESTS WORK ON MY LOCAL MACHINE, BUT I HAVE NOT MOCKED OUT THE MUSIC DIRECTORIES
+  # THEY SHOULD WORK ON YOUR MACHINE IF YOU HAVE A "~/Music" DIRECTORY
+
   context "with no command line parameter" do
 
     before(:each) do
@@ -171,6 +174,31 @@ describe Jukebox do
       song_3.should == song_4
       jj.unpause_current_song
       jj.current_song_paused.should be_false
+      jj.quit
+    end
+  end
+
+  context "with valid music directory as command line parameter" do
+
+    before(:each) do
+      ARGV.delete_if { |val| true }
+      ARGV << File.expand_path("~/Music")
+    end
+
+    it "can skip a song" do
+      jj = Jukebox.new
+      thread = Thread.new do
+        jj.play_loop
+      end
+      sleep 3
+      song_1 = jj.playing_pid
+      jj.skip_song
+      sleep 3
+      song_2 = jj.playing_pid
+      jj.skip_song
+      sleep 3
+      song_3 = jj.playing_pid
+      song_1.should_not == song_2 || song_2.should_not == song_3
       jj.quit
     end
 
