@@ -16,8 +16,10 @@ include JimmyJukebox
 
 describe Jukebox do
 
+  context "with no command line parameter" do
+
   before(:each) do
-    ARGV = []
+    ARGV.delete_if { |val| true }
   end
 
   it "can be instantiated" do
@@ -170,6 +172,8 @@ describe Jukebox do
     jj.unpause_current_song
     jj.current_song_paused.should be_false
     jj.quit
+  end
+
   end
 
 end
