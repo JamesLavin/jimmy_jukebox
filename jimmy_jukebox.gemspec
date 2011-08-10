@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
   # s.add_dependency
   s.description = 'jimmy_jukebox plays random MP3 & OGG songs under a directory (or set of directories) and can download Dixieland music'
   s.email = 'james@jameslavin.com'
-  s.files = Dir['lib/**/*.rb']
+  s.files = Dir['README','roadmap.txt','LICENSE.txt','lib/**/*.rb','lib/**/*.yml','spec/**/*']
   s.homepage = "https://github.com/JamesLavin/jimmy_jukebox"
   s.platform = Gem::Platform::RUBY
   s.require_paths = ['lib']

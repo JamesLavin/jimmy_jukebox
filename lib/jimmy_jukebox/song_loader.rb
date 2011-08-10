@@ -10,7 +10,7 @@ module JimmyJukebox
     MP3_OGG_REGEXP = /\.mp3$|\.ogg$/i
 
     def self.original_dixieland_jazz_band(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Original_Dixieland_Jazz_Band")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/OriginalDixielandJazzBand.yml")
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/OriginalDixielandJazzBand.yml")
       download_songs(songs, save_dir)
     end
 
@@ -390,17 +390,17 @@ module JimmyJukebox
     end
 
     def self.lionel_hampton(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Lionel_Hampton")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/LionelHampton.yml")
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/LionelHampton.yml")
       download_songs(songs, save_dir)
     end
 
     def self.charlie_christian(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Charlie_Christian")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/CharlieChristian.yml")
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/CharlieChristian.yml")
       download_songs(songs, save_dir)
     end
 
     def self.dizzy_gillespie(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Dizzy_Gillespie")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/DizzyGillespie.yml")
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/DizzyGillespie.yml")
       download_songs(songs, save_dir)
     end
 
