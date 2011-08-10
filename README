@@ -25,8 +25,12 @@ Jazz Band.
  - Play music: "play_jukebox"
 
 == BASIC USAGE - DOWNLOADING MUSIC
- - On the command line, type "load_jukebox odjb" to download music by the Original Dixieland
-   Jazz Band
+ - On the command line:
+   - "load_jukebox bg" to download music by Benny Goodman
+   - "load_jukebox cc" to download music by Charlie Christian
+   - "load_jukebox dg" to download music by Dizzy Gillespie
+   - "load_jukebox lh" to download music by Lionel Hampton
+   - "load_jukebox odjb" to download music by the Original Dixieland Jazz Band
  - By default, music will be downloaded to the "~/Music/JAZZ/Original_Dixieland_Jazz_Band"
    directory (and that directory will be created for you automatically). To specify a
    different directory, type the full directory path after "load_jukebox", e.g.:
