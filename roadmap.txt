@@ -9,13 +9,26 @@
   if MP3 and OGG players not installed, refuse to play
   if MP3 player not installed, warn user and skip MP3 songs
   if OGG player not installed, warn user and skip OGG songs
+  tests!
+
+0.0.2:
+  ability to download music by Benny Goodman
+  ability to download music by Charlie Christian
+  ability to download music by Dizzy Gillespie
+  ability to download music by Lionel Hampton
+  ability to download music by The Original Dixieland Jazz Band
 
 TODO:
-handle quoted directory name as command line parameter
-call strip on music directory names
-tests!
-download free Dixieland music from Archive.org
- - download files
-    e.g., http://www.archive.org/details/OriginalDixielandJazzBand-29-3939
- - chmod ug+rx files
+  add file downloading error handling
+  don't repeatedly calculate songs in directory
+  make playable on Windows and Mac
+  handle quoted directory name as command line parameter
+  call strip on music directory names
+  chmod ug+rx downloaded music files?
+
+  http://www.archive.org/search.php?query=Louis%20Armstrong
+  http://www.archive.org/details/1920s-louisArmstrong-31-40
+  http://www.archive.org/details/1930s-louisArmstrong-81-89
+  http://www.archive.org/details/1930s-louisArmstrong-90-96
+  http://www.archive.org/details/LouisArmstrong-98-120
 
