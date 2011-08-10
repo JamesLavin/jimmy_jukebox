@@ -125,22 +125,26 @@ describe JimmyJukebox::SongLoader do
   describe "#charlie_christian without dirname" do
    
     context "no songs yet downloaded" do
+
       it "should try to download many songs" do
         dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Charlie_Christian')
         @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
-        @sl.should_receive(:open).at_least(20).times
+        @sl.should_receive(:open).exactly(8).times
         @sl.charlie_christian
         File.exists?(dirname).should be_true
       end
+
     end
 
     context "all songs already downloaded" do
+
       it "should not download any songs" do
         dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Charlie_Christian')
         @sl.stub!(:version_of_song_in_any_dir?).and_return(true)
         @sl.should_not_receive(:open)
         @sl.charlie_christian
       end
+
     end
 
   end
@@ -160,13 +164,10 @@ describe JimmyJukebox::SongLoader do
   describe "#dizzy_gillespie with dirname" do
 
     it "should try to download three songs" do
-      FakeFS do
-        dirname = File.expand_path("/home/user_name5/non-existent-dir")
-        File.exists?(dirname).should be_false
-        @sl.should_receive(:open).exactly(3).times
-        @sl.dizzy_gillespie(dirname)
-        File.exists?(dirname).should be_true
-      end
+      dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Dizzy_Gillespie')
+      @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
+      @sl.should_receive(:open).exactly(3).times
+      @sl.dizzy_gillespie(dirname)
     end
 
     it "should successfully download three songs" do

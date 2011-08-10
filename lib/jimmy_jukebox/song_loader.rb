@@ -9,6 +9,8 @@ module JimmyJukebox
     DEFAULT_MUSIC_ROOT_DIR = "~/Music"
     MP3_OGG_REGEXP = /\.mp3$|\.ogg$/i
 
+    @@last_top_dir = nil   # enables returning previous result if @@last_top_dir == top_dir
+
     def self.original_dixieland_jazz_band(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Original_Dixieland_Jazz_Band")
       songs = YAML::load_file(File.dirname(__FILE__) + "/songs/OriginalDixielandJazzBand.yml")
       download_songs(songs, save_dir)
@@ -42,14 +44,21 @@ module JimmyJukebox
     end
 
     def self.version_of_song_in_any_dir?(song_filename, save_dir)
+      top_dir = top_music_dir(save_dir)
+      @@existing_files = calculate_existing_files(top_dir) if top_dir != @@last_top_dir  # recalculate existing files only if different top music directory
+      @@existing_files.include?(song_filename.gsub(MP3_OGG_REGEXP,""))                   # does extensionless song_filename exist in directory?
+    end
+
+    def self.calculate_existing_files(top_dir)
       #existing_files =  Dir.chdir(top_music_dir(save_dir)) {
       #  Dir.glob("**/*")
       #}
-      existing_files = Dir.glob(File.join(top_music_dir(save_dir), '**', '*' ))
+      existing_files = Dir.glob(File.join(top_dir, '**', '*' ))       # all files in all subdirs
       existing_files.delete_if { |f| !f.match(MP3_OGG_REGEXP) }       # delete unless .mp3, .MP3, .ogg or .OGG
-      existing_files.map! { |f| File.basename(f) }    # strip any path info preceding the filename
+      existing_files.map! { |f| File.basename(f) }                    # strip any path info preceding the filename
       existing_files.map! { |f| f.gsub(MP3_OGG_REGEXP,"") }           # strip extensions
-      existing_files.include?(song_filename.gsub(MP3_OGG_REGEXP,""))  # does extensionless song_filename exist in directory?
+      @@last_top_dir = top_dir
+      @@existing_files = existing_files
     end
 
     def self.create_save_dir(save_dir)
