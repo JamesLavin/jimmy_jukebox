@@ -395,25 +395,12 @@ module JimmyJukebox
     end
 
     def self.charlie_christian(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Charlie_Christian")
-      songs = [
-               "http://www.archive.org/download/CharlieChristian-01-08/CharlieChristian-AirmailSpecial.mp3",
-               "http://www.archive.org/download/CharlieChristian-01-08/CharlieChristian-BluesInB.mp3",
-               "http://www.archive.org/download/CharlieChristian-01-08/CharlieChristian-HoneysuckleRose1939.mp3",
-               "http://www.archive.org/download/CharlieChristian-01-08/CharlieChristian-MyDaddyRocksMe1940.mp3",
-               "http://www.archive.org/download/CharlieChristian-01-08/CharlieChristian-SevenComeEleven.mp3",
-               "http://www.archive.org/download/CharlieChristian-01-08/CharlieChristian-StompinAtTheSavoy1941.mp3",
-               "http://www.archive.org/download/CharlieChristian-01-08/CharlieChristian-SwingToTheBop1941.mp3",
-               "http://www.archive.org/download/CharlieChristian-01-08/CharlieChristian-WhollyCats.mp3"
-              ]
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/CharlieChristian.yml")
       download_songs(songs, save_dir)
     end
 
     def self.dizzy_gillespie(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Dizzy_Gillespie")
-      songs = [
-               "http://www.archive.org/download/DizzyGillespie-GroovinHigh/02.GroovinHigh.mp3",
-               "http://www.archive.org/download/DizzyGillespie-Manteca/01Manteca.ogg",
-               "http://www.archive.org/download/DizzyGillespieLouisArmstrong-UmbrellaMan/DizzyGillespieLouisArmstrong-UmbrellaMan.mp3"
-              ]
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/DizzyGillespie.yml")
       download_songs(songs, save_dir)
     end
 
