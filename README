@@ -2,6 +2,8 @@
 
 == DESCRIPTION
 
+JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old jazz
+
 JimmyJukebox plays MP3 and OGG songs in specified directory trees in random order.
 You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox 
 will play (in random order) all .mp3 and .ogg files in your '~/Music' directory. 
@@ -9,13 +11,29 @@ You can override this default either by passing a directory name as a command li
 parameter (example: "play_jukebox ~/Music/JAZZ") or by passing the name of a file 
 containing a list of directory names.
 
+JimmyJukebox also enables you to download many great songs by the Original Dixieland
+Jazz Band.
+
 == REQUIREMENTS
  - A Unix/Linux/Mac machine -- JimmyJukebox currently does not run on Windows
  - The command line program "mpg123" (if you want to play MP3 files)
  - The command line program "ogg123" (if you want to play OGG files)
  - A non-JRuby Ruby (because JRuby does not support "fork"... see TROUBLESHOOTING below)
 
-== BASIC USAGE
+== QUICK-START INSTRUCTIONS
+ - Download music: "load_jukebox odjb"
+ - Play music: "play_jukebox"
+
+== BASIC USAGE - DOWNLOADING MUSIC
+ - On the command line, type "load_jukebox odjb" to download music by the Original Dixieland
+   Jazz Band
+ - By default, music will be downloaded to the "~/Music/JAZZ/Original_Dixieland_Jazz_Band"
+   directory (and that directory will be created for you automatically). To specify a
+   different directory, type the full directory path after "load_jukebox", e.g.:
+   'load_jukebox "/home/my_name/MyMusic/Jazz/ODJB"'. Place the directory path in quotation
+   marks if it contains any spaces or other "unusual" characters.
+
+== BASIC USAGE - PLAYING MUSIC
  - On the command line, type "play_jukebox"
  - By default, JimmyJukebox assumes your music is stored in a directory tree descending from "~/Music"
  - A song will start playing

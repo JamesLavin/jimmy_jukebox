@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
+$LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
+require 'jimmy_jukebox/song_loader'
+include JimmyJukebox
+
+#args = ARGV.dup
+#ARGV.clear
+# command = args.shift.strip rescue 'help'
+# Module::Command(command, args)
+
+case ARGV[0]
+when "odjb"
+  JimmyJukebox::SongLoader.original_dixieland_jazz_band
+when "bg"
+  JimmyJukebox::SongLoader.benny_goodman
+when "cc"
+  JimmyJukebox::SongLoader.charlie_christian
+when "dg"
+  JimmyJukebox::SongLoader.dizzy_gillespie
+else
+  puts "No action taken in response to your command 'load_jukebox #{ARGV[0]}'"
+end
+
