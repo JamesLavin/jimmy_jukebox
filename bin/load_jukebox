@@ -13,6 +13,8 @@ include JimmyJukebox
 case ARGV[0]
 when "odjb"
   JimmyJukebox::SongLoader.original_dixieland_jazz_band
+when "lh"
+  JimmyJukebox::SongLoader.lionel_hampton
 when "bg"
   JimmyJukebox::SongLoader.benny_goodman
 when "cc"

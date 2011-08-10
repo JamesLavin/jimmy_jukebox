@@ -3,6 +3,8 @@ require 'lib/jimmy_jukebox/version'
 spec = Gem::Specification.new do |s|  
   s.name = 'jimmy_jukebox'
   s.author = 'James Lavin'
+  s.requirements << 'mpg123'
+  s.requirements << 'ogg123'
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec-core')
   s.add_development_dependency('rspec-mocks')

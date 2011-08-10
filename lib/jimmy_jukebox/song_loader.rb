@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'fileutils'
+require 'yaml'
 
 module JimmyJukebox
 
@@ -9,53 +10,7 @@ module JimmyJukebox
     MP3_OGG_REGEXP = /\.mp3$|\.ogg$/i
 
     def self.original_dixieland_jazz_band(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Original_Dixieland_Jazz_Band")
-      songs = [
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-AlexandersRagTimeBand.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-AtTheJazzBandBall1918.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-BluinTheBlues1936.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-BroadwayRose1920.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-ClarinetMarmeladeBlues1918.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-CorporateLies.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-CrazyBlues1921.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-DarktownStruttersBall1917.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-DixieJazzBandOneStep1917.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand21-28of28/PreservationHallJazzBand-DixielandOnestep.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-DownInOldNewOrleans.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-FidgetyFeet1918.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-FirehouseFivePlus2.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand1-10of28/OriginalDixielandJazzBand-backHomeAgainInIndiana.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-GeorgiaSwing.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-Good-byeAlexander1918.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-HoldThatTiger1917.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-HomeAgainBlues1921.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-HomeInPasadena1924/OriginalDixielandJazzBand-HomeInPasadena1924.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-Indiana.ogg",
-               "http://www.archive.org/download/IveLostMyHeartInDixieland_753/Ive_Lost_My_Heart_In_Dixieland.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-JazzMeBlues.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-KingTutStrut.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-LazyDaddy1918.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-LiveryStableBlues1917theFirstRecordingOfJass.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-LookAtemDoingIt.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-MammyOMine1920.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-Margie.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-Medley.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-MourninBlues1918.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-One-step.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-OstrichWalk.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-RingtailBlues.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-RoyalGardenBlues.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-SatanicBlues1919.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-SensationRag1918.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-SkeletonJangle1918.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-SlideKellySlide1919.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-SomeOfTheseDays1923.mp3",
-               "http://www.archive.org/download/OriginalDixielandJazzBand11-20of28/OriginalDixielandJazzBand-Sphinx1920.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand21-28of28/OriginalDixielandJazzBand-St.LouisBlues1921.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand21-28of28/OriginalDixielandJazzBand-TellMe.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand-29-39/OriginalDixielandJazzBand-ThatsGotem1919.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand21-28of28/OriginalDixielandJazzBand-TigerRag1918.ogg",
-               "http://www.archive.org/download/OriginalDixielandJazzBand21-28of28/PreservationHallJazzBand-DixielandOnestep.ogg"
-              ]
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/OriginalDixielandJazzBand.yml")
       download_songs(songs, save_dir)
     end
 
@@ -431,6 +386,11 @@ module JimmyJukebox
                "http://www.archive.org/download/Benny-Goodman1935scarce/BennyGoodman-MelancholyBaby1935.mp3",
                "http://www.archive.org/download/Benny-Goodman1935scarce/BennyGoodman-VibraphonBlues1935incomplete.mp3"
       ]
+      download_songs(songs, save_dir)
+    end
+
+    def self.lionel_hampton(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Lionel_Hampton")
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/LionelHampton.yml")
       download_songs(songs, save_dir)
     end
 
