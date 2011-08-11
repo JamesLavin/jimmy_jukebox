@@ -36,6 +36,11 @@ module JimmyJukebox
       download_songs(songs, save_dir)
     end
 
+    def self.jelly_roll_morton(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Jelly_Roll_Morton")
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/JellyRollMorton.yml")
+      download_songs(songs, save_dir)
+    end
+
     def self.lionel_hampton(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Lionel_Hampton")
       songs = YAML::load_file(File.dirname(__FILE__) + "/songs/LionelHampton.yml")
       download_songs(songs, save_dir)

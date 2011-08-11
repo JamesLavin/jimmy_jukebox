@@ -17,6 +17,7 @@
   ability to download music by Benny Goodman
   ability to download music by Charlie Christian
   ability to download music by Dizzy Gillespie
+  ability to download music by Jelly Roll Morton
   ability to download music by Lionel Hampton
   ability to download music by Louis Armstrong
   ability to download music by The Original Dixieland Jazz Band
