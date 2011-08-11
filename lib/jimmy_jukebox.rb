@@ -69,6 +69,7 @@ module JimmyJukebox
     end
 
     def test_existence_of_mpg123_and_ogg123
+      require 'rbconfig'
       if ogg123_exists? && mpg123_exists?
         @ogg123_installed = true
         @mpg123_installed = true
@@ -83,6 +84,8 @@ module JimmyJukebox
         @mpg123_installed = true
         @ogg123_installed = false
         return
+      elsif ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
+        @afplay_installed = true
       else
         error_msg = "*** YOU MUST INSTALL ogg123 AND/OR mpg123 BEFORE USING JIMMYJUKEBOX ***"
         puts error_msg
@@ -179,7 +182,11 @@ module JimmyJukebox
 
     def play_file(music_file)
       # TODO: refactor the duplicate code below into a method
-      if music_file =~ /\.mp3$/i && @mpg123_installed
+      if music_file =~ /\.mp3$|\.ogg$/ && @afplay_installed
+        process_status = system_yield_pid("afplay", File.expand_path(music_file)) do |pid|
+          @playing_pid = pid 
+        end
+      elsif music_file =~ /\.mp3$/i && @mpg123_installed
         puts "Press Ctrl-C to stop the music and exit this program"
         process_status = system_yield_pid("mpg123", File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
