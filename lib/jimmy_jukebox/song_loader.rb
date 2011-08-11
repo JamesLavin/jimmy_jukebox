@@ -2,6 +2,12 @@ require 'open-uri'
 require 'fileutils'
 require 'yaml'
 
+class Object
+  def metaclass
+    class << self; self; end
+  end
+end
+
 module JimmyJukebox
 
   module SongLoader
@@ -11,49 +17,34 @@ module JimmyJukebox
 
     @@last_top_dir = nil   # enables returning previous result if @@last_top_dir == top_dir
 
-    def self.art_tatum(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Art_Tatum")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/ArtTatum.yml")
-      download_songs(songs, save_dir)
+    def self.define_artist(name)
+      metaclass.instance_eval do
+        define_method(name) do
+          save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/#{name_to_dir_name(name)}"
+          songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{name_to_yaml_file(name)}")
+          download_songs(songs, save_dir)
+        end
+      end
     end
 
-    def self.bennie_moten(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Bennie_Moten")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/BennieMoten.yml")
-      download_songs(songs, save_dir)
+    define_artist(:art_tatum)
+    define_artist(:bennie_moten)
+    define_artist(:benny_goodman)
+    define_artist(:charlie_christian)
+    define_artist(:dizzy_gillespie)
+    define_artist(:jelly_roll_morton)
+    define_artist(:lionel_hampton)
+    define_artist(:louis_armstrong)
+    define_artist(:original_dixieland_jazz_band)
+
+    def self.name_to_dir_name(name)
+      return name.to_s.capitalize unless name.to_s.grep(/_/)
+      name.to_s.split("_").map! { |name_component| name_component.capitalize }.join("_")
     end
 
-    def self.benny_goodman(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Benny_Goodman")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/BennyGoodman.yml")
-      download_songs(songs, save_dir)
-    end
-
-    def self.charlie_christian(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Charlie_Christian")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/CharlieChristian.yml")
-      download_songs(songs, save_dir)
-    end
-
-    def self.dizzy_gillespie(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Dizzy_Gillespie")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/DizzyGillespie.yml")
-      download_songs(songs, save_dir)
-    end
-
-    def self.jelly_roll_morton(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Jelly_Roll_Morton")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/JellyRollMorton.yml")
-      download_songs(songs, save_dir)
-    end
-
-    def self.lionel_hampton(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Lionel_Hampton")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/LionelHampton.yml")
-      download_songs(songs, save_dir)
-    end
-
-    def self.louis_armstrong(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Louis_Armstrong")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/LouisArmstrong.yml")
-      download_songs(songs, save_dir)
-    end
-
-    def self.original_dixieland_jazz_band(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Original_Dixieland_Jazz_Band")
-      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/OriginalDixielandJazzBand.yml")
-      download_songs(songs, save_dir)
+    def self.name_to_yaml_file(name)
+      return name.to_s.capitalize unless name.to_s.grep(/_/)
+      name.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
     end
 
     def self.top_music_dir(save_dir)
