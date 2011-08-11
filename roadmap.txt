@@ -22,6 +22,9 @@
   ability to download music by Louis Armstrong
   ability to download music by The Original Dixieland Jazz Band
 
+0.0.5:
+  ability to download music by Fletcher Henderson
+
 TODO:
   add file downloading error handling
   don't repeatedly calculate songs in directory
@@ -32,8 +35,6 @@ TODO:
 
   Count Basie
   Duke Ellington
-  Fletcher Henderson
-    http://www.archive.org/details/FletcherHenderson-150-160
   Red Nichols
     http://www.archive.org/details/1920s-redNicholsHisFivePennies-01-10
   http://www.archive.org/details/KingOliversCreoleJazzBand-11-20

@@ -21,6 +21,8 @@ when "cc"
   JimmyJukebox::SongLoader.charlie_christian
 when "dg"
   JimmyJukebox::SongLoader.dizzy_gillespie
+when "fh"
+  JimmyJukebox::SongLoader.fletcher_henderson
 when "jrm"
   JimmyJukebox::SongLoader.jelly_roll_morton
 when "la"
