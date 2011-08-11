@@ -11,6 +11,11 @@ module JimmyJukebox
 
     @@last_top_dir = nil   # enables returning previous result if @@last_top_dir == top_dir
 
+    def self.bennie_moten(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Bennie_Moten")
+      songs = YAML::load_file(File.dirname(__FILE__) + "/songs/BennieMoten.yml")
+      download_songs(songs, save_dir)
+    end
+
     def self.art_tatum(save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/Art_Tatum")
       songs = YAML::load_file(File.dirname(__FILE__) + "/songs/ArtTatum.yml")
       download_songs(songs, save_dir)

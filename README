@@ -26,6 +26,8 @@ Jazz Band.
 
 == BASIC USAGE - DOWNLOADING MUSIC
  - On the command line:
+   - "load_jukebox at" to download music by Art Tatum
+   - "load_jukebox bm" to download music by Bennie Moten
    - "load_jukebox bg" to download music by Benny Goodman
    - "load_jukebox cc" to download music by Charlie Christian
    - "load_jukebox dg" to download music by Dizzy Gillespie
