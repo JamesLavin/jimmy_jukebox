@@ -12,10 +12,13 @@
   tests!
 
 0.0.2:
+  ability to download music by Art Tatum
+  ability to download music by Bennie Moten
   ability to download music by Benny Goodman
   ability to download music by Charlie Christian
   ability to download music by Dizzy Gillespie
   ability to download music by Lionel Hampton
+  ability to download music by Louis Armstrong
   ability to download music by The Original Dixieland Jazz Band
 
 TODO:
@@ -26,9 +29,12 @@ TODO:
   call strip on music directory names
   chmod ug+rx downloaded music files?
 
-  http://www.archive.org/search.php?query=Louis%20Armstrong
-  http://www.archive.org/details/1920s-louisArmstrong-31-40
-  http://www.archive.org/details/1930s-louisArmstrong-81-89
-  http://www.archive.org/details/1930s-louisArmstrong-90-96
-  http://www.archive.org/details/LouisArmstrong-98-120
+  Duke Ellington
+  Fletcher Henderson
+    http://www.archive.org/details/FletcherHenderson-150-160
+  Red Nichols
+    http://www.archive.org/details/1920s-redNicholsHisFivePennies-01-10
+  http://www.archive.org/details/KingOliversCreoleJazzBand-11-20
+  http://www.archive.org/details/1920sJazz-01-90
+  http://www.archive.org/details/LilArmstrong-01-10
 
