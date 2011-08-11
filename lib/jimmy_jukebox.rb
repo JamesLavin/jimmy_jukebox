@@ -86,7 +86,7 @@ module JimmyJukebox
       else
         error_msg = "*** YOU MUST INSTALL ogg123 AND/OR mpg123 BEFORE USING JIMMYJUKEBOX ***"
         puts error_msg
-        raise error_msg
+        exit
       end
     end
 

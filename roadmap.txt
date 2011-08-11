@@ -30,6 +30,7 @@ TODO:
   call strip on music directory names
   chmod ug+rx downloaded music files?
 
+  Count Basie
   Duke Ellington
   Fletcher Henderson
     http://www.archive.org/details/FletcherHenderson-150-160
