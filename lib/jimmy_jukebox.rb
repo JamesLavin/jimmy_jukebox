@@ -173,7 +173,7 @@ module JimmyJukebox
 
     def terminate_current_song
       if @playing_pid
-        Process.kill("SIGHUP",@playing_pid)
+        Process.kill("SIGTERM",@playing_pid)
         @playing_pid = nil
       end
     end
