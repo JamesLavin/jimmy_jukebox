@@ -27,6 +27,8 @@ when "dg"
   JimmyJukebox::SongLoader.dizzy_gillespie
 when "dr"
   JimmyJukebox::SongLoader.django_reinhardt
+when "de"
+  JimmyJukebox::SongLoader.duke_ellington
 when "fh"
   JimmyJukebox::SongLoader.fletcher_henderson
 when "jrm"
@@ -38,6 +40,6 @@ when "lh"
 when "odjb"
   JimmyJukebox::SongLoader.original_dixieland_jazz_band
 else
-  puts "No action taken in response to your command 'load_jukebox #{ARGV[0]}'"
+  puts "No action taken in response to your command 'load_jukebox #{ARGV[0]}'. JimmyJukebox does not recognize '#{ARGV[0]}'"
 end
 

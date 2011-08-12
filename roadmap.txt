@@ -23,19 +23,24 @@
   ability to download music by Louis Armstrong
   ability to download music by The Original Dixieland Jazz Band
 
-0.0.5:
+0.0.5 - 0.0.8:
+  ability to download music by Billie Holiday
+  ability to download music by Count Basie
+  ability to download music by Duke Ellington
   ability to download music by Fletcher Henderson
+  ability to use on Mac OS
 
 TODO:
+  figure out why Macs won't skip song
   add file downloading error handling
   don't repeatedly calculate songs in directory
-  make playable on Windows and Mac
+  make playable on Windows
   handle quoted directory name as command line parameter
   call strip on music directory names
   chmod ug+rx downloaded music files?
 
-  Count Basie
-  Duke Ellington
+  Charlie Parker
+  Thelonious Monk
   Red Nichols
     http://www.archive.org/details/1920s-redNicholsHisFivePennies-01-10
   http://www.archive.org/details/KingOliversCreoleJazzBand-11-20

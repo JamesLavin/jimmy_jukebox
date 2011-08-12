@@ -35,6 +35,7 @@ module JimmyJukebox
     define_artist :count_basie
     define_artist :dizzy_gillespie
     define_artist :django_reinhardt
+    define_artist :duke_ellington
     define_artist :fletcher_henderson
     define_artist :jelly_roll_morton
     define_artist :lionel_hampton
