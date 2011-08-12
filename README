@@ -4,37 +4,35 @@
 
 JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old jazz
 
-JimmyJukebox plays MP3 and OGG songs in specified directory trees in random order.
+JimmyJukebox plays MP3/OGG songs in specified directory trees in random order.
 You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox 
 will play (in random order) all .mp3 and .ogg files in your '~/Music' directory. 
-You can override this default either by passing a directory name as a command line 
-parameter (example: "play_jukebox ~/Music/JAZZ") or by passing the name of a file 
-containing a list of directory names.
+You can override this by passing a directory name as a command line  parameter
+(example: "play_jukebox ~/Music/JAZZ") or by passing the name of a file containing
+a list of directory names.
 
-JimmyJukebox also enables you to download hundreds (perhaps thousands) of great jazz
-performances by Art Tatum, Bennie Moten, Benny Goodman, Charlie Christian, Count Basie,
+JimmyJukebox also enables you to download thousands of great jazz performances by Art
+Tatum, Bennie Moten, Benny Goodman, Billie Holiday, Charlie Christian, Count Basie,
 Dizzy Gillespie, Django Reinhardt, Fletcher Henderson, Jelly Roll Morton, Lionel Hampton,
 Louis Armstrong, and the Original Dixieland Jazz Band.
 
 == REQUIREMENTS
- - A Unix/Linux/Mac machine -- JimmyJukebox currently does not run on Windows
- - The command line program "mpg123" (if you want to play MP3 files)
- - The command line program "ogg123" (if you want to play OGG files)
- - A non-JRuby Ruby (because JRuby does not support "fork"... see TROUBLESHOOTING below)
+ - Linux/Unix:
+   - Install the command line program "mpg123" (to play MP3 files)
+   - Install the command line program "ogg123" (to play OGG files)
+ - Mac:
+   - No additional requirements. Should play songs using built-in "afplay." But
+     currently testing. "Skip" function doesn't seem to work.
+ - Windows:
+   - JimmyJukebox currently does not currently run on Windows, though we hope to get
+     it working
+ - JRuby:
+   - I love JRuby, but JimmyJukebox does not currently work on JRuby because JRuby does
+     not support "fork" (see TROUBLESHOOTING below)
 
 == QUICK-START INSTRUCTIONS
- - Download music: "load_jukebox odjb"
+ - Download music: "load_jukebox [artist name]" (see next section)
  - Play music: "play_jukebox"
-
-== LEGAL DISCLAIMER
- - Download music at your own risk. I DO NOT guarantee that any music this program
-   enables you to download is in the public domain, but the music is all from a reputable
-   website (archive.org), and most/all of the songs seem to have been uploaded by someone
-   who vouched that they are now in the public domain. Many of the songs are old enough
-   that they are no longer eligible for copyright protection. More recently recorded songs
-   may or may not be in the public domain, but copyright law is very complex, and it is
-   often difficult or impossible to determine whether or not a particular song currently
-   enjoys copyright protection.
 
 == BASIC USAGE - DOWNLOADING MUSIC
 
@@ -42,6 +40,7 @@ Louis Armstrong, and the Original Dixieland Jazz Band.
    - "load_jukebox at" to download music by Art Tatum
    - "load_jukebox bm" to download music by Bennie Moten
    - "load_jukebox bg" to download music by Benny Goodman
+   - "load_jukebox bh" to download music by Billie Holiday
    - "load_jukebox cc" to download music by Charlie Christian
    - "load_jukebox cc" to download music by Count Basie
    - "load_jukebox dg" to download music by Dizzy Gillespie
@@ -101,6 +100,13 @@ Method 2 selects one or more music directory trees:
 
 If you're a JRuby user (like me), you may be disappointed that JimmyJukebox doesn't work with JRuby. JRuby generates a "NotImplementedError: fork is not available on this platform" exception because "JRuby doesn't implement fork() on any platform, including those where fork() is available in MRI" (http://kenai.com/projects/jruby/pages/DifferencesBetweenMriAndJruby#Fork_is_not_implemented). There is an experimental "fork" feature in JRuby callable on the command line with "-J-Djruby.fork.enabled=true" but the feature is labelled "(EXPERIMENTAL, maybe dangerous)" (see http://kenai.com/projects/jruby/pages/PerformanceTuning#Native_Support_Runtime_Properties).
 
- 
-
+== LEGAL DISCLAIMER
+ - Download music at your own risk. I DO NOT guarantee that any music this program
+   enables you to download is in the public domain, but the music is all from a reputable
+   website (archive.org), and most/all of the songs seem to have been uploaded by someone
+   who vouched that they are now in the public domain. Many of the songs are old enough
+   that they are no longer eligible for copyright protection. More recently recorded songs
+   may or may not be in the public domain, but copyright law is very complex, and it is
+   often difficult or impossible to determine whether or not a particular song currently
+   enjoys copyright protection.
 

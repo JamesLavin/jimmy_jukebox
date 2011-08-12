@@ -27,18 +27,19 @@ module JimmyJukebox
       end
     end
 
-    define_artist(:art_tatum)
-    define_artist(:bennie_moten)
-    define_artist(:benny_goodman)
-    define_artist(:charlie_christian)
-    define_artist(:count_basie)
-    define_artist(:dizzy_gillespie)
-    define_artist(:django_reinhardt)
-    define_artist(:fletcher_henderson)
-    define_artist(:jelly_roll_morton)
-    define_artist(:lionel_hampton)
-    define_artist(:louis_armstrong)
-    define_artist(:original_dixieland_jazz_band)
+    define_artist :art_tatum
+    define_artist :bennie_moten
+    define_artist :benny_goodman
+    define_artist :billie_holiday
+    define_artist :charlie_christian
+    define_artist :count_basie
+    define_artist :dizzy_gillespie
+    define_artist :django_reinhardt
+    define_artist :fletcher_henderson
+    define_artist :jelly_roll_morton
+    define_artist :lionel_hampton
+    define_artist :louis_armstrong
+    define_artist :original_dixieland_jazz_band
 
     def self.name_to_dir_name(name)
       return name.to_s.capitalize unless name.to_s.grep(/_/)
