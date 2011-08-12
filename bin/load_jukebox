@@ -5,41 +5,38 @@ $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 require 'jimmy_jukebox/song_loader'
 include JimmyJukebox
 
-#args = ARGV.dup
-#ARGV.clear
-# command = args.shift.strip rescue 'help'
-# Module::Command(command, args)
+artists = Hash.new
+artists[:at] = "art_tatum"
+artists[:bg] = "benny_goodman"
+artists[:bh] = "billie_holiday"
+artists[:bm] = "bennie_moten"
+artists[:cb] = "count_basie"
+artists[:cc] = "charlie_christian"
+artists[:dg] = "dizzy_gillespie"
+artists[:dr] = "django_reinhardt"
+artists[:de] = "duke_ellington"
+artists[:fh] = "fletcher_henderson"
+artists[:jrm] = "jelly_roll_morton"
+artists[:la] = "louis_armstrong"
+artists[:lh] = "lionel_hampton"
+artists[:odjb] = "original_dixieland_jazz_band"
 
-case ARGV[0]
-when "at"
-  JimmyJukebox::SongLoader.art_tatum
-when "bg"
-  JimmyJukebox::SongLoader.benny_goodman
-when "bh"
-  JimmyJukebox::SongLoader.billie_holiday
-when "bm"
-  JimmyJukebox::SongLoader.bennie_moten
-when "cb"
-  JimmyJukebox::SongLoader.count_basie
-when "cc"
-  JimmyJukebox::SongLoader.charlie_christian
-when "dg"
-  JimmyJukebox::SongLoader.dizzy_gillespie
-when "dr"
-  JimmyJukebox::SongLoader.django_reinhardt
-when "de"
-  JimmyJukebox::SongLoader.duke_ellington
-when "fh"
-  JimmyJukebox::SongLoader.fletcher_henderson
-when "jrm"
-  JimmyJukebox::SongLoader.jelly_roll_morton
-when "la"
-  JimmyJukebox::SongLoader.louis_armstrong
-when "lh"
-  JimmyJukebox::SongLoader.lionel_hampton
-when "odjb"
-  JimmyJukebox::SongLoader.original_dixieland_jazz_band
-else
-  puts "No action taken in response to your command 'load_jukebox #{ARGV[0]}'. JimmyJukebox does not recognize '#{ARGV[0]}'"
+def no_argv0
+  puts "You must select an artist to use 'load_jukebox'."
+  puts "For example: 'load_jukebox at' to load Art Tatum"
+  puts "Another example: 'load_jukebox dr' to load Django Reinhardt"
+  exit
 end
+
+def invalid_artist
+  puts "No action taken in response to your command 'load_jukebox #{ARGV[0]}'."
+  puts "JimmyJukebox does not recognize '#{ARGV[0]}'. You must select a valid artist."
+  puts "For example, valid artists include: 'bh' for Billie Holiday, 'cb' for Count Basie, and 'lh' for Lionel Hampton"
+  puts "Please see the README for a complete list of valid artists."
+  exit
+end
+
+no_argv0 unless ARGV[0]
+invalid_artist unless artists.has_key?(ARGV[0].to_sym)
+JimmyJukebox::SongLoader.send(artists[ARGV[0].to_sym])
 
