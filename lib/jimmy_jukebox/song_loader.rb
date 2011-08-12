@@ -31,6 +31,7 @@ module JimmyJukebox
     define_artist(:bennie_moten)
     define_artist(:benny_goodman)
     define_artist(:charlie_christian)
+    define_artist(:count_basie)
     define_artist(:dizzy_gillespie)
     define_artist(:django_reinhardt)
     define_artist(:fletcher_henderson)

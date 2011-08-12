@@ -17,6 +17,8 @@ when "bg"
   JimmyJukebox::SongLoader.benny_goodman
 when "bm"
   JimmyJukebox::SongLoader.bennie_moten
+when "cb"
+  JimmyJukebox::SongLoader.count_basie
 when "cc"
   JimmyJukebox::SongLoader.charlie_christian
 when "dg"
