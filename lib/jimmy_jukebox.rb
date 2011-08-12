@@ -69,7 +69,6 @@ module JimmyJukebox
     end
 
     def test_existence_of_mpg123_and_ogg123
-      require 'rbconfig'
       if ogg123_exists? && mpg123_exists?
         @ogg123_installed = true
         @mpg123_installed = true
@@ -84,7 +83,9 @@ module JimmyJukebox
         @mpg123_installed = true
         @ogg123_installed = false
         return
-      elsif ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
+      elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
+        @afplay_installed = true
+      elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
         @afplay_installed = true
       else
         error_msg = "*** YOU MUST INSTALL ogg123 AND/OR mpg123 BEFORE USING JIMMYJUKEBOX ***"
