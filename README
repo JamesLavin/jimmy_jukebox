@@ -4,12 +4,12 @@
 
 JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old jazz
 
-JimmyJukebox plays MP3/OGG songs in specified directory trees in random order.
-You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox 
-will play (in random order) all .mp3 and .ogg files in your '~/Music' directory. 
-You can override this by passing a directory name as a command line  parameter
-(example: "play_jukebox ~/Music/JAZZ") or by passing the name of a file containing
-a list of directory names.
+JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing 
+song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files
+in your '~/Music' directory tree (including subdirectories). You can specify a different
+top music directory by passing a directory name as a command line  parameter (example:
+"play_jukebox ~/Music/JAZZ"). Or you can pass the name of a text file containing a 
+list of directory names.
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art
 Tatum, Bennie Moten, Benny Goodman, Billie Holiday, Charlie Christian, Count Basie,
@@ -17,15 +17,17 @@ Dizzy Gillespie, Django Reinhardt, Duke Ellington, Fletcher Henderson, Jelly Rol
 Lionel Hampton, Louis Armstrong, and the Original Dixieland Jazz Band.
 
 == REQUIREMENTS
+
  - Linux/Unix:
-   - Install the command line program "mpg123" (to play MP3 files)
-   - Install the command line program "ogg123" (to play OGG files)
+   - Playing MP3s requires "mplayer," "mpg123", "mpg321" or "music123"
+   - Playing OGG files requires "mplayer," "ogg123" or "music123"
  - Mac:
-   - No additional requirements. Should play songs using built-in "afplay." But
-     currently testing. "Skip" function doesn't seem to work.
+   - No additional requirements. Should play MP3s and OGG files using built-in "afplay."
+   - Currently testing. "Skip" function doesn't seem to work.
  - Windows:
    - JimmyJukebox currently does not currently run on Windows, though we hope to get
      it working
+   - You should install "mplayer"
  - JRuby:
    - I love JRuby, but JimmyJukebox does not currently work on JRuby because JRuby does
      not support "fork" (see TROUBLESHOOTING below)

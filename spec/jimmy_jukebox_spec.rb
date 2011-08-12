@@ -37,41 +37,83 @@ describe Jukebox do
       jj.should_receive(:`).with("which ogg123").and_return("/usr/bin/ogg123")
       jj.should_receive(:`).with("which mpg123").and_return("/usr/bin/mpg123")
       jj.should_not_receive(:puts)
-      jj.send(:test_existence_of_mpg123_and_ogg123)
-      jj.instance_variable_get(:@ogg123_installed).should be_true
-      jj.instance_variable_get(:@mpg123_installed).should be_true
+      jj.send(:set_music_players)
+      jj.instance_variable_get(:@ogg_player).should == "ogg123"
+      jj.instance_variable_get(:@mp3_player).should == "mpg123"
       jj.quit
     end
 
-    it "complains when ogg123 installed but mpg123 not installed" do
+    it "does not complain when ogg123 & mpg321 both installed but not mpg123" do
       jj = Jukebox.new
+      jj.should_receive(:`).with("which ogg123").and_return("/usr/bin/ogg123")
+      jj.should_receive(:`).with("which mpg123").and_return("")
+      jj.should_receive(:`).with("which mpg321").and_return("/usr/bin/mpg321")
+      jj.should_not_receive(:puts)
+      jj.send(:set_music_players)
+      jj.instance_variable_get(:@ogg_player).should == "ogg123"
+      jj.instance_variable_get(:@mp3_player).should == "mpg321"
+      jj.quit
+    end
+
+    it "complains when ogg123 installed but mpg123, mpg321, music123 & afplay not installed" do
+      jj = Jukebox.new
+      jj.instance_variable_set(:@ogg_player, nil)
+      jj.instance_variable_set(:@mp3_player, nil)
       jj.should_receive(:`).at_least(:once).with("which ogg123").and_return("/usr/bin/ogg123")
       jj.should_receive(:`).at_least(:once).with("which mpg123").and_return("")
-      jj.should_receive(:puts).with("*** YOU CANNOT PLAY MP3S UNTIL YOU INSTALL MPG123 ***")
-      jj.send(:test_existence_of_mpg123_and_ogg123)
-      jj.instance_variable_get(:@ogg123_installed).should be_true
-      jj.instance_variable_get(:@mpg123_installed).should be_false
+      jj.should_receive(:`).at_least(:once).with("which mpg321").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which music123").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which afplay").and_return("")
+      jj.should_receive(:puts).with("*** YOU CANNOT PLAY MP3S -- YOU MIGHT WANT TO INSTALL MPG123 OR MPG321 ***")
+      jj.send(:set_music_players)
+      jj.instance_variable_get(:@ogg_player).should == "ogg123"
+      jj.instance_variable_get(:@mp3_player).should be_false
       jj.quit
     end
 
-    it "complains when mpg123 installed but ogg123 not installed" do
+    it "complains when mpg123 installed but ogg123, mpg321, music123 & afplay not installed" do
       jj = Jukebox.new
+      jj.instance_variable_set(:@ogg_player, nil)
+      jj.instance_variable_set(:@mp3_player, nil)
       jj.should_receive(:`).at_least(:once).with("which ogg123").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which music123").and_return("")
       jj.should_receive(:`).at_least(:once).with("which mpg123").and_return("/usr/bin/mpg123")
-      jj.should_receive(:puts).with("*** YOU CANNOT PLAY OGG FILES UNTIL YOU INSTALL OGG123 ***")
-      jj.send(:test_existence_of_mpg123_and_ogg123)
-      jj.instance_variable_get(:@ogg123_installed).should be_false
-      jj.instance_variable_get(:@mpg123_installed).should be_true
+      jj.should_receive(:`).at_least(:once).with("which afplay").and_return("")
+      jj.should_receive(:puts).with("*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL OGG123 ***")
+      jj.send(:set_music_players)
+      jj.instance_variable_get(:@ogg_player).should be_false
+      jj.instance_variable_get(:@mp3_player).should == "mpg123"
       jj.quit
     end
 
-    it "raises exception when neither mpg123 nor ogg123 is installed" do
+    it "complains when mpg321 installed but mpg123, music123, ogg123 & afplay not installed" do
       jj = Jukebox.new
+      jj.instance_variable_set(:@ogg_player, nil)
+      jj.instance_variable_set(:@mp3_player, nil)
       jj.should_receive(:`).at_least(:once).with("which ogg123").and_return("")
       jj.should_receive(:`).at_least(:once).with("which mpg123").and_return("")
-      error_msg = "*** YOU MUST INSTALL ogg123 AND/OR mpg123 BEFORE USING JIMMYJUKEBOX ***"
+      jj.should_receive(:`).at_least(:once).with("which music123").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which mpg321").and_return("/usr/bin/mpg321")
+      jj.should_receive(:`).at_least(:once).with("which afplay").and_return("")
+      jj.should_receive(:puts).with("*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL OGG123 ***")
+      jj.send(:set_music_players)
+      jj.instance_variable_get(:@ogg_player).should be_false
+      jj.instance_variable_get(:@mp3_player).should == "mpg321"
+      jj.quit
+    end
+
+    it "prints message and exits when mpg123, mpg321, ogg123, music123 & afplay all not installed" do
+      jj = Jukebox.new
+      jj.instance_variable_set(:@ogg_player, nil)
+      jj.instance_variable_set(:@mp3_player, nil)
+      jj.should_receive(:`).at_least(:once).with("which ogg123").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which mpg123").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which music123").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which mpg321").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which afplay").and_return("")
+      error_msg = "*** YOU CANNOT PLAY MP3S OR OGG FILES -- YOU MIGHT WANT TO INSTALL ogg123 AND mpg123/mpg321 BEFORE USING JIMMYJUKEBOX ***"
       jj.should_receive(:puts).with(error_msg)
-      lambda { jj.send(:test_existence_of_mpg123_and_ogg123) }.should raise_error
+      lambda { jj.send(:set_music_players) }.should raise_error SystemExit
       jj.quit
     end
 

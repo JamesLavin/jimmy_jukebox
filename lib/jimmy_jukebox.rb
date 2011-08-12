@@ -15,13 +15,13 @@ module JimmyJukebox
 
   class Jukebox
 
-    attr_reader :loop, :current_song_paused, :playing_pid
+    attr_reader :loop, :current_song_paused, :playing_pid, :mp3_player, :ogg_player
 
     DEFAULT_MP3_DIR = "~/Music"
     DEFAULT_PLAYLIST_DIR = "~/.jimmy_jukebox"
 
     def initialize
-      test_existence_of_mpg123_and_ogg123
+      set_music_players
       generate_directories_list
       generate_song_list
     end
@@ -68,29 +68,66 @@ module JimmyJukebox
       @loop = false
     end
 
-    def test_existence_of_mpg123_and_ogg123
-      if ogg123_exists? && mpg123_exists?
-        @ogg123_installed = true
-        @mpg123_installed = true
+    def set_music_players
+      set_ogg_player
+      set_mp3_player
+      no_player_configured if !@ogg_player && !@mp3_player
+      warn_about_partial_functionality if !@ogg_player || !@mp3_player
+    end
+
+    def no_player_configured
+      puts "*** YOU CANNOT PLAY MP3S OR OGG FILES -- YOU MIGHT WANT TO INSTALL ogg123 AND mpg123/mpg321 BEFORE USING JIMMYJUKEBOX ***"
+      exit
+    end
+
+    def warn_about_partial_functionality
+      if @ogg_player && !@mp3_player
+        puts "*** YOU CANNOT PLAY MP3S -- YOU MIGHT WANT TO INSTALL MPG123 OR MPG321 ***"
+      elsif @mp3_player && !@ogg_player
+        puts "*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL OGG123 ***"
+      end
+    end
+
+    def set_ogg_player
+      if ogg123_exists?
+        @ogg_player = "ogg123"
         return
-      elsif ogg123_exists? && !mpg123_exists?
-        puts "*** YOU CANNOT PLAY MP3S UNTIL YOU INSTALL MPG123 ***"
-        @ogg123_installed = true
-        @mpg123_installed = false
+      elsif music123_exists?
+        @ogg_player = "music123"
         return
-      elsif mpg123_exists? && !ogg123_exists?
-        puts "*** YOU CANNOT PLAY OGG FILES UNTIL YOU INSTALL OGG123 ***"
-        @mpg123_installed = true
-        @ogg123_installed = false
+      elsif afplay_exists?
+        @ogg_player = "afplay"
         return
-      elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
-        @afplay_installed = true
-      elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
-        @afplay_installed = true
-      else
-        error_msg = "*** YOU MUST INSTALL ogg123 AND/OR mpg123 BEFORE USING JIMMYJUKEBOX ***"
-        puts error_msg
-        exit
+      elsif mplayer_exists?
+        @ogg_player = "mplayer -nolirc -noconfig all"
+      #elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
+      #  @ogg_player = "afplay"
+      #  return
+      #elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
+      #  @ogg_player = "afplay"
+      end
+    end
+
+    def set_mp3_player
+      if mpg123_exists?
+        @mp3_player = "mpg123"
+        return
+      elsif mpg321_exists?
+        @mp3_player = "mpg321"
+        return
+      elsif music123_exists?
+        @mp3_player = "music123"
+        return
+      elsif afplay_exists?
+        @mp3_player = "afplay"
+        return
+      elsif mplayer_exists?
+        @mp3_player = "mplayer -nolirc -noconfig all"
+      #elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
+      #  @mp3_player = "afplay"
+      #  return
+      #elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
+      #  @mp3_player = "afplay"
       end
     end
 
@@ -100,6 +137,22 @@ module JimmyJukebox
 
     def mpg123_exists?
       `which mpg123`.match(/.*\/mpg123$/) ? true : false
+    end
+
+    def music123_exists?
+      `which music123`.match(/.*\/music123$/) ? true : false
+    end
+
+    def mpg321_exists?
+      `which mpg321`.match(/.*\/mpg321$/) ? true : false
+    end
+
+    def afplay_exists?
+      `which afplay`.match(/.*\/afplay$/) ? true : false
+    end
+
+    def mplayer_exists?
+      `which mplayer`.match(/.*\/mplayer$/) ? true : false
     end
 
     def set_music_directories_from_file
@@ -183,18 +236,14 @@ module JimmyJukebox
 
     def play_file(music_file)
       # TODO: refactor the duplicate code below into a method
-      if music_file =~ /\.mp3$|\.ogg$/ && @afplay_installed
-        process_status = system_yield_pid("afplay", File.expand_path(music_file)) do |pid|
+      if music_file =~ /\.mp3$/i && @mp3_player
+        puts "Press Ctrl-C to stop the music and exit this program"
+        process_status = system_yield_pid(@mp3_player, File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
         end
-      elsif music_file =~ /\.mp3$/i && @mpg123_installed
+      elsif music_file =~ /\.ogg$/i && @ogg_player
         puts "Press Ctrl-C to stop the music and exit this program"
-        process_status = system_yield_pid("mpg123", File.expand_path(music_file)) do |pid|
-          @playing_pid = pid 
-        end
-      elsif music_file =~ /\.ogg$/i && @ogg123_installed
-        puts "Press Ctrl-C to stop the music and exit this program"
-        process_status = system_yield_pid("ogg123", File.expand_path(music_file)) do |pid|
+        process_status = system_yield_pid(@ogg_player, File.expand_path(music_file)) do |pid|
           @playing_pid = pid 
         end
       else
