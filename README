@@ -7,7 +7,7 @@ JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old 
 JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing 
 song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files
 in your '~/Music' directory tree (including subdirectories). You can specify a different
-top music directory by passing a directory name as a command line  parameter (example:
+top music directory by passing a directory name as a command line parameter (example:
 "play_jukebox ~/Music/JAZZ"). Or you can pass the name of a text file containing a 
 list of directory names.
 
@@ -21,38 +21,42 @@ Lionel Hampton, Louis Armstrong, and the Original Dixieland Jazz Band.
  - Linux/Unix:
    - Playing MP3s requires "mplayer," "mpg123", "mpg321" or "music123"
    - Playing OGG files requires "mplayer," "ogg123" or "music123"
+
  - Mac:
    - No additional requirements. Should play MP3s and OGG files using built-in "afplay."
    - Currently testing. "Skip" function doesn't seem to work.
+
  - Windows:
    - JimmyJukebox currently does not currently run on Windows, though we hope to get
      it working
    - You should install "mplayer"
+
  - JRuby:
    - I love JRuby, but JimmyJukebox does not currently work on JRuby because JRuby does
      not support "fork" (see TROUBLESHOOTING below)
 
 == QUICK-START INSTRUCTIONS
+
  - Download music: "load_jukebox [artist name]" (see next section)
  - Play music: "play_jukebox"
 
 == BASIC USAGE - DOWNLOADING MUSIC
 
- - On the command line:
-   - "load_jukebox at" to download music by Art Tatum
-   - "load_jukebox bm" to download music by Bennie Moten
-   - "load_jukebox bg" to download music by Benny Goodman
-   - "load_jukebox bh" to download music by Billie Holiday
-   - "load_jukebox cc" to download music by Charlie Christian
-   - "load_jukebox cc" to download music by Count Basie
-   - "load_jukebox dg" to download music by Dizzy Gillespie
-   - "load_jukebox dr" to download music by Django Reinhardt
-   - "load_jukebox de" to download music by Duke Ellington
-   - "load_jukebox fh" to download music by Fletcher Henderson
-   - "load_jukebox jrm" to download music by Jelly Roll Morton
-   - "load_jukebox lh" to download music by Lionel Hampton
-   - "load_jukebox la" to download music by Louis Armstrong
-   - "load_jukebox odjb" to download music by the Original Dixieland Jazz Band
+ - To download music, use this on the command line:
+   - Art Tatum:                    "load_jukebox at"
+   - Bennie Moten:                 "load_jukebox bm"
+   - Benny Goodman:                "load_jukebox bg"
+   - Billie Holiday:               "load_jukebox bh"
+   - Charlie Christian:            "load_jukebox cc"
+   - Count Basie:                  "load_jukebox cb"
+   - Dizzy Gillespie:              "load_jukebox dg"
+   - Django Reinhardt:             "load_jukebox dr"
+   - Duke Ellington:               "load_jukebox de"
+   - Fletcher Henderson:           "load_jukebox fh"
+   - Jelly Roll Morton:            "load_jukebox jrm"
+   - Lionel Hampton:               "load_jukebox lh"
+   - Louis Armstrong:              "load_jukebox la"
+   - Original Dixieland Jazz Band: "load_jukebox odjb"
 
  - By default, music will be downloaded to a directory under "~/Music/JAZZ/", like
    "~/Music/JAZZ/Original_Dixieland_Jazz_Band" (and that directory will be created 
