@@ -64,6 +64,7 @@ describe Jukebox do
       jj.should_receive(:`).at_least(:once).with("which mpg321").and_return("")
       jj.should_receive(:`).at_least(:once).with("which music123").and_return("")
       jj.should_receive(:`).at_least(:once).with("which afplay").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which mplayer").and_return("")
       jj.should_receive(:puts).with("*** YOU CANNOT PLAY MP3S -- YOU MIGHT WANT TO INSTALL MPG123 OR MPG321 ***")
       jj.send(:set_music_players)
       jj.instance_variable_get(:@ogg_player).should == "ogg123"
@@ -79,6 +80,7 @@ describe Jukebox do
       jj.should_receive(:`).at_least(:once).with("which music123").and_return("")
       jj.should_receive(:`).at_least(:once).with("which mpg123").and_return("/usr/bin/mpg123")
       jj.should_receive(:`).at_least(:once).with("which afplay").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which mplayer").and_return("")
       jj.should_receive(:puts).with("*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL OGG123 ***")
       jj.send(:set_music_players)
       jj.instance_variable_get(:@ogg_player).should be_false
@@ -95,6 +97,7 @@ describe Jukebox do
       jj.should_receive(:`).at_least(:once).with("which music123").and_return("")
       jj.should_receive(:`).at_least(:once).with("which mpg321").and_return("/usr/bin/mpg321")
       jj.should_receive(:`).at_least(:once).with("which afplay").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which mplayer").and_return("")
       jj.should_receive(:puts).with("*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL OGG123 ***")
       jj.send(:set_music_players)
       jj.instance_variable_get(:@ogg_player).should be_false
@@ -111,6 +114,7 @@ describe Jukebox do
       jj.should_receive(:`).at_least(:once).with("which music123").and_return("")
       jj.should_receive(:`).at_least(:once).with("which mpg321").and_return("")
       jj.should_receive(:`).at_least(:once).with("which afplay").and_return("")
+      jj.should_receive(:`).at_least(:once).with("which mplayer").and_return("")
       error_msg = "*** YOU CANNOT PLAY MP3S OR OGG FILES -- YOU MIGHT WANT TO INSTALL ogg123 AND mpg123/mpg321 BEFORE USING JIMMYJUKEBOX ***"
       jj.should_receive(:puts).with(error_msg)
       lambda { jj.send(:set_music_players) }.should raise_error SystemExit
