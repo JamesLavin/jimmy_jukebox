@@ -20,6 +20,7 @@ artists[:jrm] = "jelly_roll_morton"
 artists[:la] = "louis_armstrong"
 artists[:lh] = "lionel_hampton"
 artists[:odjb] = "original_dixieland_jazz_band"
+artists[:rn] = "red_norvo"
 
 def no_argv0
   puts "You must select an artist to use 'load_jukebox'."

@@ -14,7 +14,7 @@ list of directory names.
 JimmyJukebox also enables you to download thousands of great jazz performances by Art
 Tatum, Bennie Moten, Benny Goodman, Billie Holiday, Charlie Christian, Count Basie,
 Dizzy Gillespie, Django Reinhardt, Duke Ellington, Fletcher Henderson, Jelly Roll Morton,
-Lionel Hampton, Louis Armstrong, and the Original Dixieland Jazz Band.
+Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, and Red Norvo.
 
 == REQUIREMENTS
 
@@ -57,6 +57,7 @@ Lionel Hampton, Louis Armstrong, and the Original Dixieland Jazz Band.
    - Lionel Hampton:               "load_jukebox lh"
    - Louis Armstrong:              "load_jukebox la"
    - Original Dixieland Jazz Band: "load_jukebox odjb"
+   - Red Norvo:                    "load_jukebox rn"
 
  - By default, music will be downloaded to a directory under "~/Music/JAZZ/", like
    "~/Music/JAZZ/Original_Dixieland_Jazz_Band" (and that directory will be created 

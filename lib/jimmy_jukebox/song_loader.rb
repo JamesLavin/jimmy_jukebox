@@ -41,6 +41,7 @@ module JimmyJukebox
     define_artist :lionel_hampton
     define_artist :louis_armstrong
     define_artist :original_dixieland_jazz_band
+    define_artist :red_norvo
 
     def self.name_to_dir_name(name)
       return name.to_s.capitalize unless name.to_s.grep(/_/)
