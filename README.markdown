@@ -11,18 +11,22 @@ JimmyJukebox also enables you to download thousands of great jazz performances b
 ## REQUIREMENTS
 
 Linux/Unix:
+
 - Playing MP3s requires `mplayer`, `mpg123`, `mpg321`, `music123` or `play` (package name: `sox`)
 - Playing OGG files requires `mplayer`, `ogg123`, `music123` or `play` (package name: `sox`)
 
 Mac:
+
 - No additional requirements. Should play MP3s and OGG files using built-in `afplay`.
 - Currently testing. "Skip" function doesn't seem to work.
 
 Windows:
+
 - JimmyJukebox currently does not currently run on Windows, though we hope to get it working
 - You should install `mplayer`
 
 JRuby:
+
 - I love JRuby, but JimmyJukebox does not currently work on JRuby because JRuby does not support `fork` (see TROUBLESHOOTING below)
 
 ## QUICK-START INSTRUCTIONS
