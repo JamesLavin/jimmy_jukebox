@@ -98,6 +98,8 @@ module JimmyJukebox
         return
       elsif mplayer_exists?
         @ogg_player = "mplayer -nolirc -noconfig all"
+      elsif play_exists?
+        @ogg_player = "play"
       #elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
       #  @ogg_player = "afplay"
       #  return
@@ -121,6 +123,8 @@ module JimmyJukebox
         return
       elsif mplayer_exists?
         @mp3_player = "mplayer -nolirc -noconfig all"
+      elsif play_exists?
+        @mp3_player = "play"
       #elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
       #  @mp3_player = "afplay"
       #  return
@@ -151,6 +155,10 @@ module JimmyJukebox
 
     def mplayer_exists?
       `which mplayer`.match(/.*\/mplayer$/) ? true : false
+    end
+
+    def play_exists?
+      `which play`.match(/.*\/play$/) ? true : false
     end
 
     def set_music_directories_from_file

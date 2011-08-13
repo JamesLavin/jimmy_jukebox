@@ -19,8 +19,8 @@ Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, and Red Norvo
 == REQUIREMENTS
 
  - Linux/Unix:
-   - Playing MP3s requires "mplayer," "mpg123", "mpg321" or "music123"
-   - Playing OGG files requires "mplayer," "ogg123" or "music123"
+   - Playing MP3s requires "mplayer," "mpg123", "mpg321," "music123" or "play" (package name: "sox")
+   - Playing OGG files requires "mplayer," "ogg123," "music123" or "play" (package name: "sox")
 
  - Mac:
    - No additional requirements. Should play MP3s and OGG files using built-in "afplay."
