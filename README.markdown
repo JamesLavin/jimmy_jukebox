@@ -54,7 +54,9 @@ To download music, use this on the command line:
     Original Dixieland Jazz Band: "load_jukebox odjb"
     Red Norvo:                    "load_jukebox rn"
 
-By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically). To specify a different directory, type the full directory path after `load_jukebox`, e.g.: `load_jukebox "/home/my_name/MyMusic/Jazz/ODJB"`. Place the directory path in quotation marks if it contains any spaces or other "unusual" characters.
+By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically).
+
+To specify a different directory, type the full directory path after `load_jukebox`, e.g.: `load_jukebox "/home/my_name/MyMusic/Jazz/ODJB"`. Place the directory path in quotation marks if it contains any spaces or other "unusual" characters.
 
 ## BASIC USAGE - PLAYING MUSIC
 
