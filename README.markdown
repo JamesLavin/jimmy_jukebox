@@ -18,7 +18,7 @@ Linux/Unix:
 Mac:
 
 - No additional requirements. Should play MP3s and OGG files using built-in `afplay`.
-- Currently testing. "Skip" function doesn't seem to work.
+- Currently testing. Downloading music works fine. Playing first song is fine, and pausing the song works fine. But it won't start playing a second song when the first finishes or let the user skip to a second song. I believe the problem relates to my use of threads and fork...exec, but I haven't found a Ruby 1.8 solution. I tried [POpen4](http://popen4.rubyforge.org/), but it appears to not be threadsafe. Ruby 1.9's Process.spawn may work.
 
 Windows:
 

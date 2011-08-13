@@ -2,6 +2,7 @@ module JimmyJukebox
 
   # make system call and get pid so you can terminate process
   def system_yield_pid(*cmd)
+    raise "*** fork() not supported ***" unless Process.respond_to?(:fork)
     pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
       exec(*cmd)              # replaces current process with system call
       exit! 127               # exit process and return exit status 127; should never be reached
