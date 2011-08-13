@@ -37,6 +37,7 @@ JRuby:
 ## BASIC USAGE - DOWNLOADING MUSIC
 
 To download music, use this on the command line:
+
     Art Tatum:                    "load_jukebox at"
     Bennie Moten:                 "load_jukebox bm"
     Benny Goodman:                "load_jukebox bg"
