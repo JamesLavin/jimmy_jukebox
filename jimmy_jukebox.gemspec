@@ -1,4 +1,4 @@
-require 'lib/jimmy_jukebox/version'
+require './lib/jimmy_jukebox/version.rb'
 
 spec = Gem::Specification.new do |s|  
   s.name = 'jimmy_jukebox'
