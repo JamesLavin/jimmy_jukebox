@@ -32,6 +32,7 @@ module JimmyJukebox
     define_artist :bennie_moten
     define_artist :benny_goodman
     define_artist :billie_holiday
+    define_artist :bix_beiderbecke
     define_artist :charlie_christian
     define_artist :count_basie
     define_artist :dizzy_gillespie

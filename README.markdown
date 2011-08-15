@@ -6,7 +6,7 @@ JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old 
 
 JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files in your `~/Music` directory tree (including subdirectories). You can specify a different top music directory by passing a directory name as a command line parameter (example: `play_jukebox ~/Music/JAZZ`). Or you can pass the name of a text file containing a list of directory names.
 
-JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Charlie Christian, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Fletcher Henderson, Jelly Roll Morton, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, and Red Norvo.
+JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Fletcher Henderson, Jelly Roll Morton, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, and Red Norvo.
 
 ## REQUIREMENTS
 
@@ -18,7 +18,7 @@ Linux/Unix:
 Mac:
 
 - No additional requirements. Should play MP3s and OGG files using built-in `afplay`.
-- Currently testing. Downloading music works fine. Playing first song is fine, and pausing the song works fine. But it won't start playing a second song when the first finishes or let the user skip to a second song. I believe the problem relates to my use of threads and fork...exec, but I haven't found a Ruby 1.8 solution. I tried [POpen4](http://popen4.rubyforge.org/), but it appears to not be threadsafe. Ruby 1.9's Process.spawn may work.
+- Currently testing. Downloading music works fine. Playing first song is fine, and pausing the song works fine. But -- under Ruby 1.8 -- it won't start playing a second song when the first finishes or let the user skip to a second song. I believe the problem relates to my use of threads and fork...exec, but I haven't found a Ruby 1.8 solution. I tried [POpen4](http://popen4.rubyforge.org/), but it appears to not be threadsafe. The same code seems to work on Macs under Ruby 1.9.
 
 Windows:
 
@@ -45,6 +45,7 @@ To download music, use this on the command line:
     Bennie Moten:                 "load_jukebox bm"   (107 songs)
     Benny Goodman:                "load_jukebox bg"   (401 songs)
     Billie Holiday:               "load_jukebox bh"   ( 63 songs)
+    Bix Beiderbecke:              "load_jukebox bb"   ( 95 songs)
     Charlie Christian:            "load_jukebox cc"   (  8 songs)
     Count Basie:                  "load_jukebox cb"   ( 44 songs)
     Dizzy Gillespie:              "load_jukebox dg"   (  3 songs)
