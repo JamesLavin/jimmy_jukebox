@@ -36,24 +36,26 @@ JRuby:
 
 ## BASIC USAGE - DOWNLOADING MUSIC
 
+Warning: Songs average approximately 2.5MB or 3MB.
+
 To download music, use this on the command line:
 
-    Art Tatum:                    "load_jukebox at"
-    Artie Shaw:                   "load_jukebox as"
-    Bennie Moten:                 "load_jukebox bm"
-    Benny Goodman:                "load_jukebox bg"
-    Billie Holiday:               "load_jukebox bh"
-    Charlie Christian:            "load_jukebox cc"
-    Count Basie:                  "load_jukebox cb"
-    Dizzy Gillespie:              "load_jukebox dg"
-    Django Reinhardt:             "load_jukebox dr"
-    Duke Ellington:               "load_jukebox de"
-    Fletcher Henderson:           "load_jukebox fh"
-    Jelly Roll Morton:            "load_jukebox jrm"
-    Lionel Hampton:               "load_jukebox lh"
-    Louis Armstrong:              "load_jukebox la"
-    Original Dixieland Jazz Band: "load_jukebox odjb"
-    Red Norvo:                    "load_jukebox rn"
+    Art Tatum:                    "load_jukebox at"   (168 songs)
+    Artie Shaw:                   "load_jukebox as"   (580 songs)
+    Bennie Moten:                 "load_jukebox bm"   (107 songs)
+    Benny Goodman:                "load_jukebox bg"   (401 songs)
+    Billie Holiday:               "load_jukebox bh"   ( 63 songs)
+    Charlie Christian:            "load_jukebox cc"   (  8 songs)
+    Count Basie:                  "load_jukebox cb"   ( 44 songs)
+    Dizzy Gillespie:              "load_jukebox dg"   (  3 songs)
+    Django Reinhardt:             "load_jukebox dr"   ( 75 songs)
+    Duke Ellington:               "load_jukebox de"   (158 songs)
+    Fletcher Henderson:           "load_jukebox fh"   (158 songs)
+    Jelly Roll Morton:            "load_jukebox jrm"  ( 89 songs)
+    Lionel Hampton:               "load_jukebox lh"   (148 songs)
+    Louis Armstrong:              "load_jukebox la"   (150 songs)
+    Original Dixieland Jazz Band: "load_jukebox odjb" ( 45 songs)
+    Red Norvo:                    "load_jukebox rn"   ( 39 songs)
 
 By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically).
 
