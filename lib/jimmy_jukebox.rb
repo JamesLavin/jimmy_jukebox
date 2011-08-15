@@ -244,19 +244,20 @@ module JimmyJukebox
     def play_file(music_file)
       # TODO: refactor the duplicate code below into a method
       if music_file =~ /\.mp3$/i && @mp3_player
-        puts "Press Ctrl-C to stop the music and exit this program"
-        process_status = system_yield_pid(@mp3_player, File.expand_path(music_file)) do |pid|
-          @playing_pid = pid 
-        end
+        process_status = play_file_with(music_file, @mp3_player)
       elsif music_file =~ /\.ogg$/i && @ogg_player
-        puts "Press Ctrl-C to stop the music and exit this program"
-        process_status = system_yield_pid(@ogg_player, File.expand_path(music_file)) do |pid|
-          @playing_pid = pid 
-        end
+        process_status = play_file_with(music_file, @ogg_player)
       else
         raise "Attempted to play a file format this program cannot play"
       end
       process_status.exitstatus.to_i == 0 ? (@playing_pid = nil) : (raise "Experienced a problem playing a song")
+    end
+
+    def play_file_with(music_file,player)
+      puts "Press Ctrl-C to stop the music and exit this program"
+      process_status = system_yield_pid(player, File.expand_path(music_file)) do |pid|
+        @playing_pid = pid 
+      end
     end
 
   end
