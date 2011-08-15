@@ -28,6 +28,7 @@ module JimmyJukebox
     end
 
     define_artist :art_tatum
+    define_artist :artie_shaw
     define_artist :bennie_moten
     define_artist :benny_goodman
     define_artist :billie_holiday

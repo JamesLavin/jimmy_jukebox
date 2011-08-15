@@ -6,7 +6,7 @@ JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old 
 
 JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files in your `~/Music` directory tree (including subdirectories). You can specify a different top music directory by passing a directory name as a command line parameter (example: `play_jukebox ~/Music/JAZZ`). Or you can pass the name of a text file containing a list of directory names.
 
-JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Bennie Moten, Benny Goodman, Billie Holiday, Charlie Christian, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Fletcher Henderson, Jelly Roll Morton, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, and Red Norvo.
+JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Charlie Christian, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Fletcher Henderson, Jelly Roll Morton, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, and Red Norvo.
 
 ## REQUIREMENTS
 
@@ -39,6 +39,7 @@ JRuby:
 To download music, use this on the command line:
 
     Art Tatum:                    "load_jukebox at"
+    Artie Shaw:                   "load_jukebox as"
     Bennie Moten:                 "load_jukebox bm"
     Benny Goodman:                "load_jukebox bg"
     Billie Holiday:               "load_jukebox bh"
