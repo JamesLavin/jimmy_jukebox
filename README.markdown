@@ -6,7 +6,7 @@ JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old 
 
 JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files in your `~/Music` directory tree (including subdirectories). You can specify a different top music directory by passing a directory name as a command line parameter (example: `play_jukebox ~/Music/JAZZ`). Or you can pass the name of a text file containing a list of directory names.
 
-JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Fletcher Henderson, Jelly Roll Morton, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, and Red Norvo.
+JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Charlie Parker, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Fletcher Henderson, Jelly Roll Morton, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, and Red Norvo.
 
 ## REQUIREMENTS
 
@@ -47,6 +47,7 @@ To download music, use this on the command line:
     Billie Holiday:               "load_jukebox bh"   ( 63 songs)
     Bix Beiderbecke:              "load_jukebox bb"   ( 95 songs)
     Charlie Christian:            "load_jukebox cc"   (  8 songs)
+    Charlie Parker:               "load_jukebox cp"   ( 27 songs)
     Count Basie:                  "load_jukebox cb"   ( 44 songs)
     Dizzy Gillespie:              "load_jukebox dg"   (  3 songs)
     Django Reinhardt:             "load_jukebox dr"   ( 75 songs)

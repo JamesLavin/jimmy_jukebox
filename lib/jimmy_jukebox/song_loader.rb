@@ -34,6 +34,7 @@ module JimmyJukebox
     define_artist :billie_holiday
     define_artist :bix_beiderbecke
     define_artist :charlie_christian
+    define_artist :charlie_parker
     define_artist :count_basie
     define_artist :dizzy_gillespie
     define_artist :django_reinhardt
