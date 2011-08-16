@@ -40,6 +40,7 @@ module JimmyJukebox
     define_artist :django_reinhardt
     define_artist :duke_ellington
     define_artist :fletcher_henderson
+    define_artist :james_p_johnson
     define_artist :jelly_roll_morton
     define_artist :lionel_hampton
     define_artist :louis_armstrong
