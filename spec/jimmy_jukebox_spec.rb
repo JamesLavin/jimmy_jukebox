@@ -1,24 +1,17 @@
 require 'jimmy_jukebox'
 include JimmyJukebox
 
-# we could override method to prevent songs from actually playing
-# module JimmyJukebox
-#   def system_yield_pid(*cmd)
-#     pid = fork do
-#       exec("sleep 3")                # don't actually play song
-#       exit! 127
-#     end
-#     yield pid if block_given?
-#     Process.waitpid(pid)
-#     $?
-#   end
-# end
+# Override exec() to prevent songs from actually playing
+# Instead, start a brief sleep process
+module Kernel
+  alias :real_exec :exec
+
+  def exec(*cmd)
+    real_exec("sleep 0.2")  
+  end
+end
 
 describe Jukebox do
-
-  # THESE TESTS WORK ON MY LOCAL MACHINE, BUT I HAVE NOT MOCKED OUT THE MUSIC DIRECTORIES
-  # THE TESTS SHOULD WORK ON YOUR MACHINE IF YOU HAVE A "~/Music" DIRECTORY TREE CONTAINING
-  # AT LEAST A FEW OGG AND/OR MP3 FILES
 
   context "with no command line parameter" do
 
@@ -150,8 +143,9 @@ describe Jukebox do
       thread = Thread.new do
         jj.play
       end
-      sleep 5
+      sleep 0.2
       jj.instance_variable_get(:@playing_pid).should_not be_nil
+      jj.should_receive(:terminate_current_song)
       jj.quit
     end
 
@@ -160,7 +154,7 @@ describe Jukebox do
       thread = Thread.new do
         jj.play_loop
       end
-      sleep 5
+      sleep 0.2
       jj.loop.should be_true
       jj.playing_pid.should_not be_nil
       jj.quit
@@ -171,13 +165,13 @@ describe Jukebox do
       thread = Thread.new do
         jj.play_loop
       end
-      sleep 3
+      sleep 0.2
       song_1 = jj.playing_pid
       jj.skip_song
-      sleep 3
+      sleep 0.2
       song_2 = jj.playing_pid
       jj.skip_song
-      sleep 3
+      sleep 0.2
       song_3 = jj.playing_pid
       song_1.should_not == song_2 || song_2.should_not == song_3
       jj.quit
@@ -185,15 +179,12 @@ describe Jukebox do
 
     it "can pause the current song" do
       jj = Jukebox.new
-      #jj.should_receive(:play).at_least(:once)
-      #jj.should_receive(:pause_current_song).exactly(:once)
       thread = Thread.new do
         jj.play
       end
-      sleep 5
+      sleep 0.1
       song_1 = jj.playing_pid
       jj.pause_current_song
-      sleep 1
       song_2 = jj.playing_pid
       song_1.should == song_2
       jj.current_song_paused.should be_true
@@ -202,27 +193,25 @@ describe Jukebox do
 
     it "can unpause a paused song" do
       jj = Jukebox.new
-      #jj.should_receive(:play).at_least(:once)
-      #jj.should_receive(:pause_current_song).exactly(:twice)
-      #jj.should_receive(:unpause_current_song).exactly(:twice)
       thread = Thread.new do
         jj.play
       end
-      sleep 5
+      sleep 0.05
       song_1 = jj.playing_pid
       jj.pause_current_song
-      song_1 = jj.playing_pid
-      jj.current_song_paused.should be_true
-      jj.unpause_current_song
       song_2 = jj.playing_pid
-      song_1.should == song_2
+      jj.current_song_paused.should be_true
+      song_2.should == song_1
+      jj.unpause_current_song
+      song_3 = jj.playing_pid
+      song_3.should == song_2
       jj.current_song_paused.should be_false
       jj.pause_current_song
-      song_3 = jj.playing_pid
-      song_2.should == song_3
-      jj.current_song_paused.should be_true
       song_4 = jj.playing_pid
-      song_3.should == song_4
+      song_4.should == song_3
+      jj.current_song_paused.should be_true
+      song_5 = jj.playing_pid
+      song_5.should == song_4
       jj.unpause_current_song
       jj.current_song_paused.should be_false
       jj.quit
@@ -241,13 +230,13 @@ describe Jukebox do
       thread = Thread.new do
         jj.play_loop
       end
-      sleep 3
+      sleep 0.2
       song_1 = jj.playing_pid
       jj.skip_song
-      sleep 3
+      sleep 0.2
       song_2 = jj.playing_pid
       jj.skip_song
-      sleep 3
+      sleep 0.2
       song_3 = jj.playing_pid
       song_1.should_not == song_2 || song_2.should_not == song_3
       jj.quit
