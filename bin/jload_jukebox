@@ -5,26 +5,8 @@ $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 require 'jimmy_jukebox/song_loader'
 include JimmyJukebox
 
-artists = Hash.new
-artists[:at] = "art_tatum"
-artists[:as] = "artie_shaw"
-artists[:bg] = "benny_goodman"
-artists[:bh] = "billie_holiday"
-artists[:bb] = "bix_beiderbecke"
-artists[:bm] = "bennie_moten"
-artists[:cc] = "charlie_christian"
-artists[:cp] = "charlie_parker"
-artists[:cb] = "count_basie"
-artists[:dg] = "dizzy_gillespie"
-artists[:dr] = "django_reinhardt"
-artists[:de] = "duke_ellington"
-artists[:fh] = "fletcher_henderson"
-artists[:jj] = "james_p_johnson"
-artists[:jrm] = "jelly_roll_morton"
-artists[:la] = "louis_armstrong"
-artists[:lh] = "lionel_hampton"
-artists[:odjb] = "original_dixieland_jazz_band"
-artists[:rn] = "red_norvo"
+require 'jimmy_jukebox/artists'
+include Artists
 
 def no_argv0
   puts "You must select an artist to use 'load_jukebox'."
@@ -42,6 +24,6 @@ def invalid_artist
 end
 
 no_argv0 unless ARGV[0]
-invalid_artist unless artists.has_key?(ARGV[0].to_sym)
-JimmyJukebox::SongLoader.send(artists[ARGV[0].to_sym])
+invalid_artist unless JAZZ_ARTISTS.has_key?(ARGV[0].to_sym)
+JimmyJukebox::SongLoader.send(JAZZ_ARTISTS[ARGV[0].to_sym])
 
