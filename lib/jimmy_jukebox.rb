@@ -22,6 +22,9 @@ module JimmyJukebox
 
   class Jukebox
 
+    require 'jimmy_jukebox/artists'
+    include Artists
+
     attr_reader :loop, :current_song_paused, :playing_pid, :mp3_player, :ogg_player
 
     DEFAULT_MP3_DIR = File.expand_path(File.join("~","Music"))
@@ -209,6 +212,8 @@ module JimmyJukebox
       # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
       if ARGV.empty?
         @music_directories << File.expand_path(DEFAULT_MP3_DIR)
+      elsif JAZZ_ARTISTS.keys.include?(ARGV[0].to_sym)
+        @music_directories << File.expand_path(DEFAULT_MP3_DIR + key_to_subdir_name(ARGV[0].to_sym))
       elsif is_a_txt_file?(ARGV[0])
         set_music_directories_from_file
       elsif is_a_directory?(ARGV[0])

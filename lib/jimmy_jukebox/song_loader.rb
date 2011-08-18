@@ -23,7 +23,7 @@ module JimmyJukebox
     def self.define_artist(name)
       metaclass.instance_eval do
         define_method(name) do
-          save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/#{value_to_dir_name(name)}"
+          save_dir = DEFAULT_MUSIC_ROOT_DIR + value_to_subdir_name(name)
           songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{value_to_yaml_file(name)}")
           download_songs(songs, save_dir)
         end
