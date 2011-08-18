@@ -23,24 +23,14 @@ module JimmyJukebox
     def self.define_artist(name)
       metaclass.instance_eval do
         define_method(name) do
-          save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/#{name_to_dir_name(name)}"
-          songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{name_to_yaml_file(name)}")
+          save_dir = DEFAULT_MUSIC_ROOT_DIR + "/JAZZ/#{value_to_dir_name(name)}"
+          songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{value_to_yaml_file(name)}")
           download_songs(songs, save_dir)
         end
       end
     end
 
     JAZZ_ARTISTS.values.each { |v| define_artist v.to_sym }
-
-    def self.name_to_dir_name(name)
-      return name.to_s.capitalize unless name.to_s.grep(/_/)
-      name.to_s.split("_").map! { |name_component| name_component.capitalize }.join("_")
-    end
-
-    def self.name_to_yaml_file(name)
-      return name.to_s.capitalize unless name.to_s.grep(/_/)
-      name.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
-    end
 
     def self.top_music_dir(save_dir)
       full_path_name = File.expand_path(save_dir)

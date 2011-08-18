@@ -21,4 +21,15 @@ module Artists
   JAZZ_ARTISTS[:odjb] = "original_dixieland_jazz_band"
   JAZZ_ARTISTS[:rn] = "red_norvo"
 
+  def value_to_dir_name(value)
+    return value.to_s.capitalize unless value.to_s.grep(/_/)
+    value.to_s.split("_").map! { |name_component| name_component.capitalize }.join("_")
+  end
+
+  def value_to_yaml_file(value)
+    return value.to_s.capitalize unless value.to_s.grep(/_/)
+    value.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
+  end
+
+
 end
