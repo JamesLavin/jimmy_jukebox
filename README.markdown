@@ -17,11 +17,12 @@ Linux/Unix:
 
 Mac:
 
-- No additional requirements. Should play MP3s and OGG files using built-in `afplay`.
-- Currently testing. Downloading music works fine. Playing first song is fine, and pausing the song works fine. But -- under Ruby 1.8 -- it won't start playing a second song when the first finishes or let the user skip to a second song. I believe the problem relates to my use of threads and fork...exec, but I haven't found a Ruby 1.8 solution. I tried [POpen4](http://popen4.rubyforge.org/), but it appears to not be threadsafe. The same code seems to work on Macs under Ruby 1.9.
+- No additional requirements. Should play MP3s and OGG files using built-in `afplay`
+- Currently testing. Downloading music works fine on Ruby 1.8 and 1.9. 1.9 seems to play music fine, but 1.8 seems to have problems.
 
 JRuby:
 
+- Install the `spoon` gem (necessary because JRuby doesn't enable `fork`)
 - Run `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
 - Seems to be mostly working but hits an occasional glitch
 
@@ -114,7 +115,7 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 - Are you running a Windows machine? Solution: Get a real Unix/Linux/Mac machine.
 
-- Are you running JRuby? Solution: use `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
+- Are you running JRuby? Solution: Install the `spoon` gem and use `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
 
 ## LEGAL DISCLAIMER
 
