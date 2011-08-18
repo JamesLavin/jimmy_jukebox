@@ -26,12 +26,12 @@ module Artists
   end
 
   def value_to_subdir_name(value)
-    return '/JAZZ/' + value.to_s.capitalize unless value.to_s.grep(/_/)
+    return '/JAZZ/' + value.to_s.capitalize unless value.to_s.match(/_/)
     '/JAZZ/' + value.to_s.split("_").map! { |name_component| name_component.capitalize }.join("_")
   end
 
   def value_to_yaml_file(value)
-    return value.to_s.capitalize unless value.to_s.grep(/_/)
+    return value.to_s.capitalize unless value.to_s.match(/_/)
     value.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
   end
 

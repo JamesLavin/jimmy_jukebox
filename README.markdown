@@ -23,6 +23,7 @@ Mac:
 JRuby:
 
 - Run `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
+- Seems to be mostly working but hits an occasional glitch
 
 Windows:
 

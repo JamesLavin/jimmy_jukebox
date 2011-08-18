@@ -202,7 +202,8 @@ module JimmyJukebox
 
     def terminate_current_song
       if @playing_pid
-        Process.kill("SIGTERM",@playing_pid)
+        # Process.kill("SIGTERM",@playing_pid) doesn't seem to work in JRuby
+        `kill #{@playing_pid}` if @playing_pid
         @playing_pid = nil
       end
     end
@@ -279,7 +280,7 @@ module JimmyJukebox
 
     def play_file_with(music_file,player)
       puts "Press Ctrl-C to stop the music and exit this program"
-      process_status = system_yield_pid(player, File.expand_path(music_file)) do |pid|
+      system_yield_pid(player, File.expand_path(music_file)) do |pid|
         @playing_pid = pid 
       end
     end
