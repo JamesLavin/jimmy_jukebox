@@ -45,7 +45,7 @@ describe JimmyJukebox::SongLoader do
 
     it "should create a directory" do
       FakeFS do
-        topdir = "/home/user_name4/Music"
+        topdir = File.join("/home","user_name4","Music")
         subdir = File.join(topdir, "rock", "Beatles")
         File.directory?(subdir).should be_false
         @sl.create_save_dir(subdir)
@@ -111,13 +111,19 @@ describe JimmyJukebox::SongLoader do
   end
 
   describe "#original_dixieland_jazz_band without dirname" do
-    
-    it "should try to download many songs" do
-      dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Original_Dixieland_Jazz_Band')
-      @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
-      @sl.should_receive(:open).at_least(25).times
-      @sl.original_dixieland_jazz_band
-      File.exists?(dirname).should be_true
+  
+    context "no songs in directory" do
+
+      before(:each) do
+        @dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Original_Dixieland_Jazz_Band')
+        @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
+      end
+
+      it "should try to download many songs" do
+        @sl.should_receive(:open).at_least(25).times
+        @sl.send(:original_dixieland_jazz_band)
+      end
+
     end
 
   end

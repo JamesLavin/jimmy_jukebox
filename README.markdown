@@ -20,14 +20,14 @@ Mac:
 - No additional requirements. Should play MP3s and OGG files using built-in `afplay`.
 - Currently testing. Downloading music works fine. Playing first song is fine, and pausing the song works fine. But -- under Ruby 1.8 -- it won't start playing a second song when the first finishes or let the user skip to a second song. I believe the problem relates to my use of threads and fork...exec, but I haven't found a Ruby 1.8 solution. I tried [POpen4](http://popen4.rubyforge.org/), but it appears to not be threadsafe. The same code seems to work on Macs under Ruby 1.9.
 
-Windows:
-
-- JimmyJukebox currently does not currently run on Windows, though we hope to get it working
-- You should install `mplayer`
-
 JRuby:
 
-- I love JRuby, but JimmyJukebox does not currently work on JRuby because JRuby does not support `fork` (see TROUBLESHOOTING below)
+- Run `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
+
+Windows:
+
+- JimmyJukebox has not been tested on Windows and probably will not work "as is," though we hope to get it working soon
+- You should install `mplayer`
 
 ## QUICK-START INSTRUCTIONS
 
@@ -110,9 +110,7 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 - Are you running a Windows machine? Solution: Get a real Unix/Linux/Mac machine.
 
-- Are you running JRuby? Solution: Set your GEM_HOME and PATH variables to call "Matz" Ruby (aka MRI, CRuby and "regular" Ruby) before calling JRuby (OPTIONAL: then contact the JRuby gurus and very nicely encourage them to enable `fork`)
-
-If you're a JRuby user (like me), you may be disappointed that JimmyJukebox doesn't work with JRuby. JRuby generates a "NotImplementedError: fork is not available on this platform" exception because "JRuby doesn't implement fork() on any platform, including those where fork() is available in MRI" (http://kenai.com/projects/jruby/pages/DifferencesBetweenMriAndJruby#Fork_is_not_implemented). There is an experimental "fork" feature in JRuby callable on the command line with "-J-Djruby.fork.enabled=true" but the feature is labelled "(EXPERIMENTAL, maybe dangerous)" (see http://kenai.com/projects/jruby/pages/PerformanceTuning#Native_Support_Runtime_Properties).
+- Are you running JRuby? Solution: use `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
 
 ## LEGAL DISCLAIMER
 

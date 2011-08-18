@@ -2,10 +2,18 @@ module JimmyJukebox
 
   # make system call and get pid so you can terminate process
   def system_yield_pid(*cmd)
-    raise "*** fork() not supported ***" unless Process.respond_to?(:fork)
-    pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
-      exec(*cmd)              # replaces current process with system call
-      exit! 127               # exit process and return exit status 127; should never be reached
+    # would like to use Process.respond_to?(:fork) but JRuby mistakenly returns true
+    begin
+      pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
+        exec(*cmd)              # replaces current process with system call
+        exit! 127               # exit process and return exit status 127; should never be reached
+      end
+    rescue NotImplementedError
+      require 'rubygems'
+      require 'spoon'
+      puts "Playing with Spoon.spawnp"
+      pid = Spoon.spawnp(*cmd)
+      #raise "*** fork() not supported ***" unless Process.respond_to?(:fork)
     end
     yield pid if block_given? # call block, passing in the subprocess pid
     Process.waitpid(pid)      # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
@@ -16,10 +24,11 @@ module JimmyJukebox
 
     attr_reader :loop, :current_song_paused, :playing_pid, :mp3_player, :ogg_player
 
-    DEFAULT_MP3_DIR = "~/Music"
-    DEFAULT_PLAYLIST_DIR = "~/.jimmy_jukebox"
+    DEFAULT_MP3_DIR = File.expand_path(File.join("~","Music"))
+    DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
 
     def initialize
+      #configure_preferences
       set_music_players
       generate_directories_list
       generate_song_list
@@ -53,13 +62,23 @@ module JimmyJukebox
 
     def pause_current_song
       @current_song_paused = true
-      system("kill -s STOP #{@playing_pid}") if @playing_pid
+      # jruby doesn't seem to handle system() correctly
+      # trying backticks
+      # system("kill -s STOP #{@playing_pid}") if @playing_pid
+      `kill -s STOP #{@playing_pid}` if @playing_pid
     end
 
     def unpause_current_song
       @current_song_paused = false
-      system("kill -s CONT #{@playing_pid}") if @playing_pid
+      # jruby doesn't seem to handle system() correctly
+      # trying backticks
+      #system("kill -s CONT #{@playing_pid}") if @playing_pid
+      `kill -s CONT #{@playing_pid}` if @playing_pid
     end
+
+    #def configure_preferences
+    #  File.exists?(File.join("~",".jimmy_jukebox","configuration"))
+    #end
 
     private
 
@@ -165,8 +184,8 @@ module JimmyJukebox
     def set_music_directories_from_file
       if File.exists?(File.expand_path(ARGV[0]))
         @music_directories_file = File.expand_path(ARGV[0])
-      elsif File.exists?(File.expand_path(DEFAULT_PLAYLIST_DIR + '/' + ARGV[0]))
-        @music_directories_file = File.expand_path(DEFAULT_PLAYLIST_DIR + '/' + ARGV[0])
+      elsif File.exists?( File.expand_path( File.join(DEFAULT_PLAYLIST_DIR, ARGV[0]) ) )
+        @music_directories_file = File.expand_path(File.join(DEFAULT_PLAYLIST_DIR, ARGV[0]))
       end
       load_top_level_directories_from_file
     end

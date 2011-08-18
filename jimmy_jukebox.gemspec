@@ -1,4 +1,4 @@
-require './lib/jimmy_jukebox/version.rb'
+require File.join(File.dirname(__FILE__), 'lib', 'jimmy_jukebox','version.rb')
 
 spec = Gem::Specification.new do |s|  
   s.name = 'jimmy_jukebox'
@@ -17,7 +17,7 @@ spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.require_paths = ['lib']
   s.bindir = 'bin'
-  s.executables = ['play_jukebox','load_jukebox']
+  s.executables = ['play_jukebox','load_jukebox','jplay_jukebox','jload_jukebox']
   s.summary = 'plays your MP3 & OGG files and lets you easily download music'
   s.test_files = Dir.glob('spec/*.rb')
   s.version = JimmyJukebox::VERSION

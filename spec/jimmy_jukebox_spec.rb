@@ -1,3 +1,4 @@
+require 'fakefs/safe'
 require 'jimmy_jukebox'
 include JimmyJukebox
 
@@ -12,6 +13,15 @@ module Kernel
 end
 
 describe Jukebox do
+
+  #describe "#configure_preferences" do
+  #  context "when configuration file does not exist" do
+  #    config_path = File.expand_path(File.join("~",".jimmy_jukebox","configuration"))
+  #    FakeFS do
+  #      File.exist?(config_path).should be_false
+  #    end
+  #  end
+  #end
 
   context "with no command line parameter" do
 
@@ -154,9 +164,14 @@ describe Jukebox do
       thread = Thread.new do
         jj.play_loop
       end
-      sleep 0.2
+      sleep 0.1
+      song1 = jj.playing_pid
+      song1.should_not be_nil
       jj.loop.should be_true
-      jj.playing_pid.should_not be_nil
+      sleep 0.2
+      song2 = jj.playing_pid
+      song2.should_not be_nil
+      song2.should_not == song1
       jj.quit
     end
 
@@ -198,20 +213,19 @@ describe Jukebox do
       end
       sleep 0.05
       song_1 = jj.playing_pid
+      jj.current_song_paused.should be_false
       jj.pause_current_song
       song_2 = jj.playing_pid
       jj.current_song_paused.should be_true
       song_2.should == song_1
       jj.unpause_current_song
+      jj.current_song_paused.should be_false
       song_3 = jj.playing_pid
-      song_3.should == song_2
       jj.current_song_paused.should be_false
       jj.pause_current_song
       song_4 = jj.playing_pid
-      song_4.should == song_3
       jj.current_song_paused.should be_true
-      song_5 = jj.playing_pid
-      song_5.should == song_4
+      song_4.should == song_3
       jj.unpause_current_song
       jj.current_song_paused.should be_false
       jj.quit
