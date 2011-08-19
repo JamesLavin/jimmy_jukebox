@@ -34,9 +34,9 @@ Windows:
 ## QUICK-START INSTRUCTIONS
 
 - Download music: `load_jukebox [artist name]` (see next section)
-- Play music: `play_jukebox`
-- Play artist: `play_jukebox [artist name]` (see next section)
-- Play directory tree: `play_jukebox [top directory name]` (see below) 
+- Play downloaded music: `play_jukebox [artist name]` (see next section)
+- Play all music in default directory tree ("~/Music"): `play_jukebox`
+- Play music in user-specified directory tree: `play_jukebox [top directory name]` (see below) 
 
 ## BASIC USAGE - DOWNLOADING MUSIC
 
