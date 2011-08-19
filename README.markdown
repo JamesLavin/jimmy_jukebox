@@ -51,7 +51,7 @@ To download music, use this on the command line:
     Billie Holiday:               "load_jukebox bh"   ( 63 songs)
     Bix Beiderbecke:              "load_jukebox bb"   ( 95 songs)
     Charlie Christian:            "load_jukebox cc"   (  8 songs)
-    Charlie Parker:               "load_jukebox cp"   ( 27 songs)
+    Charlie Parker:               "load_jukebox cp"   ( 27 songs) [Archive.org has apparently removed many of these]
     Count Basie:                  "load_jukebox cb"   ( 44 songs)
     Dizzy Gillespie:              "load_jukebox dg"   (  3 songs)
     Django Reinhardt:             "load_jukebox dr"   ( 75 songs)
@@ -61,8 +61,10 @@ To download music, use this on the command line:
     Jelly Roll Morton:            "load_jukebox jrm"  ( 89 songs)
     Lionel Hampton:               "load_jukebox lh"   (148 songs)
     Louis Armstrong:              "load_jukebox la"   (150 songs)
+    Miles Davis:                  "load_jukebox md"   (  8 songs)
     Original Dixieland Jazz Band: "load_jukebox odjb" ( 45 songs)
     Red Norvo:                    "load_jukebox rn"   ( 39 songs)
+    Sidney Bechet:                "load_jukebox sb"   ( 25 songs)
 
 After downloading music, you can play just that artist by typing
 

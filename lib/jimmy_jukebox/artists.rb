@@ -18,8 +18,10 @@ module Artists
   :jrm  => "jelly_roll_morton",
   :la   => "louis_armstrong",
   :lh   => "lionel_hampton",
+  :md   => "miles_davis",
   :odjb => "original_dixieland_jazz_band",
-  :rn   => "red_norvo"
+  :rn   => "red_norvo",
+  :sb   => "sidney_bechet"
   }
 
   def key_to_subdir_name(key)
