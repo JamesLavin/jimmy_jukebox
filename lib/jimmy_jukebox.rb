@@ -202,8 +202,11 @@ module JimmyJukebox
 
     def terminate_current_song
       if @playing_pid
-        # Process.kill("SIGTERM",@playing_pid) doesn't seem to work in JRuby
-        `kill #{@playing_pid}` if @playing_pid
+        # killing processes seems problematic in JRuby
+        # I've tried several approaches, and nothing seems reliable
+        Process.kill("SIGKILL",@playing_pid)
+        #Process.kill("SIGTERM",@playing_pid)
+        #`kill #{@playing_pid}` if @playing_pid
         @playing_pid = nil
       end
     end
