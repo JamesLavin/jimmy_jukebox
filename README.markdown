@@ -23,8 +23,8 @@ Mac:
 JRuby:
 
 - Install the `spoon` gem (necessary because JRuby doesn't enable `fork`)
-- Run `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
-- Seems to be mostly working but hits an occasional glitch when skipping songs, apparently due to an unreliable implementation of Process.kill and equivalents
+- Run `jload_jukebox` (instead of `load_jukebox`) and `jplay_jukebox` (instead of `play_jukebox`)
+- Hits an occasional glitch when skipping songs, apparently due to JRuby's unreliable implementation of Process.kill and equivalents
 
 Windows:
 
@@ -36,6 +36,7 @@ Windows:
 - Download music: `load_jukebox [artist name]` (see next section)
 - Play music: `play_jukebox`
 - Play artist: `play_jukebox [artist name]` (see next section)
+- Play directory tree: `play_jukebox [top directory name]` (see "TELLING JIMMYJUKEBOX WHERE TO FIND YOUR MUSIC")
 
 ## BASIC USAGE - DOWNLOADING MUSIC
 
