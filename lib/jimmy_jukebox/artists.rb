@@ -14,6 +14,7 @@ module Artists
   :dg   => "dizzy_gillespie",
   :dr   => "django_reinhardt",
   :de   => "duke_ellington",
+  :eh   => "earl_hines",
   :fh   => "fletcher_henderson",
   :jj   => "james_p_johnson",
   :jrm  => "jelly_roll_morton",
