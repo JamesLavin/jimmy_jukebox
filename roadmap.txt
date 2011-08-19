@@ -1,50 +1,20 @@
-
-0.0.1:
-  ability to play MP3 and OGG files
-  ability to skip a song
-  ability to pause a song and later unpause it
-  gemify
-  handle directory name as command line parameter
-  add legal disclaimer
-  if MP3 and OGG players not installed, refuse to play
-  if MP3 player not installed, warn user and skip MP3 songs
-  if OGG player not installed, warn user and skip OGG songs
-  tests!
-
-0.0.2:
-  ability to download music by Art Tatum
-  ability to download music by Bennie Moten
-  ability to download music by Benny Goodman
-  ability to download music by Charlie Christian
-  ability to download music by Django Reinhardt
-  ability to download music by Dizzy Gillespie
-  ability to download music by Jelly Roll Morton
-  ability to download music by Lionel Hampton
-  ability to download music by Louis Armstrong
-  ability to download music by The Original Dixieland Jazz Band
-
-0.0.5 - 0.1.1:
-  don't repeatedly calculate songs in directory
-  ability to download music by Billie Holiday
-  ability to download music by Count Basie
-  ability to download music by Duke Ellington
-  ability to download music by Fletcher Henderson
-  ability to download music by Red Norvo
-  ability to use on Mac OS
-
 TODO:
-  figure out why Macs won't skip song
+  figure out why Macs running Ruby 1.8 won't skip song
   add file downloading error handling
   make playable on Windows
-  handle quoted directory name as command line parameter
   call strip on music directory names
   chmod ug+rx downloaded music files?
 
-  Charlie Parker
+  Buddy Bolden
+  Bunk Johnson
+  Cab Calloway
+  Glenn Miller
+  Fats Waller
+  Ben Webster
+  Paul Whiteman
+    http://www.archive.org/search.php?query=paul%20whiteman%20AND%20mediatype%3Aaudio
   Thelonious Monk
-  Red Nichols
-    http://www.archive.org/details/1920s-redNicholsHisFivePennies-01-10
-  http://www.archive.org/details/KingOliversCreoleJazzBand-11-20
+  http://www.archive.org/details/1920s-redNicholsHisFivePennies-01-10
   http://www.archive.org/details/1920sJazz-01-90
   http://www.archive.org/details/LilArmstrong-01-10
 
