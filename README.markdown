@@ -24,7 +24,7 @@ JRuby:
 
 - Install the `spoon` gem (necessary because JRuby doesn't enable `fork`)
 - Run `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
-- Seems to be mostly working but hits an occasional glitch
+- Seems to be mostly working but hits an occasional glitch when skipping songs, apparently due to an unreliable implementation of Process.kill and equivalents
 
 Windows:
 
