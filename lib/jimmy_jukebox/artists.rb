@@ -18,6 +18,7 @@ module Artists
   :fh   => "fletcher_henderson",
   :jj   => "james_p_johnson",
   :jrm  => "jelly_roll_morton",
+  :ko   => "king_oliver",
   :la   => "louis_armstrong",
   :lh   => "lionel_hampton",
   :md   => "miles_davis",
