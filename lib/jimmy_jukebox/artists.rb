@@ -9,6 +9,7 @@ module Artists
   :bm   => "bennie_moten",
   :cc   => "charlie_christian",
   :cp   => "charlie_parker",
+  :ch   => "coleman_hawkins",
   :cb   => "count_basie",
   :dg   => "dizzy_gillespie",
   :dr   => "django_reinhardt",
