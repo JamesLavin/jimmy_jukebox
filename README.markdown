@@ -36,7 +36,7 @@ Windows:
 - Download music: `load_jukebox [artist name]` (see next section)
 - Play music: `play_jukebox`
 - Play artist: `play_jukebox [artist name]` (see next section)
-- Play directory tree: `play_jukebox [top directory name]` (see "TELLING JIMMYJUKEBOX WHERE TO FIND YOUR MUSIC")
+- Play directory tree: `play_jukebox [top directory name]` (see below) 
 
 ## BASIC USAGE - DOWNLOADING MUSIC
 
