@@ -63,7 +63,12 @@ To download music, use this on the command line:
     Original Dixieland Jazz Band: "load_jukebox odjb" ( 45 songs)
     Red Norvo:                    "load_jukebox rn"   ( 39 songs)
 
-After downloading music, you can play just that artist by typing `play_jukebox at`, `play_jukebox as`, etc.
+After downloading music, you can play just that artist by typing
+
+    Art Tatum:                    "play_jukebox at"
+    Artie Shaw:                   "play_jukebox as"
+    Bennie Moten:                 "play_jukebox bm"
+    etc.
 
 By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically).
 
