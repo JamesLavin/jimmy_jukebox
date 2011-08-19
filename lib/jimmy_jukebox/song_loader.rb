@@ -50,6 +50,9 @@ module JimmyJukebox
       #  Dir.glob("**/*")
       #}
       existing_files = Dir.glob(File.join(top_dir, '**', '*' ))       # all files in all subdirs
+      if "".respond_to?(:force_encoding)                                            # Ruby 1.8 doesn't have string encoding or String#force_encoding
+        existing_files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
+      end
       existing_files.delete_if { |f| !f.match(MP3_OGG_REGEXP) }       # delete unless .mp3, .MP3, .ogg or .OGG
       existing_files.map! { |f| File.basename(f) }                    # strip any path info preceding the filename
       existing_files.map! { |f| f.gsub(MP3_OGG_REGEXP,"") }           # strip extensions
@@ -74,14 +77,35 @@ module JimmyJukebox
       create_save_dir(save_dir) unless File.directory?(save_dir)
       #Dir.chdir(save_dir)
       songs.each do |song_url|
-        song_basename = File.basename(song_url)
-        next if version_of_song_in_any_dir?(song_basename, save_dir)
-        puts "Downloading #{song_basename}"
-        open(File.join(save_dir,song_basename), 'wb') do |dst|
-          open(song_url) do |src|
-            dst.write(src.read)
-          end
+        download_song(song_url, save_dir)
+      end
+    end
+
+    def self.download_song(song_url, save_dir)
+      song_savename = File.basename(song_url)
+      if version_of_song_in_any_dir?(song_savename, save_dir)
+        puts "#{song_savename} already exists in #{save_dir}"
+        return
+      end
+      puts "Downloading #{song_savename}"
+      song_pathname = File.join(save_dir,song_savename)
+      open(song_pathname, 'wb') do |dst|
+        open(song_url) do |src|
+          dst.write(src.read)
         end
+      end
+      check_downloaded_song_size(song_pathname)
+    end
+
+    def self.check_downloaded_song_size(song_pathname)
+      if !File.exists?(song_pathname)
+        puts "Expected to see #{song_pathname} but do not see it!"
+        return
+      end
+      if File.size(song_pathname) < 50000
+        puts "Downloaded #{song_pathname} seems too small, so I'm deleting it."
+        puts "You might want to try downloading again."
+        File.delete(song_pathname)
       end
     end
 
