@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'lib', 'jimmy_jukebox','version.rb')
 spec = Gem::Specification.new do |s|  
   s.name = 'jimmy_jukebox'
   s.author = 'James Lavin'
-  s.date = "2011-08-19"
+  s.date = "2011-08-22"
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec-core')
   s.add_development_dependency('rspec-mocks')
@@ -14,7 +14,6 @@ spec = Gem::Specification.new do |s|
   s.email = 'james@jameslavin.com'
   s.files = Dir['README','roadmap.txt','LICENSE.txt','lib/**/*.rb','lib/**/*.yml','spec/**/*']
   s.homepage = "https://github.com/JamesLavin/jimmy_jukebox"
-  s.platform = Gem::Platform::RUBY
   s.require_paths = ['lib']
   s.bindir = 'bin'
   s.executables = ['play_jukebox','load_jukebox','jplay_jukebox','jload_jukebox']
