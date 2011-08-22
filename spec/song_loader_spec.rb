@@ -100,12 +100,16 @@ describe JimmyJukebox::SongLoader do
 
   describe "test defaults" do
 
-    it "should have a DEFAULT_MUSIC_ROOT_DIR of '~/Music'" do
-      @sl::DEFAULT_MUSIC_ROOT_DIR.should == "~/Music"
+    it "should have a user_config" do
+      @sl.instance_variable_get(:@user_config).should_not be_nil
     end
 
-    it "should have a MP3_OGG_REGEXP of '/\.mp3$|\.ogg$/i'" do
-      @sl::MP3_OGG_REGEXP.should == /\.mp3$|\.ogg$/i
+    it "should have a user_config with a non-nil default_music_dir" do
+      @sl.instance_variable_get(:@user_config).default_music_dir.should == File.expand_path("~/Music")
+    end
+
+    it "should have a SUPPORTED_MUSIC_TYPES of '/\.mp3$|\.ogg$/i'" do
+      @sl::SUPPORTED_MUSIC_TYPES.should == /\.mp3$|\.ogg$/i
     end
 
   end
@@ -115,7 +119,7 @@ describe JimmyJukebox::SongLoader do
     context "no songs in directory" do
 
       before(:each) do
-        @dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Original_Dixieland_Jazz_Band')
+        @dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Original_Dixieland_Jazz_Band')
         @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
       end
 
@@ -133,7 +137,7 @@ describe JimmyJukebox::SongLoader do
     context "no songs yet downloaded" do
 
       it "should try to download many songs" do
-        dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Charlie_Christian')
+        dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Charlie_Christian')
         @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
         @sl.should_receive(:open).exactly(8).times
         @sl.charlie_christian
@@ -145,7 +149,7 @@ describe JimmyJukebox::SongLoader do
     context "all songs already downloaded" do
 
       it "should not download any songs" do
-        dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Charlie_Christian')
+        dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Charlie_Christian')
         @sl.stub!(:version_of_song_in_any_dir?).and_return(true)
         @sl.should_not_receive(:open)
         @sl.charlie_christian
@@ -158,7 +162,7 @@ describe JimmyJukebox::SongLoader do
   describe "#lionel_hampton without dirname" do
     
     it "should try to download many songs" do
-      dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Lionel_Hampton')
+      dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Lionel_Hampton')
       @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
       @sl.should_receive(:open).at_least(50).times
       @sl.lionel_hampton
@@ -170,7 +174,7 @@ describe JimmyJukebox::SongLoader do
   describe "#dizzy_gillespie with dirname" do
 
     it "should try to download three songs" do
-      dirname = File.expand_path(JimmyJukebox::SongLoader::DEFAULT_MUSIC_ROOT_DIR + '/JAZZ/Dizzy_Gillespie')
+      dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Dizzy_Gillespie')
       @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
       @sl.should_receive(:open).exactly(3).times
       @sl.dizzy_gillespie(dirname)
