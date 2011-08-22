@@ -4,6 +4,9 @@ module JimmyJukebox
 
     attr_reader :mp3_player, :ogg_player
 
+    DEFAULT_MP3_DIR = File.expand_path(File.join("~","Music"))
+    DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
+
     def initialize
       #configure_preferences
       set_music_players
@@ -12,6 +15,10 @@ module JimmyJukebox
     #def configure_preferences
     #  File.exists?(File.join("~",".jimmy_jukebox","configuration"))
     #end
+
+    def default_mp3_dir
+      DEFAULT_MP3_DIR
+    end
 
     def set_music_players
       set_ogg_player

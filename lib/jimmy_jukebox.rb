@@ -28,9 +28,6 @@ module JimmyJukebox
 
     attr_reader :loop, :current_song_paused, :playing_pid
 
-    DEFAULT_MP3_DIR = File.expand_path(File.join("~","Music"))
-    DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
-
     def initialize
       @user_config = UserConfig.new
       #set_music_players
@@ -109,15 +106,15 @@ module JimmyJukebox
       @music_directories = []
       # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
       if ARGV.empty?
-        @music_directories << File.expand_path(DEFAULT_MP3_DIR)
+        @music_directories << File.expand_path(@user_config.default_mp3_dir)
       elsif JAZZ_ARTISTS.keys.include?(ARGV[0].to_sym)
-        @music_directories << File.expand_path(DEFAULT_MP3_DIR + key_to_subdir_name(ARGV[0].to_sym))
+        @music_directories << File.expand_path(@user_config.default_mp3_dir + key_to_subdir_name(ARGV[0].to_sym))
       elsif is_a_txt_file?(ARGV[0])
         set_music_directories_from_file
       elsif is_a_directory?(ARGV[0])
         @music_directories << File.expand_path(ARGV[0])
       else
-        @music_directories << File.expand_path(DEFAULT_MP3_DIR)
+        @music_directories << File.expand_path(@user_config.default_mp3_dir)
       end
       add_all_subdirectories
     end
