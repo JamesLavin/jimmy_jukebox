@@ -11,7 +11,6 @@ module JimmyJukebox
     rescue NotImplementedError
       require 'rubygems'
       require 'spoon'
-      puts "Playing with Spoon.spawnp"
       pid = Spoon.spawnp(*cmd)
       #raise "*** fork() not supported ***" unless Process.respond_to?(:fork)
     end
