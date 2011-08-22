@@ -36,23 +36,13 @@ module JimmyJukebox
 
     JAZZ_ARTISTS.values.each { |v| define_artist v.to_sym }
 
-    def self.top_music_dir(save_dir)
-      full_path_name = File.expand_path(save_dir)
-      home_regexp = /^(\/home\/[^\/]*\/[^\/]*)(\/.*)*$/
-      full_path_name = full_path_name.match(home_regexp)[1] if full_path_name =~ home_regexp
-      full_path_name
-    end
-
     def self.version_of_song_in_any_dir?(song_filename, save_dir)
-      top_dir = top_music_dir(save_dir)
+      top_dir = UserConfig.top_music_dir(save_dir)
       @existing_files = calculate_existing_files(top_dir) if top_dir != @last_top_dir  # recalculate existing files only if different top music directory
       @existing_files.include?(song_filename.gsub(SUPPORTED_MUSIC_TYPES,""))                  # does extensionless song_filename exist in directory?
     end
 
     def self.calculate_existing_files(top_dir)
-      #existing_files =  Dir.chdir(top_music_dir(save_dir)) {
-      #  Dir.glob("**/*")
-      #}
       existing_files = Dir.glob(File.join(top_dir, '**', '*' ))       # all files in all subdirs
       if "".respond_to?(:force_encoding)                                            # Ruby 1.8 doesn't have string encoding or String#force_encoding
         existing_files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"

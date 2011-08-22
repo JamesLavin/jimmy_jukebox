@@ -17,31 +17,7 @@ describe JimmyJukebox::SongLoader do
     @sl = JimmyJukebox::SongLoader
   end
 
-  describe "#top_music_dir" do
-
-    it "should parse '~/Music'" do
-      @sl.top_music_dir("~/Music").should == "/home/james/Music"
-    end
-
-    it "should parse '/home/james/Music'" do
-      @sl.top_music_dir("/home/james/Music").should == "/home/james/Music"
-    end
-
-    it "should parse '~/Music/Rock/The_Eagles/hotel_california.mp3'" do
-      @sl.top_music_dir("~/Music/Rock/The_Eagles/hotel_california.mp3").should == "/home/james/Music"
-    end
-
-    it "should parse '~/Music/Rock/The Eagles/Hotel California.mp3'" do
-      @sl.top_music_dir("~/Music/Rock/The Eagles/Hotel California.mp3").should == "/home/james/Music"
-    end
-
-    it "should parse '~/My Music'" do
-      @sl.top_music_dir("~/My Music").should == "/home/james/My Music"
-    end
-
-  end
-
-  describe "#create_save_dir" do
+ describe "#create_save_dir" do
 
     it "should create a directory" do
       FakeFS do

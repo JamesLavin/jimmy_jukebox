@@ -7,6 +7,13 @@ module JimmyJukebox
     DEFAULT_MUSIC_DIR = File.expand_path(File.join("~","Music"))
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
 
+    def self.top_music_dir(save_dir)
+      full_path_name = File.expand_path(save_dir)
+      home_regexp = /^(\/home\/[^\/]*\/[^\/]*)(\/.*)*$/
+      full_path_name = full_path_name.match(home_regexp)[1] if full_path_name =~ home_regexp
+      full_path_name
+    end
+
     def initialize
       #configure_preferences
       set_music_players

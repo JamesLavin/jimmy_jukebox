@@ -21,6 +21,30 @@ describe UserConfig do
   #
   #end
 
+  describe "#top_music_dir" do
+
+    it "should parse '~/Music'" do
+      UserConfig.top_music_dir("~/Music").should == "/home/james/Music"
+    end
+
+    it "should parse '/home/james/Music'" do
+      UserConfig.top_music_dir("/home/james/Music").should == "/home/james/Music"
+    end
+
+    it "should parse '~/Music/Rock/The_Eagles/hotel_california.mp3'" do
+      UserConfig.top_music_dir("~/Music/Rock/The_Eagles/hotel_california.mp3").should == "/home/james/Music"
+    end
+
+    it "should parse '~/Music/Rock/The Eagles/Hotel California.mp3'" do
+      UserConfig.top_music_dir("~/Music/Rock/The Eagles/Hotel California.mp3").should == "/home/james/Music"
+    end
+
+    it "should parse '~/My Music'" do
+      UserConfig.top_music_dir("~/My Music").should == "/home/james/My Music"
+    end
+
+  end
+ 
   context "with no command line parameter" do
 
     before(:each) do
