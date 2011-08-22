@@ -20,74 +20,18 @@ module JimmyJukebox
     $?                        # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus; see: http://www.ruby-doc.org/core/classes/Process/Status.html
   end
 
-  class Jukebox
+  class UserConfig
 
-    require 'jimmy_jukebox/artists'
-    include Artists
-
-    attr_reader :loop, :current_song_paused, :playing_pid, :mp3_player, :ogg_player
-
-    DEFAULT_MP3_DIR = File.expand_path(File.join("~","Music"))
-    DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
+    attr_reader :mp3_player, :ogg_player
 
     def initialize
       #configure_preferences
       set_music_players
-      generate_directories_list
-      generate_song_list
-    end
-
-    def play_loop
-      @loop = true
-      while @loop do
-        play
-      end
-    end
-
-    def play
-      begin
-        play_random_song
-      rescue SystemExit, Interrupt => e
-        terminate_current_song
-        puts "\nMusic terminated by user"
-        exit
-      end
-    end
-
-    def quit
-      stop_looping
-      terminate_current_song
-    end
-
-    def skip_song
-      terminate_current_song
-    end
-
-    def pause_current_song
-      @current_song_paused = true
-      # jruby doesn't seem to handle system() correctly
-      # trying backticks
-      # system("kill -s STOP #{@playing_pid}") if @playing_pid
-      `kill -s STOP #{@playing_pid}` if @playing_pid
-    end
-
-    def unpause_current_song
-      @current_song_paused = false
-      # jruby doesn't seem to handle system() correctly
-      # trying backticks
-      #system("kill -s CONT #{@playing_pid}") if @playing_pid
-      `kill -s CONT #{@playing_pid}` if @playing_pid
     end
 
     #def configure_preferences
     #  File.exists?(File.join("~",".jimmy_jukebox","configuration"))
     #end
-
-    private
-
-    def stop_looping
-      @loop = false
-    end
 
     def set_music_players
       set_ogg_player
@@ -193,6 +137,73 @@ module JimmyJukebox
       load_top_level_directories_from_file
     end
 
+  end
+
+  class Jukebox
+
+    require 'jimmy_jukebox/artists'
+    include Artists
+
+    attr_reader :loop, :current_song_paused, :playing_pid
+
+    DEFAULT_MP3_DIR = File.expand_path(File.join("~","Music"))
+    DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
+
+    def initialize
+      @user_config = UserConfig.new
+      #set_music_players
+      generate_directories_list
+      generate_song_list
+    end
+
+    def play_loop
+      @loop = true
+      while @loop do
+        play
+      end
+    end
+
+    def play
+      begin
+        play_random_song
+      rescue SystemExit, Interrupt => e
+        terminate_current_song
+        puts "\nMusic terminated by user"
+        exit
+      end
+    end
+
+    def quit
+      stop_looping
+      terminate_current_song
+    end
+
+    def skip_song
+      terminate_current_song
+    end
+
+    def pause_current_song
+      @current_song_paused = true
+      # jruby doesn't seem to handle system() correctly
+      # trying backticks
+      # system("kill -s STOP #{@playing_pid}") if @playing_pid
+      `kill -s STOP #{@playing_pid}` if @playing_pid
+    end
+
+    def unpause_current_song
+      @current_song_paused = false
+      # jruby doesn't seem to handle system() correctly
+      # trying backticks
+      #system("kill -s CONT #{@playing_pid}") if @playing_pid
+      `kill -s CONT #{@playing_pid}` if @playing_pid
+    end
+
+    private
+
+    def stop_looping
+      @loop = false
+    end
+
     def play_random_song
       terminate_current_song
       raise "JimmyJukebox has no songs to play!" if @songs.length == 0
@@ -272,10 +283,10 @@ module JimmyJukebox
 
     def play_file(music_file)
       # TODO: refactor the duplicate code below into a method
-      if music_file =~ /\.mp3$/i && @mp3_player
-        process_status = play_file_with(music_file, @mp3_player)
-      elsif music_file =~ /\.ogg$/i && @ogg_player
-        process_status = play_file_with(music_file, @ogg_player)
+      if music_file =~ /\.mp3$/i && @user_config.mp3_player
+        process_status = play_file_with(music_file, @user_config.mp3_player)
+      elsif music_file =~ /\.ogg$/i && @user_config.ogg_player
+        process_status = play_file_with(music_file, @user_config.ogg_player)
       else
         raise "Attempted to play a file format this program cannot play"
       end
