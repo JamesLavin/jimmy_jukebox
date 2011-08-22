@@ -11,19 +11,23 @@ class Object
   end
 end
 
+require 'jimmy_jukebox/user_config'
+include JimmyJukebox
+
 module JimmyJukebox
 
   module SongLoader
 
-    DEFAULT_MUSIC_ROOT_DIR = "~/Music"
-    MP3_OGG_REGEXP = /\.mp3$|\.ogg$/i
+    @user_config = UserConfig.new
+    SUPPORTED_MUSIC_TYPES = /\.mp3$|\.ogg$/i
 
-    @@last_top_dir = nil   # enables returning previous result if @@last_top_dir == top_dir
+    @last_top_dir = nil            # enables returning previous result if @last_top_dir == top_dir
+    @user_config = UserConfig.new
 
     def self.define_artist(name)
       metaclass.instance_eval do
         define_method(name) do
-          save_dir = DEFAULT_MUSIC_ROOT_DIR + value_to_subdir_name(name)
+          save_dir = @user_config.default_music_dir + value_to_subdir_name(name)
           songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{value_to_yaml_file(name)}")
           download_songs(songs, save_dir)
         end
@@ -41,8 +45,8 @@ module JimmyJukebox
 
     def self.version_of_song_in_any_dir?(song_filename, save_dir)
       top_dir = top_music_dir(save_dir)
-      @@existing_files = calculate_existing_files(top_dir) if top_dir != @@last_top_dir  # recalculate existing files only if different top music directory
-      @@existing_files.include?(song_filename.gsub(MP3_OGG_REGEXP,""))                   # does extensionless song_filename exist in directory?
+      @existing_files = calculate_existing_files(top_dir) if top_dir != @last_top_dir  # recalculate existing files only if different top music directory
+      @existing_files.include?(song_filename.gsub(SUPPORTED_MUSIC_TYPES,""))                  # does extensionless song_filename exist in directory?
     end
 
     def self.calculate_existing_files(top_dir)
@@ -53,11 +57,11 @@ module JimmyJukebox
       if "".respond_to?(:force_encoding)                                            # Ruby 1.8 doesn't have string encoding or String#force_encoding
         existing_files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
       end
-      existing_files.delete_if { |f| !f.match(MP3_OGG_REGEXP) }       # delete unless .mp3, .MP3, .ogg or .OGG
+      existing_files.delete_if { |f| !f.match(SUPPORTED_MUSIC_TYPES) }       # delete unless .mp3, .MP3, .ogg or .OGG
       existing_files.map! { |f| File.basename(f) }                    # strip any path info preceding the filename
-      existing_files.map! { |f| f.gsub(MP3_OGG_REGEXP,"") }           # strip extensions
-      @@last_top_dir = top_dir
-      @@existing_files = existing_files
+      existing_files.map! { |f| f.gsub(SUPPORTED_MUSIC_TYPES,"") }           # strip extensions
+      @last_top_dir = top_dir
+      @existing_files = existing_files
     end
 
     def self.create_save_dir(save_dir)
@@ -110,9 +114,9 @@ module JimmyJukebox
     end
 
     def self.version_of_song_in_current_dir?(song_filename)
-      existing_files = Dir.entries(".").delete_if { |f| !f.match(MP3_OGG_REGEXP) }  # delete unless .mp3, .MP3, .ogg or .OGG
-      existing_files.map! { |f| f.gsub(MP3_OGG_REGEXP,"") }                         # strip extensions
-      existing_files.include?(song_filename.gsub(MP3_OGG_REGEXP,"")) ? true : false # does extensionless song_filename exist in directory?
+      existing_files = Dir.entries(".").delete_if { |f| !f.match(SUPPORTED_MUSIC_TYPES) }  # delete unless .mp3, .MP3, .ogg or .OGG
+      existing_files.map! { |f| f.gsub(SUPPORTED_MUSIC_TYPES,"") }                         # strip extensions
+      existing_files.include?(song_filename.gsub(SUPPORTED_MUSIC_TYPES,"")) ? true : false # does extensionless song_filename exist in directory?
     end
 
   end
