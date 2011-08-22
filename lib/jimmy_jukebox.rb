@@ -202,6 +202,7 @@ module JimmyJukebox
 
     def terminate_current_song
       if @playing_pid
+        @current_song_paused = false
         # killing processes seems problematic in JRuby
         # I've tried several approaches, and nothing seems reliable
         Process.kill("SIGKILL",@playing_pid)
