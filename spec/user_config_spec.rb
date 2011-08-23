@@ -1,8 +1,15 @@
+require 'spec_helper'
 require 'fakefs/safe'
 require File.dirname(__FILE__) + '/../lib/jimmy_jukebox/user_config'
 include JimmyJukebox
 
 describe UserConfig do
+
+  before(:all) do
+    #ARGV.delete_if { |val| true }
+    ARGV.clear
+    #ARGV.pop
+  end
 
   #describe "#configure_preferences" do
   #  context "when configuration file does not exist" do
@@ -15,9 +22,6 @@ describe UserConfig do
 
   #describe "#set_default_mp3_dir" do
   #
-  #  before(:each) do
-  #    ARGV.delete_if { |val| true }
-  #  end
   #
   #end
 

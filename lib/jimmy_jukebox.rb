@@ -22,16 +22,11 @@ module JimmyJukebox
   class Jukebox
 
     require 'jimmy_jukebox/user_config'
-    require 'jimmy_jukebox/artists'
-    include Artists
 
     attr_reader :loop, :current_song_paused, :playing_pid
 
     def initialize
       @user_config = UserConfig.new
-      #set_music_players
-      generate_directories_list
-      generate_song_list
     end
 
     def play_loop
@@ -43,7 +38,7 @@ module JimmyJukebox
 
     def play
       begin
-        play_random_song
+        play_random_song(@user_config.songs)
       rescue SystemExit, Interrupt => e
         terminate_current_song
         puts "\nMusic terminated by user"
@@ -82,10 +77,10 @@ module JimmyJukebox
       @loop = false
     end
 
-    def play_random_song
+    def play_random_song(songs)
       terminate_current_song
-      raise "JimmyJukebox has no songs to play!" if @songs.length == 0
-      music_file = @songs[rand(@songs.length)]
+      raise "JimmyJukebox has no songs to play!" if songs.length == 0
+      music_file = songs[rand(songs.length)]
       play_file(music_file)
     end
 
@@ -101,65 +96,7 @@ module JimmyJukebox
       end
     end
 
-    def generate_directories_list
-      @music_directories = []
-      # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
-      if ARGV.empty?
-        @music_directories << File.expand_path(@user_config.default_music_dir)
-      elsif JAZZ_ARTISTS.keys.include?(ARGV[0].to_sym)
-        @music_directories << File.expand_path(@user_config.default_music_dir + key_to_subdir_name(ARGV[0].to_sym))
-      elsif is_a_txt_file?(ARGV[0])
-        set_music_directories_from_file
-      elsif is_a_directory?(ARGV[0])
-        @music_directories << File.expand_path(ARGV[0])
-      else
-        @music_directories << File.expand_path(@user_config.default_music_dir)
-      end
-      add_all_subdirectories
-    end
-
-    def is_a_txt_file?(whatever)
-      return false unless whatever
-      whatever.match(/.*\.txt/) ? true : false
-    end
-
-    def is_a_directory?(whatever)
-      return false unless whatever
-      File.directory?(File.expand_path(whatever)) ? true : false
-    end
-
-    def load_top_level_directories_from_file
-      File.open(@music_directories_file, "r") do |inf|
-        while (line = inf.gets)
-          line.strip!
-          @music_directories << File.expand_path(line)
-        end
-      end
-    end
-
-    def add_all_subdirectories
-      new_dirs = []
-      @music_directories.each do |dir|
-        Dir.chdir(dir)
-        new_dirs = new_dirs + Dir.glob("**/").map { |dir_name| File.expand_path(dir_name) }
-      end
-      @music_directories = @music_directories + new_dirs
-    end
-
-    def generate_song_list
-      @songs = []
-      @music_directories.each do |music_dir|
-        files = Dir.entries(File.expand_path(music_dir))
-        files.delete_if { |f| !f.match(/.*\.mp3/i) && !f.match(/.*\.ogg/i) }
-        files.map! { |f| File.expand_path(music_dir) + '/' + f }
-        @songs = @songs + files
-      end
-      raise "JimmyJukebox could not find any songs" unless @songs.length > 0
-      #songs = ["~/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
-      #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
-    end
-
-    def play_file(music_file)
+   def play_file(music_file)
       # TODO: refactor the duplicate code below into a method
       if music_file =~ /\.mp3$/i && @user_config.mp3_player
         process_status = play_file_with(music_file, @user_config.mp3_player)

@@ -36,6 +36,11 @@ module JimmyJukebox
 
     JAZZ_ARTISTS.values.each { |v| define_artist v.to_sym }
 
+    def self.sample(num_songs)
+      # create array of all possible songs
+      # loop through array and download num_songs new songs (or until end of array reached)
+    end
+
     def self.version_of_song_in_any_dir?(song_filename, save_dir)
       top_dir = UserConfig.top_music_dir(save_dir)
       @existing_files = calculate_existing_files(top_dir) if top_dir != @last_top_dir  # recalculate existing files only if different top music directory

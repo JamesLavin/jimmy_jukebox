@@ -2,9 +2,11 @@ module JimmyJukebox
 
   class UserConfig
 
-    attr_reader :mp3_player, :ogg_player
+    require 'jimmy_jukebox/artists'
+    include Artists
 
-    DEFAULT_MUSIC_DIR = File.expand_path(File.join("~","Music"))
+    attr_reader :mp3_player, :ogg_player, :songs, :music_directories
+
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
 
     def self.top_music_dir(save_dir)
@@ -17,14 +19,16 @@ module JimmyJukebox
     def initialize
       #configure_preferences
       set_music_players
-    end
+      generate_directories_list
+      generate_song_list
+     end
 
     #def configure_preferences
     #  File.exists?(File.join("~",".jimmy_jukebox","configuration"))
     #end
 
     def default_music_dir
-      DEFAULT_MUSIC_DIR
+      File.expand_path(File.join("~","Music"))
     end
 
     def set_music_players
@@ -131,6 +135,68 @@ module JimmyJukebox
       load_top_level_directories_from_file
     end
 
+    def generate_directories_list
+      @music_directories = []
+      # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
+      # puts "ARGV: " + ARGV.inspect + " (" + ARGV.class.to_s + ")"
+      if ARGV.empty?
+        @music_directories << default_music_dir
+      elsif JAZZ_ARTISTS.keys.include?(ARGV[0].to_sym)
+        @music_directories << default_music_dir + key_to_subdir_name(ARGV[0].to_sym)
+      elsif is_a_txt_file?(ARGV[0])
+        set_music_directories_from_file
+      elsif is_a_directory?(ARGV[0])
+        @music_directories << File.expand_path(ARGV[0])
+      else
+        @music_directories << default_music_dir
+      end
+      add_all_subdirectories
+    end
+
+    def is_a_txt_file?(whatever)
+      return false unless whatever
+      whatever.match(/.*\.txt/) ? true : false
+    end
+
+    def is_a_directory?(whatever)
+      return false unless whatever
+      File.directory?(File.expand_path(whatever)) ? true : false
+    end
+
+    def load_top_level_directories_from_file
+      File.open(@music_directories_file, "r") do |inf|
+        while (line = inf.gets)
+          line.strip!
+          @music_directories << File.expand_path(line)
+        end
+      end
+    end
+
+    def add_all_subdirectories
+      new_dirs = []
+      @music_directories.each do |dir|
+        Dir.chdir(dir)
+        new_dirs = new_dirs + Dir.glob("**/").map { |dir_name| File.expand_path(dir_name) }
+      end
+      @music_directories = @music_directories + new_dirs
+    end
+
+    def generate_song_list
+      @songs = []
+      @music_directories.each do |music_dir|
+        files = Dir.entries(File.expand_path(music_dir))
+        if "".respond_to?(:force_encoding)                                  # Ruby 1.8 doesn't have string encoding or String#force_encoding
+         files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
+        end
+        files.delete_if { |f| !f.match(/.*\.mp3/i) && !f.match(/.*\.ogg/i) }
+        files.map! { |f| File.expand_path(music_dir) + '/' + f }
+        @songs = @songs + files
+      end
+      raise "JimmyJukebox could not find any songs" unless @songs.length > 0
+      #songs = ["~/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
+      #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
+    end
+
   end
 
-end 
+ end 

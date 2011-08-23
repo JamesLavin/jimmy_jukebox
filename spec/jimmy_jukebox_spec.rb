@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'fakefs/safe'
 require 'jimmy_jukebox'
 include JimmyJukebox
@@ -13,6 +14,11 @@ module Kernel
 end
 
 describe Jukebox do
+
+  before(:all) do
+    #ARGV.clear
+    ARGV.pop
+  end
 
   context "with no command line parameter" do
 
@@ -30,14 +36,14 @@ describe Jukebox do
 
     it "generates a non-empty song list" do
       jj = Jukebox.new
-      jj.instance_variable_get(:@songs).should_not be_nil
-      jj.instance_variable_get(:@songs).should_not be_empty
-      jj.instance_variable_get(:@songs).length.should be > 0
+      jj.instance_variable_get(:@user_config).songs.should_not be_nil
+      jj.instance_variable_get(:@user_config).songs.should_not be_empty
+      jj.instance_variable_get(:@user_config).songs.length.should be > 0
     end
 
     it "generates a non-empty song list with only mp3 & ogg files" do
       jj = Jukebox.new
-      jj.instance_variable_get(:@songs).each do |song|
+      jj.instance_variable_get(:@user_config).songs.each do |song|
         song.should match(/.*\.mp3|.*\.ogg/i)
       end
     end

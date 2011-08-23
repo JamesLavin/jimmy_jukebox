@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'rubygems'
 require 'rspec/mocks'
 require 'fakeweb' # apparently must be required before fakefs
@@ -7,17 +8,23 @@ require 'jimmy_jukebox/song_loader'
 
 describe JimmyJukebox::SongLoader do
 
-  before(:all) do
+  #before(:all) do
     # If using fakefs without safe, make sure we're using FakeFS gem,
     # not the real file system!
     # File.directory?("/home").should be_false
+  #end
+
+  before(:all) do
+    #ARGV.delete_if { |val| true }
+    #ARGV.clear
+    ARGV.pop
   end
 
   before(:each) do
     @sl = JimmyJukebox::SongLoader
   end
 
- describe "#create_save_dir" do
+  describe "#create_save_dir" do
 
     it "should create a directory" do
       FakeFS do
