@@ -18,6 +18,7 @@ spec = Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.executables = ['play_jukebox','load_jukebox','jplay_jukebox','jload_jukebox']
   s.summary = 'plays your MP3 & OGG files and lets you easily download music'
+  s.requirements = ['spoon gem (JRuby only)']
   s.test_files = Dir.glob('spec/*.rb')
   s.version = JimmyJukebox::VERSION
   s.rubyforge_project = "jimmy_jukebox"

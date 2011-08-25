@@ -1,18 +1,37 @@
+begin
+  require 'rubygems'
+rescue LoadError
+  raise "*** You must install 'rubygems' and then install the 'spoon' gem to use JimmyJukebox on JRuby ***"
+end
+
+#require 'shellwords'
+
+if (defined?(JRUBY_VERSION) || RUBY_PLATFORM == 'java')
+  begin
+    Gem::Specification.find_by_name('spoon') # Gem.available?('spoon')
+    gem 'spoon'
+  rescue LoadError
+    puts "*** You must install the 'spoon' gem to use JimmyJukebox on JRuby ***"
+    exit
+  end
+end
+
 module JimmyJukebox
 
   # make system call and get pid so you can terminate process
   def system_yield_pid(*cmd)
     # would like to use Process.respond_to?(:fork) but JRuby mistakenly returns true
-    begin
-      pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
-        exec(*cmd)              # replaces current process with system call
-        exit! 127               # exit process and return exit status 127; should never be reached
-      end
-    rescue NotImplementedError
-      require 'rubygems'
-      require 'spoon'
+    if (defined?(JRUBY_VERSION) || RUBY_PLATFORM == 'java')
       pid = Spoon.spawnp(*cmd)
-      #raise "*** fork() not supported ***" unless Process.respond_to?(:fork)
+    else
+      begin
+        pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
+          exec(*cmd)              # replaces current process with system call
+          exit! 127               # exit process and return exit status 127; should never be reached
+        end
+      rescue NotImplementedError
+        raise "*** fork()...exec() not supported ***"
+      end
     end
     yield pid if block_given? # call block, passing in the subprocess pid
     Process.waitpid(pid)      # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
@@ -23,7 +42,7 @@ module JimmyJukebox
 
     require 'jimmy_jukebox/user_config'
 
-    attr_reader :loop, :current_song_paused, :playing_pid
+    attr_reader :loop, :current_song_paused, :playing_pid, :music_player
 
     def initialize
       @user_config = UserConfig.new
@@ -87,6 +106,8 @@ module JimmyJukebox
     def terminate_current_song
       if @playing_pid
         @current_song_paused = false
+        #`killall #{@music_player}`
+        @music_player = nil
         # killing processes seems problematic in JRuby
         # I've tried several approaches, and nothing seems reliable
         Process.kill("SIGKILL",@playing_pid)
@@ -96,7 +117,7 @@ module JimmyJukebox
       end
     end
 
-   def play_file(music_file)
+    def play_file(music_file)
       # TODO: refactor the duplicate code below into a method
       if music_file =~ /\.mp3$/i && @user_config.mp3_player
         process_status = play_file_with(music_file, @user_config.mp3_player)
@@ -110,6 +131,10 @@ module JimmyJukebox
 
     def play_file_with(music_file,player)
       puts "Press Ctrl-C to stop the music and exit this program"
+      puts "Now playing '#{music_file}'"
+      @music_player = player
+      #`#{player} #{File.expand_path(music_file).shellescape}`
+      #system_yield_pid(player, File.expand_path(Shellwords.shellescape(music_file))) do |pid|
       system_yield_pid(player, File.expand_path(music_file)) do |pid|
         @playing_pid = pid 
       end

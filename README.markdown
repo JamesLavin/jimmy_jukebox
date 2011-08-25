@@ -24,7 +24,7 @@ JRuby:
 
 - Install the `spoon` gem (necessary because JRuby doesn't enable `fork`)
 - Run `jload_jukebox` (instead of `load_jukebox`) and `jplay_jukebox` (instead of `play_jukebox`)
-- Hits an occasional glitch when skipping songs, apparently due to JRuby's unreliable implementation of Process.kill and equivalents
+- Hits an occasional glitch when skipping songs, apparently due to JRuby's unreliable implementation of Process.kill and equivalents. As [Charles Nutter once wrote](http://www.ruby-forum.com/topic/204508), "The in-proc stuff is absolutely crucial to keeping JRuby working nicely and reasonably quickly with the way Rubyists have wired all those bits together. If Rubyists had more of an eye for how JRuby does things, they probably wouldn't do "system 'ruby ...'" or launch a million subprocesses all the time."
 
 Windows:
 

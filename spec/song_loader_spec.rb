@@ -16,8 +16,8 @@ describe JimmyJukebox::SongLoader do
 
   before(:all) do
     #ARGV.delete_if { |val| true }
-    #ARGV.clear
-    ARGV.pop
+    ARGV.clear
+    #ARGV.pop
   end
 
   before(:each) do
