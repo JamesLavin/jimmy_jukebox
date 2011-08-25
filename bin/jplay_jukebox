@@ -1,5 +1,15 @@
 #!/usr/bin/env jruby
+
 require 'readline'
+
+begin
+  #Gem::Specification.find_by_name('spoon') # Gem.available?('spoon')
+  #gem 'spoon'
+  require 'spoon' if (defined?(JRUBY_VERSION) || RUBY_PLATFORM == 'java')
+rescue LoadError
+  puts "*** You must install the 'spoon' gem to use JimmyJukebox on JRuby ***"
+  exit
+end
 
 lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)

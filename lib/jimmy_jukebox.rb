@@ -1,21 +1,4 @@
-begin
-  require 'rubygems'
-rescue LoadError
-  raise "*** You must install 'rubygems' and then install the 'spoon' gem to use JimmyJukebox on JRuby ***"
-end
-
 require 'shellwords'
-
-if (defined?(JRUBY_VERSION) || RUBY_PLATFORM == 'java')
-  begin
-    #Gem::Specification.find_by_name('spoon') # Gem.available?('spoon')
-    gem 'spoon'
-    require 'spoon'
-  rescue LoadError
-    puts "*** You must install the 'spoon' gem to use JimmyJukebox on JRuby ***"
-    exit
-  end
-end
 
 module JimmyJukebox
 
