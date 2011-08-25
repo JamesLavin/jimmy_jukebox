@@ -4,12 +4,13 @@ rescue LoadError
   raise "*** You must install 'rubygems' and then install the 'spoon' gem to use JimmyJukebox on JRuby ***"
 end
 
-#require 'shellwords'
+require 'shellwords'
 
 if (defined?(JRUBY_VERSION) || RUBY_PLATFORM == 'java')
   begin
-    Gem::Specification.find_by_name('spoon') # Gem.available?('spoon')
+    #Gem::Specification.find_by_name('spoon') # Gem.available?('spoon')
     gem 'spoon'
+    require 'spoon'
   rescue LoadError
     puts "*** You must install the 'spoon' gem to use JimmyJukebox on JRuby ***"
     exit
@@ -19,14 +20,14 @@ end
 module JimmyJukebox
 
   # make system call and get pid so you can terminate process
-  def system_yield_pid(*cmd)
+  def system_yield_pid(cmd)
     # would like to use Process.respond_to?(:fork) but JRuby mistakenly returns true
     if (defined?(JRUBY_VERSION) || RUBY_PLATFORM == 'java')
-      pid = Spoon.spawnp(*cmd)
+      pid = Spoon.spawnp(cmd)
     else
       begin
         pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
-          exec(*cmd)              # replaces current process with system call
+          exec(cmd)               # replaces current process with system call
           exit! 127               # exit process and return exit status 127; should never be reached
         end
       rescue NotImplementedError
@@ -134,8 +135,8 @@ module JimmyJukebox
       puts "Now playing '#{music_file}'"
       @music_player = player
       #`#{player} #{File.expand_path(music_file).shellescape}`
-      #system_yield_pid(player, File.expand_path(Shellwords.shellescape(music_file))) do |pid|
-      system_yield_pid(player, File.expand_path(music_file)) do |pid|
+      system_yield_pid("#{player} #{File.expand_path(Shellwords.shellescape(music_file))}") do |pid|
+      #system_yield_pid(player, File.expand_path(music_file)) do |pid|
         @playing_pid = pid 
       end
     end
