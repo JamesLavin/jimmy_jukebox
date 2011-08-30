@@ -26,15 +26,15 @@ module JimmyJukebox
 
     require 'jimmy_jukebox/user_config'
 
-    attr_reader :loop, :current_song_paused, :playing_pid, :music_player
+    attr_reader :continuous_play, :current_song_paused, :playing_pid, :music_player
 
     def initialize
       @user_config = UserConfig.new
     end
 
     def play_loop
-      @loop = true
-      while @loop do
+      @continuous_play = true
+      while @continuous_play do
         play
       end
     end
@@ -77,7 +77,7 @@ module JimmyJukebox
     private
 
     def stop_looping
-      @loop = false
+      @continuous_play = false
     end
 
     def play_random_song(songs)
@@ -90,11 +90,11 @@ module JimmyJukebox
     def terminate_current_song
       if @playing_pid
         @current_song_paused = false
-        #`killall #{@music_player}`
+        `killall #{@music_player}`
         @music_player = nil
         # killing processes seems problematic in JRuby
         # I've tried several approaches, and nothing seems reliable
-        Process.kill("SIGKILL",@playing_pid)
+        #Process.kill("SIGKILL",@playing_pid)
         #Process.kill("SIGTERM",@playing_pid)
         #`kill #{@playing_pid}` if @playing_pid
         @playing_pid = nil
@@ -119,6 +119,7 @@ module JimmyJukebox
       @music_player = player
       #`#{player} #{File.expand_path(music_file).shellescape}`
       system_yield_pid("#{player} #{File.expand_path(Shellwords.shellescape(music_file))}") do |pid|
+      puts "#{player} #{File.expand_path(Shellwords.shellescape(music_file))}"
       #system_yield_pid(player, File.expand_path(music_file)) do |pid|
         @playing_pid = pid 
       end
