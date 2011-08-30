@@ -83,8 +83,7 @@ module JimmyJukebox
     def play_random_song(songs)
       terminate_current_song
       raise "JimmyJukebox has no songs to play!" if songs.length == 0
-      music_file = songs[rand(songs.length)]
-      play_file(music_file)
+      play_file( songs[rand(songs.length)] )
     end
 
     def terminate_current_song
