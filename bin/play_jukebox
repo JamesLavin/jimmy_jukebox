@@ -6,7 +6,7 @@ $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 require 'jimmy_jukebox'
 include JimmyJukebox
 
-jj = Jukebox.new
+jj = Jukebox
 
 play_loop_thread = Thread.new do
   jj.play_loop
@@ -23,7 +23,7 @@ begin
       jj.quit
       Thread.main.exit
     when "p"
-      if play_loop_thread && jj.current_song_paused
+      if play_loop_thread && jj.current_song.paused
         puts "Unpause requested"
         jj.unpause_current_song
       elsif play_loop_thread
