@@ -14,18 +14,17 @@ Linux/Unix:
 
 - Playing MP3s requires `mplayer`, `mpg123`, `mpg321`, `music123` or `play` (package name: `sox`)
 - Playing OGG files requires `mplayer`, `ogg123`, `music123` or `play` (package name: `sox`)
-- On my machine, JimmyJukebox works well with 1.9.2-p290 and 1.8.7-p352.
+- On my machine, runs well with 1.9.2-p290 and 1.8.7-p352.
 
 Mac:
 
 - No additional requirements. Should play MP3s and OGG files using built-in `afplay`
-- Currently testing. Downloading music works fine on Ruby 1.8 and 1.9. 1.9 seems to play music fine, but 1.8 seems to have problems.
 
 JRuby:
 
 - Install the `spoon` gem (necessary because JRuby doesn't enable `fork`)
 - Run `jload_jukebox` (instead of `load_jukebox`) and `jplay_jukebox` (instead of `play_jukebox`)
-- Hits an occasional glitch when skipping songs (possibly due to JRuby's unreliable implementation of Process.kill and equivalents. As [Charles Nutter once wrote](http://www.ruby-forum.com/topic/204508), "The in-proc stuff is absolutely crucial to keeping JRuby working nicely and reasonably quickly with the way Rubyists have wired all those bits together. If Rubyists had more of an eye for how JRuby does things, they probably wouldn't do "system 'ruby ...'" or launch a million subprocesses all the time.")
+- On my machine, runs well on my computer using JRuby 1.6.3 and 1.6.4.
 
 Windows:
 
