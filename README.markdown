@@ -14,6 +14,7 @@ Linux/Unix:
 
 - Playing MP3s requires `mplayer`, `mpg123`, `mpg321`, `music123` or `play` (package name: `sox`)
 - Playing OGG files requires `mplayer`, `ogg123`, `music123` or `play` (package name: `sox`)
+- On my machine, JimmyJukebox works well with 1.9.2-p290 but has problems with 1.8.7-p352. Your mileage may vary.
 
 Mac:
 
@@ -127,6 +128,8 @@ To specify a different directory, type the full directory path after `load_jukeb
 - Are you running a Windows machine? Solution: Get a real Unix/Linux/Mac machine.
 
 - Are you running JRuby? Solution: Install the `spoon` gem and use `jload_jukebox` instead of `load_jukebox` and `jplay_jukebox` instead of `play_jukebox`
+
+- Still having problems? Please let me (j a m e s AT j a m e s l a v i n DOT c o m) know your operating system, Ruby environment and problem. I learned far more about the nuances of fork, exec, system, \`\`, spawnp and related commands and how they're implemented (differently) on various versions of Ruby than I ever wanted (or imagined possible). In fact, I wasted more time struggling over these glitches than writing JimmyJukebox.
 
 ## LEGAL DISCLAIMER
 

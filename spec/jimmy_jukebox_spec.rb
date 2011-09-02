@@ -3,29 +3,20 @@ require 'fakefs/safe'
 require 'jimmy_jukebox'
 include JimmyJukebox
 
-# Override exec() to prevent songs from actually playing
-# Instead, start a brief sleep process
-module Kernel
-  alias :real_exec :exec
-
-  def exec(*cmd)
-    real_exec("sleep 0.2")  
-  end
-end
-
 describe Jukebox do
 
   before(:all) do
-    #ARGV.clear
-    ARGV.pop
+    ARGV.clear
+    #ARGV.pop
   end
 
+  let(:uc) { double('user_config').as_null_object }
+ 
   context "with no command line parameter" do
 
-    it "can be instantiated" do
-      jj = Jukebox.new
-      jj.should_not be_nil
-      jj.quit
+    it "exists" do
+      Jukebox.should_not be_nil
+      Jukebox.quit
     end
 
     #it "raises exception when no songs available"
@@ -34,102 +25,172 @@ describe Jukebox do
     #  end.should raise_error
     #end
 
+    it "has a user_config method" do
+      Jukebox.user_config.is_a?(UserConfig)
+    end
+
+    it "has a @user_config instance variable" do
+      Jukebox.instance_variable_get(:@user_config).is_a?(UserConfig)
+    end
+
     it "generates a non-empty song list" do
-      jj = Jukebox.new
-      jj.instance_variable_get(:@user_config).songs.should_not be_nil
-      jj.instance_variable_get(:@user_config).songs.should_not be_empty
-      jj.instance_variable_get(:@user_config).songs.length.should be > 0
+      Jukebox.user_config.songs.should_not be_nil
+      Jukebox.user_config.songs.should_not be_empty
+      Jukebox.user_config.songs.length.should be > 0
     end
 
     it "generates a non-empty song list with only mp3 & ogg files" do
-      jj = Jukebox.new
-      jj.instance_variable_get(:@user_config).songs.each do |song|
+      Jukebox.user_config.songs.each do |song|
         song.should match(/.*\.mp3|.*\.ogg/i)
       end
     end
 
-    it "can play" do
-      jj = Jukebox.new
-      thread = Thread.new do
-        jj.play
+    describe "#play_once" do
+
+      it "should call play_random_song" do
+        Jukebox.should_receive(:play_random_song)
+        Jukebox.play_once
       end
-      sleep 0.2
-      jj.instance_variable_get(:@playing_pid).should_not be_nil
-      jj.should_receive(:terminate_current_song)
-      jj.quit
+
+      it "should have a current_song" do
+        jj = Jukebox
+        uc.stub(:mp3_player) {"play"}
+        uc.stub(:ogg_player) {"play"}
+        thread = Thread.new do
+          Jukebox.play_once
+        end
+        sleep 0.1
+        jj.current_song.is_a?(Song)
+        thread.exit
+      end
+
+      it "should have a current_song with a music_file" do
+        jj = Jukebox
+        uc.stub(:mp3_player) {"play"}
+        uc.stub(:ogg_player) {"play"}
+        thread = Thread.new do
+          Jukebox.play_once
+        end
+        sleep 0.1
+        jj.current_song.music_file.matches?(/\.mp3$|\.ogg$/)
+        thread.exit
+      end
+
+      it "should have a player" do
+        jj = Jukebox
+        thread = Thread.new do
+          Jukebox.play_once
+        end
+        sleep 0.1
+        jj.current_song.player.should_not be_nil
+        thread.exit
+      end
+
+      it "should not have a current_song after song finishes" do
+        jj = Jukebox
+        thread = Thread.new do
+          Jukebox.play_once
+        end
+        sleep 0.3
+        jj.current_song.should be_nil
+        thread.exit
+      end
+
+      it "should have a current_song with a playing_pid" do
+        jj = Jukebox
+        thread = Thread.new do
+          jj.play_once
+        end
+        sleep 0.1
+        jj.current_song.playing_pid.should_not be_nil
+        #jj.should_receive(:terminate_current_song)
+        jj.quit
+        thread.exit
+      end
+
+      it "triggers play_random_song" do
+        Jukebox.should_receive(:play_random_song)
+        Jukebox.play_once
+      end
+
+      it "can pause the current song" do
+        thread = Thread.new do
+          Jukebox.play_once
+        end
+        sleep 0.1
+        song_1 = Jukebox.current_song.playing_pid
+        Jukebox.pause_current_song
+        song_2 = Jukebox.current_song.playing_pid
+        song_1.should == song_2
+        Jukebox.current_song.paused.should be_true
+        Jukebox.quit
+        thread.exit
+      end
+
+      it "can unpause a paused song" do
+        thread = Thread.new do
+          Jukebox.play_once
+        end
+        sleep 0.05
+        song_1 = Jukebox.playing_pid
+        Jukebox.current_song_paused.should be_false
+        Jukebox.pause_current_song
+        song_2 = Jukebox.playing_pid
+        Jukebox.current_song_paused.should be_true
+        song_2.should == song_1
+        Jukebox.unpause_current_song
+        Jukebox.current_song_paused.should be_false
+        song_3 = Jukebox.playing_pid
+        Jukebox.current_song_paused.should be_false
+        Jukebox.pause_current_song
+        song_4 = Jukebox.playing_pid
+        Jukebox.current_song_paused.should be_true
+        song_4.should == song_3
+        Jukebox.unpause_current_song
+        Jukebox.current_song_paused.should be_false
+        Jukebox.quit
+        thread.exit
+      end
+
     end
 
-    it "can play_loop" do
-      jj = Jukebox.new
-      thread = Thread.new do
-        jj.play_loop
+    describe "#play_loop" do
+
+      it "plays multiple songs" do
+        thread = Thread.new do
+          Jukebox.play_loop
+        end
+        sleep 0.1
+        song1 = Jukebox.current_song.playing_pid
+        song1.should_not be_nil
+        Jukebox.continuous_play.should be_true
+        sleep 0.2
+        song2 = Jukebox.current_song.playing_pid
+        song2.should_not be_nil
+        song2.should_not == song1
+        Jukebox.quit
+        thread.exit
       end
-      sleep 0.1
-      song1 = jj.playing_pid
-      song1.should_not be_nil
-      jj.loop.should be_true
-      sleep 0.2
-      song2 = jj.playing_pid
-      song2.should_not be_nil
-      song2.should_not == song1
-      jj.quit
+
+      it "can skip a song" do
+        thread = Thread.new do
+          Jukebox.play_loop
+        end
+        sleep 0.2
+        song_1 = Jukebox.playing_pid
+        Jukebox.skip_song
+        sleep 0.2
+        song_2 = Jukebox.playing_pid
+        Jukebox.skip_song
+        sleep 0.2
+        song_3 = Jukebox.playing_pid
+        song_1.should_not == song_2 || song_2.should_not == song_3
+        Jukebox.quit
+        thread.exit
+      end
+
     end
 
-    it "can skip a song" do
-      jj = Jukebox.new
-      thread = Thread.new do
-        jj.play_loop
-      end
-      sleep 0.2
-      song_1 = jj.playing_pid
-      jj.skip_song
-      sleep 0.2
-      song_2 = jj.playing_pid
-      jj.skip_song
-      sleep 0.2
-      song_3 = jj.playing_pid
-      song_1.should_not == song_2 || song_2.should_not == song_3
-      jj.quit
-    end
-
-    it "can pause the current song" do
-      jj = Jukebox.new
-      thread = Thread.new do
-        jj.play
-      end
-      sleep 0.1
-      song_1 = jj.playing_pid
-      jj.pause_current_song
-      song_2 = jj.playing_pid
-      song_1.should == song_2
-      jj.current_song_paused.should be_true
-      jj.quit
-    end
-
-    it "can unpause a paused song" do
-      jj = Jukebox.new
-      thread = Thread.new do
-        jj.play
-      end
-      sleep 0.05
-      song_1 = jj.playing_pid
-      jj.current_song_paused.should be_false
-      jj.pause_current_song
-      song_2 = jj.playing_pid
-      jj.current_song_paused.should be_true
-      song_2.should == song_1
-      jj.unpause_current_song
-      jj.current_song_paused.should be_false
-      song_3 = jj.playing_pid
-      jj.current_song_paused.should be_false
-      jj.pause_current_song
-      song_4 = jj.playing_pid
-      jj.current_song_paused.should be_true
-      song_4.should == song_3
-      jj.unpause_current_song
-      jj.current_song_paused.should be_false
-      jj.quit
-    end
   end
 
   context "with valid music directory as command line parameter" do
@@ -140,20 +201,20 @@ describe Jukebox do
     end
 
     it "can skip a song" do
-      jj = Jukebox.new
       thread = Thread.new do
-        jj.play_loop
+        Jukebox.play_loop
       end
-      sleep 0.2
-      song_1 = jj.playing_pid
-      jj.skip_song
-      sleep 0.2
-      song_2 = jj.playing_pid
-      jj.skip_song
-      sleep 0.2
-      song_3 = jj.playing_pid
+      sleep 0.05
+      song_1 = Jukebox.current_song.playing_pid
+      Jukebox.skip_song
+      sleep 0.05
+      song_2 = Jukebox.current_song.playing_pid
+      Jukebox.skip_song
+      sleep 0.05
+      song_3 = Jukebox.current_song.playing_pid
       song_1.should_not == song_2 || song_2.should_not == song_3
-      jj.quit
+      Jukebox.quit
+      thread.exit
     end
 
   end

@@ -36,6 +36,11 @@ begin
     when "s"
       puts "Skip song requested"
       jj.skip_song
+      #jj.terminate_current_song
+      #play_loop_thread.exit
+      #play_loop_thread = Thread.new do
+      #  jj.play_loop
+      #end
     else
       puts display_string
     end
