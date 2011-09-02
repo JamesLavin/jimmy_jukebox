@@ -204,14 +204,14 @@ describe Jukebox do
       thread = Thread.new do
         Jukebox.play_loop
       end
-      sleep 0.1
-      song_1 = Jukebox.current_song.playing_pid
+      sleep 0.2
+      song_1 = Jukebox.current_song
       Jukebox.skip_song
-      sleep 0.1
-      song_2 = Jukebox.current_song.playing_pid
+      sleep 0.2
+      song_2 = Jukebox.current_song
       Jukebox.skip_song
-      sleep 0.1
-      song_3 = Jukebox.current_song.playing_pid
+      sleep 0.2
+      song_3 = Jukebox.current_song
       song_1.should_not == song_2 || song_2.should_not == song_3
       Jukebox.quit
       thread.exit
