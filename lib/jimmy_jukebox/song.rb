@@ -77,8 +77,7 @@ module JimmyJukebox
   def system_yield_pid(player, filename)
     # would like to use Process.respond_to?(:fork) but JRuby mistakenly returns true
     if (defined?(JRUBY_VERSION) || RUBY_PLATFORM == 'java')
-      require 'spoon'
-      pid = Spoon.spawnp("#{player} \"#{filename}\"")
+      pid = Spoon.spawnp("#{player}", "#{filename}")
     else
       begin
         pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
