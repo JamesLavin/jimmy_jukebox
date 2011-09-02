@@ -4,6 +4,4 @@ require 'jimmy_jukebox/jukebox'
 
 include JimmyJukebox
 
-module JimmyJukebox
-
-end
+require 'jimmy_jukebox/user_interface'
