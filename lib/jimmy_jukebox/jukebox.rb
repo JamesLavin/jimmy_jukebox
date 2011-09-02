@@ -67,7 +67,7 @@ module JimmyJukebox
       if @current_song
         puts "Terminating #{@current_song.music_file}"
         @current_song.terminate
-        @current_song = nil
+        #@current_song = nil
       else
         puts "No song is currently playing"
       end
