@@ -72,7 +72,7 @@ describe Jukebox do
           Jukebox.play_once
         end
         sleep 0.1
-        jj.current_song.music_file.matches?(/\.mp3$|\.ogg$/)
+        jj.current_song.music_file.should match /\.mp3$|\.ogg$/
         thread.exit
       end
 
@@ -132,22 +132,22 @@ describe Jukebox do
           Jukebox.play_once
         end
         sleep 0.05
-        song_1 = Jukebox.playing_pid
-        Jukebox.current_song_paused.should be_false
+        song_1 = Jukebox.current_song
+        Jukebox.current_song.paused.should be_false
         Jukebox.pause_current_song
-        song_2 = Jukebox.playing_pid
-        Jukebox.current_song_paused.should be_true
+        song_2 = Jukebox.current_song
+        Jukebox.current_song.paused.should be_true
         song_2.should == song_1
         Jukebox.unpause_current_song
-        Jukebox.current_song_paused.should be_false
-        song_3 = Jukebox.playing_pid
-        Jukebox.current_song_paused.should be_false
+        Jukebox.current_song.paused.should be_false
+        song_3 = Jukebox.current_song
+        Jukebox.current_song.paused.should be_false
         Jukebox.pause_current_song
-        song_4 = Jukebox.playing_pid
-        Jukebox.current_song_paused.should be_true
+        song_4 = Jukebox.current_song
+        Jukebox.current_song.paused.should be_true
         song_4.should == song_3
         Jukebox.unpause_current_song
-        Jukebox.current_song_paused.should be_false
+        Jukebox.current_song.paused.should be_false
         Jukebox.quit
         thread.exit
       end
@@ -177,13 +177,13 @@ describe Jukebox do
           Jukebox.play_loop
         end
         sleep 0.2
-        song_1 = Jukebox.playing_pid
+        song_1 = Jukebox.current_song
         Jukebox.skip_song
         sleep 0.2
-        song_2 = Jukebox.playing_pid
+        song_2 = Jukebox.current_song
         Jukebox.skip_song
         sleep 0.2
-        song_3 = Jukebox.playing_pid
+        song_3 = Jukebox.current_song
         song_1.should_not == song_2 || song_2.should_not == song_3
         Jukebox.quit
         thread.exit
@@ -204,13 +204,13 @@ describe Jukebox do
       thread = Thread.new do
         Jukebox.play_loop
       end
-      sleep 0.05
+      sleep 0.1
       song_1 = Jukebox.current_song.playing_pid
       Jukebox.skip_song
-      sleep 0.05
+      sleep 0.1
       song_2 = Jukebox.current_song.playing_pid
       Jukebox.skip_song
-      sleep 0.05
+      sleep 0.1
       song_3 = Jukebox.current_song.playing_pid
       song_1.should_not == song_2 || song_2.should_not == song_3
       Jukebox.quit

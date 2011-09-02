@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'lib', 'jimmy_jukebox','version.rb')
 spec = Gem::Specification.new do |s|  
   s.name = 'jimmy_jukebox'
   s.author = 'James Lavin'
-  s.date = "2011-08-22"
+  s.date = "2011-09-01"
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec-core')
   s.add_development_dependency('rspec-mocks')
