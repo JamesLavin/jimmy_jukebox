@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 
-require File.dirname(__FILE__) + '/load_jukebox_code.rb'
+require File.dirname(__FILE__) + '/../lib/jimmy_jukebox/load_jukebox_code.rb'
