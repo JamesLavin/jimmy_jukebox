@@ -1,21 +1,17 @@
 module JimmyJukebox
 
-  module Jukebox
+  class Jukebox
 
-    class << Jukebox
+    attr_accessor :current_song, :continuous_play
 
-      attr_accessor :current_song, :continuous_play
-
-    end
-
-    def self.play_loop
+    def play_loop
       @continuous_play = true
       while @continuous_play do
         play_once
       end
     end
 
-    def self.play_once
+    def play_once
       begin
         play_random_song
       rescue SystemExit, Interrupt => e
@@ -25,12 +21,12 @@ module JimmyJukebox
       end
     end
 
-    def self.quit
+    def quit
       stop_looping
       terminate_current_song
     end
 
-    def self.skip_song
+    def skip_song
       if @current_song
         puts "Terminating #{@current_song.music_file}"
         terminate_current_song
@@ -39,23 +35,23 @@ module JimmyJukebox
       end
     end
 
-    def self.pause_current_song
+    def pause_current_song
       @current_song.pause
     end
 
-    def self.unpause_current_song
+    def unpause_current_song
       @current_song.unpause
     end
 
-    def self.stop_looping
+    def stop_looping
       @continuous_play = false
     end
 
-    def self.songs
+    def songs
       user_config.songs
     end
 
-    def self.play_random_song
+    def play_random_song
       #terminate_current_song
       raise "JimmyJukebox has no songs to play!" if songs.length == 0
       @current_song = Song.new( songs[rand(songs.length)] )
@@ -63,7 +59,7 @@ module JimmyJukebox
       @current_song = nil # ????
     end
 
-    def self.terminate_current_song
+    def terminate_current_song
       if @current_song
         puts "Terminating #{@current_song.music_file}"
         @current_song.terminate
@@ -73,7 +69,7 @@ module JimmyJukebox
       end
     end
 
-    def self.user_config
+    def user_config
       @user_config = UserConfig.new unless @user_config
       @user_config
     end

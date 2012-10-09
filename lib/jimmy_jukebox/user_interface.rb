@@ -1,6 +1,9 @@
 require 'readline'
 
-jj = Jukebox
+# Store the state of the terminal
+stty_save = `stty -g`.chomp
+
+jj = Jukebox.new
 
 play_loop_thread = Thread.new do
   jj.play_loop
@@ -35,7 +38,7 @@ begin
     end
   end
 rescue Interrupt => e
-  puts "\nMusic terminated by user"
+  system('stty', stty_save) # Restore
   exit
 end
 
