@@ -18,23 +18,23 @@ module JimmyJukebox
 
   module SongLoader
 
-    @user_config = UserConfig.new
     SUPPORTED_MUSIC_TYPES = /\.mp3$|\.ogg$/i
 
     @last_top_dir = nil            # enables returning previous result if @last_top_dir == top_dir
+
     @user_config = UserConfig.new
 
-    def self.define_artist(name)
+    def self.define_artist(name,user_config)
       metaclass.instance_eval do
         define_method(name) do
-          save_dir = @user_config.default_music_dir + value_to_subdir_name(name)
+          save_dir = user_config.default_music_dir + value_to_subdir_name(name)
           songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{value_to_yaml_file(name)}")
           download_songs(songs, save_dir)
         end
       end
     end
 
-    JAZZ_ARTISTS.values.each { |v| define_artist v.to_sym }
+    JAZZ_ARTISTS.values.each { |v| define_artist v.to_sym, @user_config }
 
     def self.sample(num_songs)
       # create array of all possible songs

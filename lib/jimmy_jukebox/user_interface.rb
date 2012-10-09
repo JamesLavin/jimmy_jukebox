@@ -1,3 +1,5 @@
+require 'rb-readline'
+
 jj = Jukebox
 
 play_loop_thread = Thread.new do
