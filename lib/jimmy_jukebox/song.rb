@@ -89,18 +89,18 @@ module JimmyJukebox
         #  exit! 127               # exit process and return exit status 127; should never be reached
         #end
       rescue NotImplementedError
-        raise "*** fork()...exec() not supported ***"
+        raise "*** Cannot play music because we found neither Spoon.spawnp (for JRuby) nor POSIX::Spawn::spawn (for MRI) ***"
       end
     end
     yield pid if block_given? # call block, passing in the subprocess pid
     #if pid
     #  puts "pid: #{pid}"
-    #  puts "current_song: #{Jukebox.current_song.inspect}"
+    #  puts "current_song: #{@music_file}"
     #else
     #  puts "No process id (pid)!"
-    #  raise "@current_song: #{Jukebox.current_song.inspect}"
+    #  raise "@current_song: #{@music_file}"
     #end
-    $?                        # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus; see: http://www.ruby-doc.org/core/classes/Process/Status.html
+    $?  # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus; see: http://www.ruby-doc.org/core/classes/Process/Status.html
   end
 
 end
