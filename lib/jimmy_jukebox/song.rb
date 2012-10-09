@@ -65,8 +65,9 @@ module JimmyJukebox
     def play_with_player
       puts "Press Ctrl-C to stop the music and exit this program"
       puts "Now playing '#{@music_file}'"
-      puts "#{@player} \"#{File.expand_path(@music_file)}\""
-      system_yield_pid(@player, File.expand_path(@music_file)) do |pid|
+      command = "#{@player} #{File.expand_path(@music_file)}"
+      puts command
+      system_yield_pid(command) do |pid|
         @playing_pid = pid 
       end
     end
@@ -74,16 +75,20 @@ module JimmyJukebox
   end
 
   # make system call and get pid so you can terminate process
-  def system_yield_pid(player, filename)
+  def system_yield_pid(command)
     # would like to use Process.respond_to?(:fork) but JRuby mistakenly returns true
     if (defined?(JRUBY_VERSION) || RUBY_PLATFORM == 'java')
-      pid = Spoon.spawnp("#{player}", "#{filename}")
+      pid = Spoon.spawnp(command)
+      Process.waitpid(pid)      # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
     else
       begin
-        pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
-          exec(player,filename)   # replaces current process with system call
-          exit! 127               # exit process and return exit status 127; should never be reached
-        end
+        require 'posix/spawn'
+        pid = POSIX::Spawn::spawn(command)
+        stat = Process::waitpid(pid)
+        #pid = fork do             # creates and runs block in subprocess (which will terminate with status 0), capture subprocess pid
+        #  exec(command)           # replaces current process with system call
+        #  exit! 127               # exit process and return exit status 127; should never be reached
+        #end
       rescue NotImplementedError
         raise "*** fork()...exec() not supported ***"
       end
@@ -96,7 +101,6 @@ module JimmyJukebox
     #  puts "No process id (pid)!"
     #  raise "@current_song: #{Jukebox.current_song.inspect}"
     #end
-    Process.waitpid(pid)      # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
     $?                        # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus; see: http://www.ruby-doc.org/core/classes/Process/Status.html
   end
 

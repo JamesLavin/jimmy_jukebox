@@ -2,6 +2,8 @@ module JimmyJukebox
 
   class UserConfig
 
+    require 'fileutils'
+
     require 'jimmy_jukebox/artists'
     include Artists
 
@@ -17,15 +19,10 @@ module JimmyJukebox
     end
 
     def initialize
-      #configure_preferences
       set_music_players
       generate_directories_list
       generate_song_list
-     end
-
-    #def configure_preferences
-    #  File.exists?(File.join("~",".jimmy_jukebox","configuration"))
-    #end
+    end
 
     def default_music_dir
       File.expand_path(File.join("~","Music"))
@@ -150,7 +147,14 @@ module JimmyJukebox
       else
         @music_directories << default_music_dir
       end
+      create_nonexistent_music_directories
       add_all_subdirectories
+    end
+
+    def create_nonexistent_music_directories
+      @music_directories.each do |md|
+        FileUtils.mkdir_p(md) unless Dir.exists?(md)
+      end
     end
 
     def is_a_txt_file?(whatever)
@@ -192,11 +196,11 @@ module JimmyJukebox
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
         @songs = @songs + files
       end
-      raise "JimmyJukebox could not find any songs" unless @songs.length > 0
+      puts "WARNING: JimmyJukebox could not find any songs" unless @songs.length > 0
       #songs = ["~/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
       #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
     end
 
   end
 
- end 
+end 

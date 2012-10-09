@@ -1,7 +1,7 @@
 lib = File.expand_path(File.dirname(__FILE__) + '/..')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 require 'jimmy_jukebox/song_loader'
-include JimmyJukebox
+include SongLoader
 
 require 'jimmy_jukebox/artists'
 include Artists
