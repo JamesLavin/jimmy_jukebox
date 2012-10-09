@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
-require 'readline'
+
+begin
+  require 'readline'
+  require 'posix/spawn'
+rescue LoadError => e
+  raise unless e.message =~ /readline|posix|spawn/
+  puts "*** You must install the 'rb-readline' and 'posix_spawn' gems to use JimmyJukebox in Ruby ***"
+  exit
+end
 
 lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)

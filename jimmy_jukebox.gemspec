@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'lib', 'jimmy_jukebox','version.rb')
 spec = Gem::Specification.new do |s|  
   s.name = 'jimmy_jukebox'
   s.author = 'James Lavin'
-  s.date = "2011-09-02"
+  s.date = "2012-10-08"
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec-core')
   s.add_development_dependency('rspec-mocks')
@@ -18,9 +18,9 @@ spec = Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.executables = ['play_jukebox','load_jukebox','jplay_jukebox','jload_jukebox']
   s.summary = 'plays your MP3 & OGG files and lets you easily download music'
-  s.requirements = ['spoon gem (JRuby only)']
   s.test_files = Dir.glob('spec/*.rb')
   s.version = JimmyJukebox::VERSION
   s.rubyforge_project = "jimmy_jukebox"
+  s.post_install_message = "I really hope you enjoy the great jazz downloadable using this gem!"
 end
 
