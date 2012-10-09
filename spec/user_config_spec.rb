@@ -1,14 +1,13 @@
 require 'spec_helper'
-require 'fakefs/safe'
 require File.dirname(__FILE__) + '/../lib/jimmy_jukebox/user_config'
 include JimmyJukebox
 
 describe UserConfig do
 
+  include FakeFS::SpecHelpers
+
   before(:all) do
-    #ARGV.delete_if { |val| true }
     ARGV.clear
-    #ARGV.pop
   end
 
   #describe "#configure_preferences" do
@@ -28,23 +27,23 @@ describe UserConfig do
   describe "#top_music_dir" do
 
     it "should parse '~/Music'" do
-      UserConfig.top_music_dir("~/Music").should == "/home/james/Music"
+      UserConfig.top_music_dir("~/Music").should == "/home/xavier/Music"
     end
 
-    it "should parse '/home/james/Music'" do
-      UserConfig.top_music_dir("/home/james/Music").should == "/home/james/Music"
+    it "should parse '/home/xavier/Music'" do
+      UserConfig.top_music_dir("/home/xavier/Music").should == "/home/xavier/Music"
     end
 
     it "should parse '~/Music/Rock/The_Eagles/hotel_california.mp3'" do
-      UserConfig.top_music_dir("~/Music/Rock/The_Eagles/hotel_california.mp3").should == "/home/james/Music"
+      UserConfig.top_music_dir("~/Music/Rock/The_Eagles/hotel_california.mp3").should == "/home/xavier/Music"
     end
 
     it "should parse '~/Music/Rock/The Eagles/Hotel California.mp3'" do
-      UserConfig.top_music_dir("~/Music/Rock/The Eagles/Hotel California.mp3").should == "/home/james/Music"
+      UserConfig.top_music_dir("~/Music/Rock/The Eagles/Hotel California.mp3").should == "/home/xavier/Music"
     end
 
     it "should parse '~/My Music'" do
-      UserConfig.top_music_dir("~/My Music").should == "/home/james/My Music"
+      UserConfig.top_music_dir("~/My Music").should == "/home/xavier/My Music"
     end
 
   end
@@ -55,8 +54,9 @@ describe UserConfig do
       ARGV.delete_if { |val| true }
     end
 
+    let(:uc) { UserConfig.new }
+
     it "does not complain when ogg123 & mpg123 both installed" do
-      uc = UserConfig.new
       uc.should_receive(:`).with("which ogg123").and_return("/usr/bin/ogg123")
       uc.should_receive(:`).with("which mpg123").and_return("/usr/bin/mpg123")
       uc.should_not_receive(:puts)
@@ -66,7 +66,6 @@ describe UserConfig do
     end
 
     it "does not complain when ogg123 & mpg321 both installed but not mpg123" do
-      uc = UserConfig.new
       uc.should_receive(:`).with("which ogg123").and_return("/usr/bin/ogg123")
       uc.should_receive(:`).with("which mpg123").and_return("")
       uc.should_receive(:`).with("which mpg321").and_return("/usr/bin/mpg321")
@@ -77,7 +76,6 @@ describe UserConfig do
     end
 
     it "complains when ogg123 installed but mpg123, mpg321, music123, afplay & play not installed" do
-      uc = UserConfig.new
       uc.instance_variable_set(:@ogg_player, nil)
       uc.instance_variable_set(:@mp3_player, nil)
       uc.should_receive(:`).at_least(:once).with("which ogg123").and_return("/usr/bin/ogg123")
@@ -94,7 +92,6 @@ describe UserConfig do
     end
 
     it "complains when mpg123 installed but ogg123, mpg321, music123, afplay & play not installed" do
-      uc = UserConfig.new
       uc.instance_variable_set(:@ogg_player, nil)
       uc.instance_variable_set(:@mp3_player, nil)
       uc.should_receive(:`).at_least(:once).with("which ogg123").and_return("")
@@ -110,7 +107,6 @@ describe UserConfig do
     end
 
     it "complains when mpg321 installed but mpg123, music123, ogg123, afplay & play not installed" do
-      uc = UserConfig.new
       uc.instance_variable_set(:@ogg_player, nil)
       uc.instance_variable_set(:@mp3_player, nil)
       uc.should_receive(:`).at_least(:once).with("which ogg123").and_return("")
@@ -127,7 +123,6 @@ describe UserConfig do
     end
 
     it "prints message and exits when mpg123, mpg321, ogg123, music123, afplay & play all not installed" do
-      uc = UserConfig.new
       uc.instance_variable_set(:@ogg_player, nil)
       uc.instance_variable_set(:@mp3_player, nil)
       uc.should_receive(:`).at_least(:once).with("which ogg123").and_return("")

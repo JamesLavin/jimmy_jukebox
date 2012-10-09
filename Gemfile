@@ -1,3 +1,5 @@
+source 'https://rubygems.org'
+
 platforms :jruby do
   gem "spoon"
 end

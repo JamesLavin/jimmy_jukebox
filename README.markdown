@@ -24,12 +24,12 @@ JRuby:
 
 - Install the `spoon` gem (necessary because JRuby doesn't enable `fork`)
 - Run `jload_jukebox` (instead of `load_jukebox`) and `jplay_jukebox` (instead of `play_jukebox`)
-- On my machine, runs well on my computer using JRuby 1.6.3 and 1.6.4.
+- Runs well on my computer using JRuby 1.6.3 and 1.6.4.
 
 Windows:
 
-- JimmyJukebox has not been tested on Windows and probably will not work "as is," though we hope to get it working soon
-- You should install `mplayer`
+- JimmyJukebox has not been tested on Windows and probably will not work "as is."
+- You could try running it after installing `mplayer`
 
 ## QUICK-START INSTRUCTIONS
 
