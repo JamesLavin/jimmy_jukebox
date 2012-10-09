@@ -179,8 +179,7 @@ module JimmyJukebox
     def add_all_subdirectories
       new_dirs = []
       @music_directories.each do |dir|
-        Dir.chdir(dir)
-        new_dirs = new_dirs + Dir.glob("**/").map { |dir_name| File.expand_path(dir_name) }
+        new_dirs = new_dirs + Dir.glob(File.join(dir,"**/")).map { |dir_name| File.expand_path(dir_name) }
       end
       @music_directories = @music_directories + new_dirs
     end
