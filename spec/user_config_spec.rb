@@ -56,6 +56,28 @@ describe UserConfig do
 
     let(:uc) { UserConfig.new }
 
+    context "with no songs" do
+
+      it "finds no songs" do
+        uc.songs.length.should == 0
+      end
+
+    end
+
+    context "with songs" do
+
+      before do
+        FileUtils.mkdir_p "/home/xavier/Music"
+        FileUtils.touch "/home/xavier/Music/Yellow_Submarine.mp3"
+      end
+
+      it "finds songs" do
+        uc.songs.should_not be_empty
+        uc.songs.length.should == 1
+      end
+
+    end
+
     it "does not complain when ogg123 & mpg123 both installed" do
       uc.should_receive(:`).with("which ogg123").and_return("/usr/bin/ogg123")
       uc.should_receive(:`).with("which mpg123").and_return("/usr/bin/mpg123")

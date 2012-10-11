@@ -7,7 +7,8 @@ module JimmyJukebox
     require 'jimmy_jukebox/artists'
     include Artists
 
-    attr_reader :mp3_player, :ogg_player, :songs, :music_directories
+    attr_reader :mp3_player, :ogg_player, :music_directories
+    attr_accessor :songs
 
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
 
@@ -19,6 +20,7 @@ module JimmyJukebox
     end
 
     def initialize
+      self.songs = []
       set_music_players
       generate_directories_list
       generate_song_list
@@ -185,7 +187,6 @@ module JimmyJukebox
     end
 
     def generate_song_list
-      @songs = []
       @music_directories.each do |music_dir|
         files = Dir.entries(File.expand_path(music_dir))
         if "".respond_to?(:force_encoding)                                  # Ruby 1.8 doesn't have string encoding or String#force_encoding
@@ -193,9 +194,9 @@ module JimmyJukebox
         end
         files.delete_if { |f| !f.match(/.*\.mp3/i) && !f.match(/.*\.ogg/i) }
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
-        @songs = @songs + files
+        files.each { |f| songs << f }
       end
-      puts "WARNING: JimmyJukebox could not find any songs" unless @songs.length > 0
+      puts "WARNING: JimmyJukebox could not find any songs" unless songs.length > 0
       #songs = ["~/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
       #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
     end
