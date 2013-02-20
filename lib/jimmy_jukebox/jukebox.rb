@@ -4,34 +4,34 @@ module JimmyJukebox
 
   class Jukebox
 
-    class NoSongException < Exception; end
+    class NoNewSongException < Exception; end
+    class NoCurrentSongException < Exception; end
 
     attr_accessor :current_song, :continuous_play
+    attr_writer   :user_config
 
-    def initialize(user_config = UserConfig.new)
-      @user_config = user_config
+    def initialize(new_user_config = UserConfig.new, continuous_play = true)
+      self.user_config = new_user_config
+      self.continuous_play = continuous_play
     end
 
     def play_loop
-      continuous_play = true
       while continuous_play do
         begin
           play_once
-        rescue NoSongException => e
+        rescue NoNewSongException => e
           puts e.message
           sleep 1
         end
       end
+    rescue SystemExit, Interrupt => e
+      terminate_current_song
+      puts "\nMusic terminated by user"
+      exit
     end
 
     def play_once
-      begin
-        play_random_song
-      rescue SystemExit, Interrupt => e
-        terminate_current_song
-        puts "\nMusic terminated by user"
-        exit
-      end
+      play_random_song
     end
 
     def quit
@@ -41,10 +41,10 @@ module JimmyJukebox
 
     def skip_song
       if current_song
-        puts "Terminating #{current_song.music_file}"
+        puts "Skipping #{current_song.music_file}"
         terminate_current_song
       else
-        raise "No current_song"
+        raise NoCurrentSongException, "No current_song"
       end
     end
 
@@ -57,7 +57,7 @@ module JimmyJukebox
     end
 
     def stop_looping
-      continuous_play = false
+      self.continuous_play = false
     end
 
     def songs
@@ -65,19 +65,19 @@ module JimmyJukebox
     end
 
     def play_random_song
-      raise NoSongException, "JimmyJukebox can't find any songs to play!" if songs.length == 0
-      current_song = Song.new( songs[rand(songs.length)] )
+      raise NoNewSongException, "JimmyJukebox can't find any songs to play!" if songs.length == 0
+      self.current_song = Song.new( songs[rand(songs.length)] )
       current_song.play(user_config)
-      current_song = nil # ????
+      #current_song = nil # ????
     end
 
     def terminate_current_song
       if current_song
         puts "Terminating #{current_song.music_file}"
         current_song.terminate
-        #current_song = nil
+        self.current_song = nil
       else
-        puts "No song is currently playing"
+        raise NoCurrentSongException, "No current_song"
       end
     end
 

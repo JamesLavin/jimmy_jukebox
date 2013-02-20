@@ -142,7 +142,7 @@ describe Jukebox do
           jb.pause_current_song
           song_2 = jb.current_song.playing_pid
           song_1.should == song_2
-          jb.current_song.paused.should be_true
+          jb.current_song.paused?.should be_true
           jb.quit
           thread.exit
         end
@@ -153,21 +153,21 @@ describe Jukebox do
           end
           sleep 0.05
           song_1 = jb.current_song
-          jb.current_song.paused.should be_false
+          jb.current_song.paused?.should be_false
           jb.pause_current_song
           song_2 = jb.current_song
-          jb.current_song.paused.should be_true
+          jb.current_song.paused?.should be_true
           song_2.should == song_1
           jb.unpause_current_song
-          jb.current_song.paused.should be_false
+          jb.current_song.paused?.should be_false
           song_3 = jb.current_song
-          jb.current_song.paused.should be_false
+          jb.current_song.paused?.should be_false
           jb.pause_current_song
           song_4 = jb.current_song
-          jb.current_song.paused.should be_true
+          jb.current_song.paused?.should be_true
           song_4.should == song_3
           jb.unpause_current_song
-          jb.current_song.paused.should be_false
+          jb.current_song.paused?.should be_false
           jb.quit
           thread.exit
         end

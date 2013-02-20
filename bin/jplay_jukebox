@@ -1,12 +1,22 @@
 #!/usr/bin/env jruby
 
+if RUBY_ENGINE !~ /jruby/
+  puts "jplay_jukebox is intended for use with JRuby. Please try 'play_jukebox'"
+end
+
 begin
   require 'readline'
   require 'spoon'
 rescue LoadError => e
-  raise unless e.message =~ /readline|spoon/
-  puts "*** You must install the 'spoon' gem to use JimmyJukebox on JRuby ***"
-  exit
+  if e.message =~ /readline/
+    puts "*** You must install the 'readline' gem to use JimmyJukebox on JRuby ***"
+    exit
+  elsif e.message =~ /spoon/
+    puts "*** You must install the 'spoon' gem to use JimmyJukebox on JRuby ***"
+    exit
+  else
+    raise
+  end
 end
 
 lib = File.expand_path(File.dirname(__FILE__) + '/../lib')

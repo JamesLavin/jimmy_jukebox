@@ -35,25 +35,25 @@ describe Song do
 
   end
 
-  describe "#paused" do
+  describe "#paused?" do
 
     before(:each) do
       @song = Song.new("~/Music/JAZZ/art_tatum.mp3")
     end
 
     it "is initially not paused" do
-      @song.paused.should be_false
+      @song.paused?.should be_false
     end
 
     it "is paused after calling #pause" do
       @song.pause
-      @song.paused.should be_true
+      @song.paused?.should be_true
     end
 
     it "is unpaused after calling #pause and #unpause" do
       @song.pause
       @song.unpause
-      @song.paused.should be_false
+      @song.paused?.should be_false
     end
 
   end

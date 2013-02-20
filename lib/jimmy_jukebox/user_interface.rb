@@ -1,5 +1,7 @@
 require 'readline'
 
+class NoPlayLoopThreadException < Exception; end
+
 # Store the state of the terminal
 stty_save = `stty -g`.chomp
 
@@ -20,14 +22,13 @@ begin
       jj.quit
       Thread.main.exit
     when "p"
-      if play_loop_thread && jj.current_song.paused
+      raise NoPlayLoopThreadException, "Can't find play_loop_thread" unless play_loop_thread
+      if jj.current_song.paused?
         puts "Unpause requested"
         jj.unpause_current_song
-      elsif play_loop_thread
+      else
         puts "Pause requested"
         jj.pause_current_song
-      else
-        raise "Can't find play_loop_thread"
       end
       puts display_string
     when "s"
