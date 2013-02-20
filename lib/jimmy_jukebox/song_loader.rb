@@ -94,6 +94,10 @@ module JimmyJukebox
         end
       end
       check_downloaded_song_size(song_pathname)
+      rescue OpenURI::HTTPError
+        p "Warning: Could not download #{song_url}"
+        File.delete(song_pathname) if File.exists?(song_pathname)
+        return nil
     end
 
     def self.check_downloaded_song_size(song_pathname)
