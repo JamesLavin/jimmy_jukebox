@@ -80,9 +80,10 @@ module JimmyJukebox
       end
     end
 
-    def play(user_config)
+    def play(user_config, jukebox)
       set_player(user_config)
       process_status = play_with_player
+      jukebox.auto_play = true
       process_status.exitstatus.to_i == 0 ? (self.playing_pid = nil) : (raise SongTerminatedBadlyException, "Experienced a problem playing a song")
     end
 

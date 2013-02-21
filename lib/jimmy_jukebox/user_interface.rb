@@ -10,21 +10,21 @@ end
 
 def display_options_after_delay
   sleep 0.1
-  p "Press 'p' to (un)pause, 'q' to quit, or 's' to skip the song"
+  p "Press 'p' to (un)pause, 'q' to quit, 'r' for replay previous song, or 's' to skip this song"
 end
 
 begin
   class NoPlayLoopThreadException < Exception; end
-  display_options_after_delay
 
   while true do
+    display_options_after_delay
     line = Readline.readline('> ', true)
     case line.strip
-    when "q"
+    when "q", "Q"
       p "Quit requested"
       jj.quit
       Thread.main.exit
-    when "p"
+    when "p", "P"
       raise NoPlayLoopThreadException, "Can't find play_loop_thread" unless play_loop_thread
       if jj.current_song.paused?
         p "Unpause requested"
@@ -34,15 +34,18 @@ begin
         p "To unpause, enter 'p' again"
         jj.pause_current_song
       end
-    when "s"
+    when "r", "R"
+      p "Replay previous song requested"
+      jj.replay_previous_song
+    when "s", "S"
       p "Skip song requested"
       jj.skip_song
     else
       p "#{line.strip} is not a valid response"
     end
-    display_options_after_delay
   end
-rescue Interrupt => e
+rescue Interrupt, SystemExit => e
+  p "JimmyJukebox closed by user request. Bye!"
   system('stty', stty_save) # Restore original terminal state
   exit
 end

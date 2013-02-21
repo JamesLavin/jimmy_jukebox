@@ -1,8 +1,11 @@
 #!/usr/bin/env jruby
 
-if RUBY_ENGINE !~ /jruby/
-  puts "jplay_jukebox is intended for use with JRuby. Please try 'play_jukebox'"
+if RUBY_ENGINE =~ /jruby/
+  p "jplay_jukebox is intended for use with JRuby. Please try 'play_jukebox'"
   exit
+else
+  p "jplay_jukebox relies on 'readline,' which is very buggy in JRuby."
+  p "We recommend you run JimmyJukebox on regular (MRI) Ruby."
 end
 
 begin
