@@ -7,8 +7,8 @@ module JimmyJukebox
     require 'jimmy_jukebox/artists'
     include Artists
 
-    attr_reader :mp3_player, :ogg_player, :music_directories
-    attr_accessor :songs
+    attr_writer   :music_directories
+    attr_accessor :songs, :ogg_player, :mp3_player
 
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
 
@@ -33,8 +33,8 @@ module JimmyJukebox
     def set_music_players
       set_ogg_player
       set_mp3_player
-      no_player_configured if !@ogg_player && !@mp3_player
-      warn_about_partial_functionality if !@ogg_player || !@mp3_player
+      no_player_configured unless ogg_player || mp3_player
+      warn_about_partial_functionality if !ogg_player || !mp3_player
     end
 
     def no_player_configured
@@ -43,57 +43,61 @@ module JimmyJukebox
     end
 
     def warn_about_partial_functionality
-      if @ogg_player && !@mp3_player
+      if ogg_player && !mp3_player
         puts "*** YOU CANNOT PLAY MP3S -- YOU MIGHT WANT TO INSTALL MPG123 OR MPG321 ***"
-      elsif @mp3_player && !@ogg_player
+      elsif mp3_player && !ogg_player
         puts "*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL OGG123 ***"
       end
     end
 
     def set_ogg_player
       if ogg123_exists?
-        @ogg_player = "ogg123"
+        self.ogg_player = "ogg123"
         return
       elsif music123_exists?
-        @ogg_player = "music123"
+        self.ogg_player = "music123"
         return
       elsif afplay_exists?
-        @ogg_player = "afplay"
+        self.ogg_player = "afplay"
         return
       elsif mplayer_exists?
-        @ogg_player = "mplayer -nolirc -noconfig all"
+        self.ogg_player = "mplayer -nolirc -noconfig all"
       elsif play_exists?
-        @ogg_player = "play"
+        self.ogg_player = "play"
       #elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
-      #  @ogg_player = "afplay"
+      #  ogg_player = "afplay"
       #  return
       #elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
-      #  @ogg_player = "afplay"
+      #  ogg_player = "afplay"
+      else
+        raise NoOggPlayerFoundException, "Could not find an Ogg Vorbis player"
       end
     end
 
     def set_mp3_player
       if mpg123_exists?
-        @mp3_player = "mpg123"
+        self.mp3_player = "mpg123"
         return
       elsif mpg321_exists?
-        @mp3_player = "mpg321"
+        self.mp3_player = "mpg321"
         return
       elsif music123_exists?
-        @mp3_player = "music123"
+        self.mp3_player = "music123"
         return
       elsif afplay_exists?
-        @mp3_player = "afplay"
+        self.mp3_player = "afplay"
         return
       elsif mplayer_exists?
-        @mp3_player = "mplayer -nolirc -noconfig all"
+        self.mp3_player = "mplayer -nolirc -noconfig all"
       elsif play_exists?
-        @mp3_player = "play"
+        self.mp3_player = "play"
       #elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
-      #  @mp3_player = "afplay"
+      #  mp3_player = "afplay"
       #  return
       #elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
-      #  @mp3_player = "afplay"
+      #  mp3_player = "afplay"
+      else
+        raise NoMP3PlayerFoundException, "Could not find an MP3 player"
       end
     end
 
@@ -134,27 +138,30 @@ module JimmyJukebox
       load_top_level_directories_from_file
     end
 
+    def music_directories
+      @music_directories ||= []
+    end
+
     def generate_directories_list
-      @music_directories = []
       # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
       # puts "ARGV: " + ARGV.inspect + " (" + ARGV.class.to_s + ")"
       if ARGV.empty?
-        @music_directories << default_music_dir
+        music_directories << default_music_dir
       elsif JAZZ_ARTISTS.keys.include?(ARGV[0].to_sym)
-        @music_directories << default_music_dir + key_to_subdir_name(ARGV[0].to_sym)
+        music_directories << default_music_dir + key_to_subdir_name(ARGV[0].to_sym)
       elsif is_a_txt_file?(ARGV[0])
         set_music_directories_from_file
       elsif is_a_directory?(ARGV[0])
-        @music_directories << File.expand_path(ARGV[0])
+        music_directories << File.expand_path(ARGV[0])
       else
-        @music_directories << default_music_dir
+        music_directories << default_music_dir
       end
       create_nonexistent_music_directories
       add_all_subdirectories
     end
 
     def create_nonexistent_music_directories
-      @music_directories.each do |md|
+      music_directories.each do |md|
         FileUtils.mkdir_p(md) unless Dir.exists?(md)
       end
     end
@@ -173,21 +180,21 @@ module JimmyJukebox
       File.open(@music_directories_file, "r") do |inf|
         while (line = inf.gets)
           line.strip!
-          @music_directories << File.expand_path(line)
+          music_directories << File.expand_path(line)
         end
       end
     end
 
     def add_all_subdirectories
       new_dirs = []
-      @music_directories.each do |dir|
+      music_directories.each do |dir|
         new_dirs = new_dirs + Dir.glob(File.join(dir,"**/")).map { |dir_name| File.expand_path(dir_name) }
       end
-      @music_directories = @music_directories + new_dirs
+      self.music_directories = music_directories + new_dirs
     end
 
     def generate_song_list
-      @music_directories.each do |music_dir|
+      music_directories.each do |music_dir|
         files = Dir.entries(File.expand_path(music_dir))
         if "".respond_to?(:force_encoding)                                  # Ruby 1.8 doesn't have string encoding or String#force_encoding
          files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
