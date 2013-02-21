@@ -87,8 +87,8 @@ module JimmyJukebox
     end
 
     def play_with_player
-      puts "Press Ctrl-C to stop the music and exit this program"
-      puts "Now playing '#{music_file}'"
+      p "Now playing '#{music_file}'"
+      p "Press Ctrl-C to stop the music and exit this program"
       music_file_path = File.expand_path(music_file)
       system_yield_pid(player, music_file_path) do |pid|
         self.playing_pid = pid 

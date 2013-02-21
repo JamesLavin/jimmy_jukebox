@@ -26,7 +26,7 @@ module JimmyJukebox
       end
     rescue SystemExit, Interrupt => e
       terminate_current_song
-      puts "\nMusic terminated by user"
+      p "\nJimmyJukebox closed by user request. Bye!"
       exit
     end
 
@@ -41,7 +41,7 @@ module JimmyJukebox
 
     def skip_song
       if current_song
-        puts "Skipping #{current_song.music_file}"
+        p "Skipping #{current_song.music_file}"
         terminate_current_song
       else
         raise NoCurrentSongException, "No current_song"
@@ -68,12 +68,11 @@ module JimmyJukebox
       raise NoNewSongException, "JimmyJukebox can't find any songs to play!" if songs.length == 0
       self.current_song = Song.new( songs[rand(songs.length)] )
       current_song.play(user_config)
-      #current_song = nil # ????
     end
 
     def terminate_current_song
       if current_song
-        puts "Terminating #{current_song.music_file}"
+        p "Terminating #{current_song.music_file}"
         current_song.terminate
         self.current_song = nil
       else
