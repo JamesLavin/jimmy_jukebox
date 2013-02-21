@@ -16,22 +16,11 @@ module JimmyJukebox
     end
 
     def play_loop
-      while continuous_play do
-        begin
-          play_once
-        rescue NoNewSongException => e
-          puts e.message
-          sleep 1
-        end
-      end
+      play_random_song while continuous_play
     rescue SystemExit, Interrupt => e
       terminate_current_song
       p "\nJimmyJukebox closed by user request. Bye!"
       exit
-    end
-
-    def play_once
-      play_random_song
     end
 
     def quit
