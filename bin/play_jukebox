@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 
+if RUBY_ENGINE =~ /jruby/
+  puts "play_jukebox is not intended for use with JRuby. Please try 'jplay_jukebox'"
+  exit
+end
+
 begin
   require 'readline'
 rescue LoadError => e

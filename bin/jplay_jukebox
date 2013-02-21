@@ -2,6 +2,7 @@
 
 if RUBY_ENGINE !~ /jruby/
   puts "jplay_jukebox is intended for use with JRuby. Please try 'play_jukebox'"
+  exit
 end
 
 begin
