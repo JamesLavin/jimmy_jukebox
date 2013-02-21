@@ -9,7 +9,7 @@ begin
   require 'spoon'
 rescue LoadError => e
   if e.message =~ /readline/
-    puts "*** You must install the 'readline' gem to use JimmyJukebox on JRuby ***"
+    puts "*** You must install 'readline' to use JimmyJukebox on JRuby ***"
     exit
   elsif e.message =~ /spoon/
     puts "*** You must install the 'spoon' gem to use JimmyJukebox on JRuby ***"
@@ -19,7 +19,7 @@ rescue LoadError => e
   end
 end
 
-lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
+lib = File.expand_path('../lib', File.dirname(__FILE__))
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 require 'jimmy_jukebox'
 include JimmyJukebox

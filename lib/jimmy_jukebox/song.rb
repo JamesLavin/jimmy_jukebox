@@ -94,7 +94,7 @@ module JimmyJukebox
         self.playing_pid = pid 
       end
       Process.waitpid(playing_pid) # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
-      $? # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus; see: http://www.ruby-doc.org/core/classes/Process/Status.html
+      $? # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus
     end
 
   end

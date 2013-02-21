@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rubygems'
 require 'rspec/mocks'
 require 'fakeweb' # apparently must be required before fakefs
 FakeWeb.allow_net_connect = false
