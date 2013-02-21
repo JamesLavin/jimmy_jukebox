@@ -10,7 +10,9 @@ module Artists
   :cc   => "charlie_christian",
   :cp   => "charlie_parker",
   :ch   => "coleman_hawkins",
+  :chjb => "clifford_hayes_jug_blowers",
   :cb   => "count_basie",
+  :dx   => "dixieland",
   :dg   => "dizzy_gillespie",
   :dr   => "django_reinhardt",
   :de   => "duke_ellington",
@@ -37,7 +39,7 @@ module Artists
   end
 
   def value_to_yaml_file(value)
-    return value.to_s.capitalize unless value.to_s.match(/_/)
+    return value.to_s.capitalize + '.yml' unless value.to_s.match(/_/)
     value.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
   end
 
