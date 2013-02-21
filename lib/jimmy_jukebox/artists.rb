@@ -1,6 +1,7 @@
 module Artists
 
   JAZZ_ARTISTS = {
+  :acb  => "archibald_camp_banjo",
   :at   => "art_tatum",
   :as   => "artie_shaw",
   :bg   => "benny_goodman",
