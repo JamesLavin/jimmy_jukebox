@@ -121,7 +121,7 @@ module JimmyJukebox
       #system_yield_pid(player, music_file_path) do |pid|
       #  self.playing_pid = pid 
       #end
-      #if running_jruby?
+      #if $running_jruby
         Process.waitpid(playing_pid) # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
       #else
       #  Process::waitpid(playing_pid)
@@ -132,12 +132,8 @@ module JimmyJukebox
 
   end
 
-  def running_jruby?
-    defined?(JRUBY_VERSION) || RUBY_ENGINE == 'jruby' || RUBY_PLATFORM == 'java'
-  end
-
   def run_command(command, arg)
-    if running_jruby?
+    if $running_jruby
       pid = Spoon.spawnp(command,arg)
     else
       begin
@@ -161,7 +157,7 @@ module JimmyJukebox
   # make system call and get pid so you can terminate process
   def system_yield_pid(command,arg)
     # would like to use Process.respond_to?(:fork) but JRuby mistakenly returns true
-    if running_jruby?
+    if $running_jruby
       pid = Spoon.spawnp(command,arg)
     else
       begin

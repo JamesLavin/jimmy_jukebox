@@ -26,6 +26,7 @@ module Artists
   :lh   => "lionel_hampton",
   :md   => "miles_davis",
   :odjb => "original_dixieland_jazz_band",
+  :rt   => "ragtime"
   :rn   => "red_norvo",
   :sb   => "sidney_bechet"
   }

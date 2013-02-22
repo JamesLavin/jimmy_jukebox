@@ -1,12 +1,14 @@
 #!/usr/bin/env ruby
 
-if defined?(JRUBY_VERSION) || RUBY_ENGINE == 'jruby' || RUBY_PLATFORM == 'java'
+$running_jruby = defined?(JRUBY_VERSION) || (defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby') || RUBY_PLATFORM == 'java'
+
+if $running_jruby
   begin
     require 'spoon'
     require 'readline'
   rescue LoadError => e
     if e.message =~ /spoon/
-      p "*** You must install the 'spoon' gem to use JimmyJukebox on JRuby ***"
+      p "*** You must run 'gem install spoon' before using JimmyJukebox on JRuby ***"
       exit
     elsif e.message =~ /readline/
       p "*** You must install 'readline' to use JimmyJukebox on JRuby ***"
@@ -24,7 +26,7 @@ else
       p "*** You must install 'readline' or the 'rb-readline' gem to use JimmyJukebox in Ruby ***"
       exit
     elsif e.message =~ /posix/ || e.message =~ /spawn/
-      p "*** You must install the 'posix-spawn' gem to use JimmyJukebox in Ruby ***"
+      p "*** You must run 'gem install posix-spawn' before using JimmyJukebox in Ruby ***"
       exit
     else
       raise

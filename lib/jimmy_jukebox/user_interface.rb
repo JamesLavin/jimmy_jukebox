@@ -51,7 +51,7 @@ user_input_thread = Thread.new do
   rescue Interrupt, SystemExit => e
     p "JimmyJukebox closed by user request. Bye!"
     jj.quit
-    system('stty', stty_save) unless RUBY_ENGINE == 'jruby' # Restore original terminal state
+    system('stty', stty_save) unless $running_jruby # Restore original terminal state
     exit
   end
 end

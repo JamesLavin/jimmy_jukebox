@@ -15,7 +15,7 @@ Linux/Unix:
 - Playing MP3s requires `mplayer`, `mpg123`, `mpg321`, `music123` or `play` (package name: `sox`)
 - Playing OGG files requires `mplayer`, `ogg123`, `music123` or `play` (package name: `sox`)
 - Requires the `posix-spawn` Ruby gem
-- On my machine, runs well with 1.9.2-p290 and 1.8.7-p352.
+- On my machine, runs well with 1.9.2-p320 and 1.9.3-p327
 
 Mac:
 
@@ -24,7 +24,7 @@ Mac:
 JRuby:
 
 - Install the `spoon` gem (necessary because JRuby doesn't enable `fork` or run the `posix-spawn` gem)
-- Runs well on my computer using JRuby 1.6.3, 1.6.4, 1.7.3.
+- Runs well on my computer using JRuby 1.7.1 and 1.7.3.
 
 Windows:
 
@@ -44,6 +44,7 @@ Warning: Songs average approximately 2.5MB or 3MB.
 
 To download music, use this on the command line:
 
+    Archibald Camp (banjo):       "load_jukebox acb"  ( 20 songs) (not jazz -- OLD banjo songs)
     Art Tatum:                    "load_jukebox at"   (168 songs)
     Artie Shaw:                   "load_jukebox as"   (580 songs)
     Bennie Moten:                 "load_jukebox bm"   (107 songs)
@@ -51,9 +52,11 @@ To download music, use this on the command line:
     Billie Holiday:               "load_jukebox bh"   ( 63 songs)
     Bix Beiderbecke:              "load_jukebox bb"   ( 95 songs)
     Charlie Christian:            "load_jukebox cc"   (  8 songs)
-    Charlie Parker:               "load_jukebox cp"   ( 27 songs) [Archive.org has apparently removed many of these]
+    Charlie Parker:               "load_jukebox cp"   ( 34 songs) [Archive.org has apparently removed many of these]
+    Clifford Hayes Jug Blowers:   "load_jukebox chjb" ( 15 songs)
     Coleman Hawkins:              "load_jukebox ch"   ( 16 songs)
     Count Basie:                  "load_jukebox cb"   ( 44 songs)
+    Dixieland (various artists):  "load_jukebox dx"   (  8 songs)
     Dizzy Gillespie:              "load_jukebox dg"   (  3 songs)
     Django Reinhardt:             "load_jukebox dr"   ( 75 songs)
     Duke Ellington:               "load_jukebox de"   (158 songs)
@@ -66,6 +69,7 @@ To download music, use this on the command line:
     Louis Armstrong:              "load_jukebox la"   (150 songs)
     Miles Davis:                  "load_jukebox md"   (  8 songs)
     Original Dixieland Jazz Band: "load_jukebox odjb" ( 45 songs)
+    Ragtime (various artists):    "load_jukebox rt"   ( 14 songs)
     Red Norvo:                    "load_jukebox rn"   ( 39 songs)
     Sidney Bechet:                "load_jukebox sb"   ( 25 songs)
 
