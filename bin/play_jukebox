@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-if RUBY_ENGINE =~ /jruby/
+if defined?(JRUBY_VERSION) || RUBY_ENGINE == 'jruby' || RUBY_PLATFORM == 'java'
   begin
     require 'spoon'
     require 'readline'
