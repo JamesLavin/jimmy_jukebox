@@ -43,10 +43,8 @@ module JimmyJukebox
       # trying backticks
       # system("kill -s STOP #{playing_pid}") if playing_pid
       if grandchild_pid
-        p "Pausing"
         `kill -s STOP #{grandchild_pid}`
       elsif playing_pid
-        p "Pausing"
         `kill -s STOP #{playing_pid}`
       else
         raise NoPlayingPidException, "*** Can't pause song because can't find playing_pid #{playing_pid} ***"
@@ -59,10 +57,8 @@ module JimmyJukebox
       # trying backticks
       #system("kill -s CONT #{playing_pid}") if playing_pid
       if grandchild_pid
-        p "Unpausing"
         `kill -s CONT #{grandchild_pid}`
       elsif playing_pid
-        p "Unpausing"
         `kill -s CONT #{playing_pid}`
       else
         raise NoPlayingPidException, "*** Can't unpause song because can't find playing_pid #{playing_pid} ***"
@@ -77,17 +73,11 @@ module JimmyJukebox
         p "killed #{grandpid}"
       end
       `kill #{playpid}`
-      p "killed #{playpid}"
     end
 
     def terminate
       self.paused = false
-      #`killall #{player}`
       self.player = nil
-      # killing processes seems problematic in JRuby
-      # I've tried several approaches, and nothing seems reliable
-      #Process.kill("SIGKILL",playing_pid) if playing_pid
-      #Process.kill("SIGTERM",playing_pid) if playing_pid
       if playing_pid
         kill_playing_pid_and_children
         self.playing_pid = nil

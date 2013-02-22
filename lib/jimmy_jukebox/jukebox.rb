@@ -49,9 +49,9 @@ module JimmyJukebox
     end
 
     def replay_previous_song
+      disable_continuous_play
       if previous_song
         p "Replaying #{previous_song.music_file}"
-        #terminate_current_song
         play_song(previous_song)
       else
         raise NoPreviousSongException, "No previous song"
@@ -90,24 +90,20 @@ module JimmyJukebox
     end
 
     def play_random_song
-      p "Inside play_random_song"
       play_song(random_song)
     end
 
     def enable_continuous_play
       self.continuous_play = true
-      p "Enabled continuous_play"
     end
 
     def disable_continuous_play
       self.continuous_play = false
-      p "Disabled continuous_play"
     end
 
     def play_song(song)
-      terminate_current_song if current_song
       self.playing = true
-      p "Setting current_song = #{song.music_file}"
+      terminate_current_song(playing_status_unchanged: true) if current_song
       self.current_song = song
       current_song.play(user_config, self)
       p "Finished playing"
@@ -118,13 +114,13 @@ module JimmyJukebox
       p "Song ended prematurely"
     end
 
-    def terminate_current_song
+    def terminate_current_song(opts)
       if current_song
         p "Terminating #{current_song.music_file}"
         current_song.terminate
         self.previous_song = current_song
         self.current_song = nil
-        self.playing = false
+        self.playing = false unless opts[:playing_status_unchanged]
       else
         raise NoCurrentSongException, "No current_song"
       end

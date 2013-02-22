@@ -26,7 +26,7 @@ module Artists
   :lh   => "lionel_hampton",
   :md   => "miles_davis",
   :odjb => "original_dixieland_jazz_band",
-  :rt   => "ragtime"
+  :rt   => "ragtime",
   :rn   => "red_norvo",
   :sb   => "sidney_bechet"
   }
@@ -44,6 +44,5 @@ module Artists
     return value.to_s.capitalize + '.yml' unless value.to_s.match(/_/)
     value.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
   end
-
 
 end
