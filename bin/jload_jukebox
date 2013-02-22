@@ -1,3 +1,0 @@
-#!/usr/bin/env jruby
-
-require File.expand_path('../lib/jimmy_jukebox/load_jukebox_code.rb', File.dirname(__FILE__))
