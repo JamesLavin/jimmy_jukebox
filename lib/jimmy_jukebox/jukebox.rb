@@ -96,14 +96,15 @@ module JimmyJukebox
 
     def enable_continuous_play
       self.continuous_play = true
+      p "Enabled continuous_play"
     end
 
     def disable_continuous_play
       self.continuous_play = false
+      p "Disabled continuous_play"
     end
 
     def play_song(song)
-      disable_continuous_play
       terminate_current_song if current_song
       self.playing = true
       p "Setting current_song = #{song.music_file}"
@@ -113,7 +114,6 @@ module JimmyJukebox
       self.previous_song = current_song
       self.current_song = nil
       self.playing = false
-      enable_continuous_play
     rescue Song::SongTerminatedPrematurelyException
       p "Song ended prematurely"
     end

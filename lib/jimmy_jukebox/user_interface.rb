@@ -1,7 +1,5 @@
 require 'readline'
 
-stty_save = `stty -g`.chomp   # Store state of the terminal
-
 jj = Jukebox.new
 
 play_loop_thread = Thread.new do
@@ -10,6 +8,8 @@ end
 
 user_input_thread = Thread.new do
   
+  stty_save = `stty -g`.chomp   # Store state of the terminal
+
   def display_options
     p "Press 'p' to (un)pause, 'q' to quit, 'r' for replay previous song, or 's' to skip this song"
   end
@@ -50,8 +50,8 @@ user_input_thread = Thread.new do
     end
   rescue Interrupt, SystemExit => e
     p "JimmyJukebox closed by user request. Bye!"
-    jj.current_song.terminate if jj.current_song
-    system('stty', stty_save) # Restore original terminal state
+    jj.quit
+    system('stty', stty_save) unless RUBY_ENGINE == 'jruby' # Restore original terminal state
     exit
   end
 end

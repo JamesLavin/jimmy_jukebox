@@ -33,7 +33,8 @@ module JimmyJukebox
     def grandchild_pid
       # returns grandchild's pid if the child process spawns a grandchild
       # if so, the child is probably "/bin/sh" and the grandchild is "mpg123" or similar
-      `ps h --ppid #{playing_pid} -o pid`.strip.to_i
+      gpid = `ps h --ppid #{playing_pid} -o pid`.strip.to_i
+      gpid == 0 ? nil : gpid
     end
 
     def pause
@@ -68,6 +69,17 @@ module JimmyJukebox
       end
     end
 
+    def kill_playing_pid_and_children
+      grandpid = grandchild_pid
+      playpid = playing_pid
+      if grandpid
+        `kill #{grandpid}`
+        p "killed #{grandpid}"
+      end
+      `kill #{playpid}`
+      p "killed #{playpid}"
+    end
+
     def terminate
       self.paused = false
       #`killall #{player}`
@@ -77,12 +89,7 @@ module JimmyJukebox
       #Process.kill("SIGKILL",playing_pid) if playing_pid
       #Process.kill("SIGTERM",playing_pid) if playing_pid
       if playing_pid
-        grandpid = grandchild_pid
-        playpid = playing_pid
-        `kill #{grandchild_pid}` if grandchild_pid
-        p "killed #{grandpid}"
-        `kill #{playing_pid}`
-        p "killed #{playpid}"
+        kill_playing_pid_and_children
         self.playing_pid = nil
       else
         raise NoPlayingPidException, "*** Can't terminate song because can't find playing_pid #{playing_pid} ***"
