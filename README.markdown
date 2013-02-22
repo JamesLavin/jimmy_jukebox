@@ -24,7 +24,7 @@ Mac:
 JRuby:
 
 - Install the `spoon` gem (necessary because JRuby doesn't enable `fork` or run the `posix-spawn` gem)
-- Runs well on my computer using JRuby 1.7.1 and 1.7.3.
+- Runs well on my computer using JRuby 1.6.7.2, 1.7.1 and 1.7.3.
 
 Windows:
 
