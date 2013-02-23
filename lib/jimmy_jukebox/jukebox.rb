@@ -8,8 +8,8 @@ module JimmyJukebox
     class NoCurrentSongException < Exception; end
     class NoPreviousSongException < Exception; end
 
-    attr_accessor :current_song, :continuous_play
-    attr_writer   :user_config, :previous_song, :next_song, :playing
+    attr_accessor :current_song, :continuous_play, :songs_played
+    attr_writer   :user_config, :next_song, :playing
 
     def initialize(new_user_config = UserConfig.new, continuous_play = true)
       self.user_config = new_user_config
@@ -19,7 +19,7 @@ module JimmyJukebox
     def play_loop
       loop do
         if continuous_play && !playing?
-          p "Playing random song"
+          p "Playing next song"
           play_next_song
         else
           sleep 0.1
@@ -45,27 +45,40 @@ module JimmyJukebox
     end
 
     def previous_song
-      @previous_song || nil
+      if songs_played.length >= 2
+        songs_played[songs_played.length-2]
+      else
+        nil
+      end
+    end
+
+    def songs_played
+      @songs_played ||= []
     end
 
     def replay_previous_song
-      disable_continuous_play
-      if previous_song
+      p 'Got here'
+      p 'Current song: ' + current_song.inspect
+      p 'Previous song: ' + previous_song.inspect
+      if previous_song && current_song
+        enable_continuous_play
+        self.next_song = previous_song
         p "Replaying #{previous_song.music_file}"
-        play_song(previous_song)
+        current_song.terminate
+        self.current_song = nil
+        self.playing = false
       else
         raise NoPreviousSongException, "No previous song"
       end
     end
 
     def skip_song
-      enable_continuous_play
       if current_song
+        enable_continuous_play
         p "Skipping #{current_song.music_file}"
         #play_random_song
-        self.previous_song = current_song
+        current_song.terminate
         self.current_song = nil
-        previous_song.terminate
         self.playing = false
       else
         raise NoCurrentSongException, "No current_song"
@@ -102,12 +115,14 @@ module JimmyJukebox
     end
 
     def play_song(song)
+      #self.next_song = song
       self.playing = true
-      terminate_current_song(playing_status_unchanged: true) if current_song
+      terminate_current_song(play_another: false) if current_song
       self.current_song = song
+      self.songs_played << song
       current_song.play(user_config, self)
       p "Finished playing"
-      self.previous_song = current_song
+      p "Songs played: " + songs_played.to_s
       self.current_song = nil
       self.playing = false
     rescue Song::SongTerminatedPrematurelyException
@@ -115,12 +130,13 @@ module JimmyJukebox
     end
 
     def terminate_current_song(opts)
+      # By default, stops song and lets a new song play automatically
+      # To prevent another song from playing automatically, pass "play_another: false"
       if current_song
         p "Terminating #{current_song.music_file}"
         current_song.terminate
-        self.previous_song = current_song
         self.current_song = nil
-        self.playing = false unless opts[:playing_status_unchanged]
+        self.playing = opts[:play_another] ? !play_another : false
       else
         raise NoCurrentSongException, "No current_song"
       end
