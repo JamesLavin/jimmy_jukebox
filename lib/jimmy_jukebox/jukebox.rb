@@ -28,7 +28,10 @@ module JimmyJukebox
     end
 
     def next_song
-      @next_song ? @next_song : random_song
+      # set a new @next_song each time it's accessed
+      current_next_song = @next_song ? @next_song : random_song
+      @next_song = random_song
+      current_next_song
     end
 
     def play_next_song
@@ -57,9 +60,6 @@ module JimmyJukebox
     end
 
     def replay_previous_song
-      p 'Got here'
-      p 'Current song: ' + current_song.inspect
-      p 'Previous song: ' + previous_song.inspect
       if previous_song && current_song
         enable_continuous_play
         self.next_song = previous_song
