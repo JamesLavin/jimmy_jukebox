@@ -37,11 +37,12 @@ module JimmyJukebox
       gpid == 0 ? nil : gpid
     end
 
+    def process_group_id
+      Process.getpgid(playing_pid)
+    end
+
     def pause
       self.paused = true
-      # jruby doesn't seem to handle system() correctly
-      # trying backticks
-      # system("kill -s STOP #{playing_pid}") if playing_pid
       if grandchild_pid
         `kill -s STOP #{grandchild_pid}`
       elsif playing_pid
@@ -53,9 +54,6 @@ module JimmyJukebox
 
     def unpause
       self.paused = false
-      # jruby doesn't seem to handle system() correctly
-      # trying backticks
-      #system("kill -s CONT #{playing_pid}") if playing_pid
       if grandchild_pid
         `kill -s CONT #{grandchild_pid}`
       elsif playing_pid
@@ -108,62 +106,30 @@ module JimmyJukebox
       music_file_path = File.expand_path(music_file)
       run_command(player, music_file_path)
       p "playing_pid = " + playing_pid.to_s
-      #system_yield_pid(player, music_file_path) do |pid|
-      #  self.playing_pid = pid 
-      #end
-      #if $running_jruby
-        Process.waitpid(playing_pid) # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
-      #else
-      #  Process::waitpid(playing_pid)
-      #end
-      p "Stopped waiting"
+      Process.waitpid(playing_pid) # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
       $? # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus
     end
 
   end
 
   def run_command(command, arg)
+    # make system call and get pid so you can pause/terminate process
     if $running_jruby
       pid = Spoon.spawnp(command,arg)
     else
       begin
         pid = POSIX::Spawn::spawn(command + ' ' + arg)
-        #pgid = Process.getpgid(pid)
-        #child = POSIX::Spawn::Child.new(command + ' ' + arg)
-        #pid = child.status.pid
         
-        # create and run block in subprocess (which will terminate with status 0), capture subprocess pid
+        # posix/spawn is much faster than fork-exec
         #pid = Process.fork do
-        #  exec(command + ' ' + arg)  # replace new process with system call
-        #  exit! 127                  # exit process and return exit status 127; should never be reached
+        #  exec(command + ' ' + arg)
+        #  exit! 127                  # should never be reached
         #end
       rescue NotImplementedError
         raise CannotSpawnProcessException, "*** Cannot play music because we found neither Spoon.spawnp (for JRuby) nor Process.fork (for MRI) ***"
       end
     end
     self.playing_pid = pid
-  end
-
-  # make system call and get pid so you can terminate process
-  def system_yield_pid(command,arg)
-    # would like to use Process.respond_to?(:fork) but JRuby mistakenly returns true
-    if $running_jruby
-      pid = Spoon.spawnp(command,arg)
-    else
-      begin
-        #spawn(command + ' ' + arg)
-        #pid = POSIX::Spawn::spawn(command + ' ' + arg)
-        
-        # create and run block in subprocess (which will terminate with status 0), capture subprocess pid
-        pid = Process.fork do
-          exec(command + ' ' + arg)  # replace new process with system call
-          exit! 127                  # exit process and return exit status 127; should never be reached
-        end
-      rescue NotImplementedError
-        raise CannotSpawnProcessException, "*** Cannot play music because we found neither Spoon.spawnp (for JRuby) nor Process.fork (for MRI) ***"
-      end
-    end
-    yield pid if block_given? # call block, passing in the subprocess pid
   end
 
 end

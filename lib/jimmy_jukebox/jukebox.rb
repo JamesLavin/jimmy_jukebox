@@ -28,7 +28,7 @@ module JimmyJukebox
     end
 
     def next_song
-      # set a new @next_song each time it's accessed
+      # reset @next_song each time it's accessed
       current_next_song = @next_song ? @next_song : random_song
       @next_song = random_song
       current_next_song
@@ -115,7 +115,6 @@ module JimmyJukebox
     end
 
     def play_song(song)
-      #self.next_song = song
       self.playing = true
       terminate_current_song(play_another: false) if current_song
       self.current_song = song
@@ -129,14 +128,14 @@ module JimmyJukebox
       p "Song ended prematurely"
     end
 
-    def terminate_current_song(opts)
+    def terminate_current_song(opts=nil)
       # By default, stops song and lets a new song play automatically
       # To prevent another song from playing automatically, pass "play_another: false"
       if current_song
         p "Terminating #{current_song.music_file}"
         current_song.terminate
         self.current_song = nil
-        self.playing = opts[:play_another] ? !play_another : false
+        self.playing = (opts && opts[:play_another]) ? !play_another : false
       else
         raise NoCurrentSongException, "No current_song"
       end
