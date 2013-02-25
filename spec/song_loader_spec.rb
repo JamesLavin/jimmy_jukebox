@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'rspec/mocks'
 require 'fakeweb' # apparently must be required before fakefs
 FakeWeb.allow_net_connect = false
+gem 'fakefs', require: 'fakefs/safe'
 require 'fakefs/safe'
 require 'jimmy_jukebox/song_loader'
 
@@ -13,69 +14,58 @@ describe JimmyJukebox::SongLoader do
     # File.directory?("/home").should be_false
   #end
 
-  before(:all) do
-    #ARGV.delete_if { |val| true }
-    ARGV.clear
-    #ARGV.pop
-  end
-
   before(:each) do
+    ARGV.clear
     @sl = JimmyJukebox::SongLoader
   end
 
   describe "#create_save_dir" do
+    include FakeFS::SpecHelpers
 
     it "should create a directory" do
-      FakeFS do
-        topdir = File.join("/home","user_name4","Music")
-        subdir = File.join(topdir, "rock", "Beatles")
-        File.directory?(subdir).should be_false
-        @sl.create_save_dir(subdir)
-        File.directory?(subdir).should be_true
-      end
+      topdir = File.join("/home","user_name4","Music")
+      subdir = File.join(topdir, "rock", "Beatles")
+      File.directory?(subdir).should be_false
+      @sl.create_save_dir(subdir)
+      File.directory?(subdir).should be_true
     end
 
   end
 
   describe "#version_of_song_in_any_dir?" do
+    include FakeFS::SpecHelpers
 
     it "should return true if song in top of directory tree" do
-      FakeFS do
-        topdir = "/home/user_name1/Music"
-        songname = "Paperback_Writer.mp3"
-        File.directory?(topdir).should be_false
-        FileUtils.mkdir_p(topdir)
-        File.directory?(topdir).should be_true
-        Dir.chdir(topdir)
-        File.exists?(songname).should be_false
-        FileUtils.touch(songname)
-        File.exists?(songname).should be_true
-        @sl.version_of_song_in_any_dir?(songname,topdir).should be_true
-      end
+      topdir = "/home/user_name1/Music"
+      songname = "Paperback_Writer.mp3"
+      File.directory?(topdir).should be_false
+      FileUtils.mkdir_p(topdir)
+      File.directory?(topdir).should be_true
+      Dir.chdir(topdir)
+      File.exists?(songname).should be_false
+      FileUtils.touch(songname)
+      File.exists?(songname).should be_true
+      @sl.version_of_song_in_any_dir?(songname,topdir).should be_true
     end
 
     it "should return true if song in subdirectory" do
-      FakeFS do
-        topdir = "/home/user_name2/Music"
-        subdir = File.join(topdir, "rock", "Beatles")
-        songname = "Paperback_Writer.mp3"
-        File.directory?(subdir).should be_false
-        FileUtils.mkdir_p(subdir)
-        FileUtils.touch(File.join(subdir, songname))
-        File.exists?(File.join(subdir, songname)).should be_true
-        @sl.version_of_song_in_any_dir?(songname,subdir).should be_true
-      end
+      topdir = "/home/user_name2/Music"
+      subdir = File.join(topdir, "rock", "Beatles")
+      songname = "Paperback_Writer.mp3"
+      File.directory?(subdir).should be_false
+      FileUtils.mkdir_p(subdir)
+      FileUtils.touch(File.join(subdir, songname))
+      File.exists?(File.join(subdir, songname)).should be_true
+      @sl.version_of_song_in_any_dir?(songname,subdir).should be_true
     end
 
     it "should return false if song not in directory tree" do
-      FakeFS do
-        topdir = "/home/user_name3/Music"
-        subdir = File.join(topdir, "rock", "Beatles")
-        songname = "Paperback_Writer.mp3"
-        FileUtils.mkdir_p(subdir)
-        File.exists?(File.join(subdir, songname)).should be_false
-        @sl.version_of_song_in_any_dir?(songname,subdir).should be_false
-      end
+      topdir = "/home/user_name3/Music"
+      subdir = File.join(topdir, "rock", "Beatles")
+      songname = "Paperback_Writer.mp3"
+      FileUtils.mkdir_p(subdir)
+      File.exists?(File.join(subdir, songname)).should be_false
+      @sl.version_of_song_in_any_dir?(songname,subdir).should be_false
     end
 
   end
@@ -121,7 +111,7 @@ describe JimmyJukebox::SongLoader do
       it "should try to download many songs" do
         dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Charlie_Christian')
         @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
-        @sl.should_receive(:open).exactly(8).times
+        @sl.should_receive(:open).exactly(9).times
         @sl.charlie_christian
         File.exists?(dirname).should be_true
       end
@@ -156,6 +146,7 @@ describe JimmyJukebox::SongLoader do
   describe "#dizzy_gillespie with dirname" do
 
     it "should try to download three songs" do
+      pending "have not yet implemented way to specify artist-specific directory"
       dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Dizzy_Gillespie')
       @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
       @sl.should_receive(:open).exactly(3).times
@@ -163,16 +154,16 @@ describe JimmyJukebox::SongLoader do
     end
 
     it "should successfully download three songs" do
-      pending("use FakeWeb")
+      pending "use FakeWeb"
       FakeWeb.register_uri(:any, "http://www.archive.org/download/DizzyGillespie-GroovinHigh/02.GroovinHigh.mp3", :response => "/home/james/Music/JAZZ/Dizzy_Gillespie/Groovin' High 1945.mp3")
       FakeWeb.register_uri(:any, "http://www.archive.org/download/DizzyGillespie-Manteca/01Manteca.ogg", :response => "/home/james/Music/JAZZ/Dizzy_Gillespie/01Manteca.ogg")
       FakeWeb.register_uri(:any, "http://www.archive.org/download/DizzyGillespieLouisArmstrong-UmbrellaMan/DizzyGillespieLouisArmstrong-UmbrellaMan.mp3", :response => "/home/james/Music/JAZZ/Dizzy_Gillespie/DizzyGillespieLouisArmstrong-UmbrellaMan.mp3")
       dirname = File.expand_path("/home/user_name6/non-existent-dir")
       File.exists?(dirname).should be_false
       @sl.dizzy_gillespie(dirname)
-      #File.exists?(dirname + "/02.GroovinHigh.mp3").should be_true
-      #File.exists?(dirname + "/01Manteca.ogg").should be_true
-      #File.exists?(dirname + "/DizzyGillespieLouisArmstrong-UmbrellaMan.mp3").should be_true
+      File.exists?(dirname + "/02.GroovinHigh.mp3").should be_true
+      File.exists?(dirname + "/01Manteca.ogg").should be_true
+      File.exists?(dirname + "/DizzyGillespieLouisArmstrong-UmbrellaMan.mp3").should be_true
       FakeWeb.clean_registry
     end
 

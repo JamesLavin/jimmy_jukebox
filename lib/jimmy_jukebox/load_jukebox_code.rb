@@ -22,6 +22,9 @@ def invalid_artist
 end
 
 no_argv0 unless ARGV[0]
-invalid_artist unless JAZZ_ARTISTS.has_key?(ARGV[0].to_sym)
-JimmyJukebox::SongLoader.send(JAZZ_ARTISTS[ARGV[0].to_sym])
 
+if ARTISTS.has_key?(ARGV[0].to_sym)
+  JimmyJukebox::SongLoader.send(ARTISTS[ARGV[0].to_sym][:name])
+else
+  invalid_artist
+end

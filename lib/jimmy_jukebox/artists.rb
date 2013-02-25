@@ -1,48 +1,69 @@
 module Artists
 
-  JAZZ_ARTISTS = {
-  :acb  => "archibald_camp_banjo",
-  :at   => "art_tatum",
-  :as   => "artie_shaw",
-  :bg   => "benny_goodman",
-  :bh   => "billie_holiday",
-  :bb   => "bix_beiderbecke",
-  :bm   => "bennie_moten",
-  :cc   => "charlie_christian",
-  :cp   => "charlie_parker",
-  :ch   => "coleman_hawkins",
-  :chjb => "clifford_hayes_jug_blowers",
-  :cb   => "count_basie",
-  :dx   => "dixieland",
-  :dg   => "dizzy_gillespie",
-  :dr   => "django_reinhardt",
-  :de   => "duke_ellington",
-  :eh   => "earl_hines",
-  :fh   => "fletcher_henderson",
-  :jj   => "james_p_johnson",
-  :jrm  => "jelly_roll_morton",
-  :ko   => "king_oliver",
-  :la   => "louis_armstrong",
-  :lh   => "lionel_hampton",
-  :md   => "miles_davis",
-  :odjb => "original_dixieland_jazz_band",
-  :rt   => "ragtime",
-  :rn   => "red_norvo",
-  :sb   => "sidney_bechet"
+  ARTISTS = {
+    acb:  { genre: 'BANJO', name: "archibald_camp_banjo" },
+    at:   { genre: 'JAZZ', name: "art_tatum" },
+    as:   { genre: 'JAZZ', name: "artie_shaw"},
+    bg:   { genre: 'JAZZ', name: "benny_goodman"},
+    bh:   { genre: 'JAZZ', name: "billie_holiday"},
+    bb:   { genre: 'JAZZ', name: "bix_beiderbecke"},
+    bm:   { genre: 'JAZZ', name: "bennie_moten"},
+    cc:   { genre: 'JAZZ', name: "charlie_christian"},
+    cp:   { genre: 'JAZZ', name: "charlie_parker"},
+    ch:   { genre: 'JAZZ', name: "coleman_hawkins"},
+    chjb: { genre: 'JAZZ', name: "clifford_hayes_jug_blowers"},
+    cb:   { genre: 'JAZZ', name: "count_basie"},
+    dx:   { genre: 'JAZZ', name: "dixieland"},
+    dg:   { genre: 'JAZZ', name: "dizzy_gillespie"},
+    dr:   { genre: 'JAZZ', name: "django_reinhardt"},
+    de:   { genre: 'JAZZ', name: "duke_ellington"},
+    eh:   { genre: 'JAZZ', name: "earl_hines"},
+    fh:   { genre: 'JAZZ', name: "fletcher_henderson"},
+    jj:   { genre: 'JAZZ', name: "james_p_johnson"},
+    jrm:  { genre: 'JAZZ', name: "jelly_roll_morton"},
+    ko:   { genre: 'JAZZ', name: "king_oliver"},
+    la:   { genre: 'JAZZ', name: "louis_armstrong"},
+    lh:   { genre: 'JAZZ', name: "lionel_hampton"},
+    lvb:  { genre: 'CLASSICAL', name: "beethoven"},
+    md:   { genre: 'JAZZ', name: "miles_davis"},
+    odjb: { genre: 'JAZZ', name: "original_dixieland_jazz_band"},
+    rt:   { genre: 'JAZZ', name: "ragtime"},
+    rn:   { genre: 'JAZZ', name: "red_norvo"},
+    sb:   { genre: 'JAZZ', name: "sidney_bechet"}
   }
 
-  def key_to_subdir_name(key)
-    value_to_subdir_name(JAZZ_ARTISTS[key.to_sym])
+  def artist_genre(key)
+    ARTISTS[key][:genre]
   end
 
-  def value_to_subdir_name(value)
-    return '/JAZZ/' + value.to_s.capitalize unless value.to_s.match(/_/)
-    '/JAZZ/' + value.to_s.split("_").map! { |name_component| name_component.capitalize }.join("_")
+  def artist_name(key)
+    ARTISTS[key][:name]
   end
 
-  def value_to_yaml_file(value)
-    return value.to_s.capitalize + '.yml' unless value.to_s.match(/_/)
-    value.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
+  def artist_name_to_genre(name)
+    p "looking for #{name}"
+    artists = ARTISTS.select { |k,v| v[:name] == name }
+    p artists
+    key, value = artists.first
+    value[:genre]
+  end
+
+  def artist_name_to_subdir_name(name)
+    return "/#{artist_name_to_genre(name)}/" + name.to_s.capitalize unless name.to_s.match(/_/)
+    "/#{artist_name_to_genre(name)}/" + name.to_s.split("_").map! { |name_component| name_component.capitalize }.join("_")
+  end
+
+  def artist_key_to_subdir_name(key)
+    artist_name_to_subdir_name(artist_name(key))
+  end
+
+  def artist_key_to_yaml_file(key)
+    artist_name_to_yaml_file(artist_name(key))
+  end
+
+  def artist_name_to_yaml_file(name)
+    return name.to_s.capitalize + '.yml' unless name.to_s.match(/_/)
+    name.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
   end
 
 end

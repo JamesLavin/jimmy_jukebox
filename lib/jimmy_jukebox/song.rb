@@ -94,6 +94,23 @@ module JimmyJukebox
       end
     end
 
+    def spawn_method
+      if $running_jruby
+        lambda { |command, arg| Spoon.spawnp(command, arg) }
+      else
+        begin
+          lambda { |command, arg| POSIX::Spawn::spawn(command + ' ' + arg) }
+          
+          # posix/spawn is much faster than fork-exec
+          #pid = Process.fork do
+          #  exec(command + ' ' + arg)
+          #end
+        rescue NotImplementedError
+          raise CannotSpawnProcessException, "*** Cannot play music because we found neither Spoon.spawnp (for JRuby) nor Process.fork (for MRI) ***"
+        end
+      end
+    end
+
     def play(user_config, jukebox)
       set_player(user_config)
       process_status = play_with_player
@@ -114,21 +131,7 @@ module JimmyJukebox
 
   def run_command(command, arg)
     # make system call and get pid so you can pause/terminate process
-    if $running_jruby
-      pid = Spoon.spawnp(command,arg)
-    else
-      begin
-        pid = POSIX::Spawn::spawn(command + ' ' + arg)
-        
-        # posix/spawn is much faster than fork-exec
-        #pid = Process.fork do
-        #  exec(command + ' ' + arg)
-        #  exit! 127                  # should never be reached
-        #end
-      rescue NotImplementedError
-        raise CannotSpawnProcessException, "*** Cannot play music because we found neither Spoon.spawnp (for JRuby) nor Process.fork (for MRI) ***"
-      end
-    end
+    pid = spawn_method.call(command, arg)
     self.playing_pid = pid
   end
 

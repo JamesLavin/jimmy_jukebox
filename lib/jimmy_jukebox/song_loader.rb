@@ -27,14 +27,14 @@ module JimmyJukebox
     def self.define_artist(name,user_config)
       metaclass.instance_eval do
         define_method(name) do
-          save_dir = user_config.default_music_dir + value_to_subdir_name(name)
-          songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{value_to_yaml_file(name)}")
+          save_dir = user_config.default_music_dir + artist_name_to_subdir_name(name.to_s)
+          songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{artist_name_to_yaml_file(name.to_s)}")
           download_songs(songs, save_dir)
         end
       end
     end
 
-    JAZZ_ARTISTS.values.each { |v| define_artist v.to_sym, @user_config }
+    ARTISTS.values.each { |artist| define_artist artist[:name].to_sym, @user_config }
 
     def self.sample(num_songs)
       # create array of all possible songs
@@ -80,14 +80,24 @@ module JimmyJukebox
       end
     end
 
-    def self.download_song(song_url, save_dir)
-      song_savename = File.basename(song_url)
-      if version_of_song_in_any_dir?(song_savename, save_dir)
-        puts "#{song_savename} already exists in #{save_dir}"
-        return
+    def self.song_savename(song_url)
+      File.basename(song_url)  
+    end
+
+    def self.song_already_exists?(savename, save_dir)
+      if version_of_song_in_any_dir?(savename, save_dir)
+        puts "#{savename} already exists in #{save_dir}"
+        true
+      else
+        false
       end
-      puts "Downloading #{song_savename}"
-      song_pathname = File.join(save_dir,song_savename)
+    end
+
+    def self.download_song(song_url, save_dir)
+      savename = song_savename(song_url)
+      return if song_already_exists?(savename, save_dir)
+      puts "Downloading #{savename}"
+      song_pathname = File.join(save_dir, savename)
       open(song_pathname, 'wb') do |dst|
         open(song_url) do |src|
           dst.write(src.read)
@@ -97,7 +107,7 @@ module JimmyJukebox
       rescue OpenURI::HTTPError
         p "Warning: Could not download #{song_url}"
         File.delete(song_pathname) if File.exists?(song_pathname)
-        return nil
+        nil
     end
 
     def self.check_downloaded_song_size(song_pathname)

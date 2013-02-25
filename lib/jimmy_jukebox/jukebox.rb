@@ -4,6 +4,7 @@ module JimmyJukebox
 
   class Jukebox
 
+    class NoSongsException < Exception; end
     class NoNewSongException < Exception; end
     class NoCurrentSongException < Exception; end
     class NoPreviousSongException < Exception; end
@@ -14,6 +15,7 @@ module JimmyJukebox
     def initialize(new_user_config = UserConfig.new, continuous_play = true)
       self.user_config = new_user_config
       self.continuous_play = continuous_play
+      raise NoSongsException if songs.empty?
     end
 
     def play_loop
@@ -121,7 +123,7 @@ module JimmyJukebox
       self.songs_played << song
       current_song.play(user_config, self)
       p "Finished playing"
-      p "Songs played: " + songs_played.to_s
+      #p "Songs played: " + songs_played.to_s
       self.current_song = nil
       self.playing = false
     rescue Song::SongTerminatedPrematurelyException

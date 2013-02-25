@@ -69,8 +69,6 @@ module JimmyJukebox
       #  return
       #elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
       #  ogg_player = "afplay"
-      else
-        raise NoOggPlayerFoundException, "Could not find an Ogg Vorbis player"
       end
     end
 
@@ -96,8 +94,6 @@ module JimmyJukebox
       #  return
       #elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
       #  mp3_player = "afplay"
-      else
-        raise NoMP3PlayerFoundException, "Could not find an MP3 player"
       end
     end
 
@@ -147,8 +143,8 @@ module JimmyJukebox
       # puts "ARGV: " + ARGV.inspect + " (" + ARGV.class.to_s + ")"
       if ARGV.empty?
         music_directories << default_music_dir
-      elsif JAZZ_ARTISTS.keys.include?(ARGV[0].to_sym)
-        music_directories << default_music_dir + key_to_subdir_name(ARGV[0].to_sym)
+      elsif ARTISTS.keys.include?(ARGV[0].to_sym)
+        music_directories << default_music_dir + artist_key_to_subdir_name(ARGV[0].to_sym)
       elsif is_a_txt_file?(ARGV[0])
         set_music_directories_from_file
       elsif is_a_directory?(ARGV[0])
@@ -185,10 +181,16 @@ module JimmyJukebox
       end
     end
 
+    def all_subdirectories(dir)
+      Dir.glob(File.join(dir,"**/","*/"))
+         .delete_if {|dir_name| !File.directory?(dir_name)}
+         .map { |dir_name| File.expand_path(dir_name) }
+    end
+
     def add_all_subdirectories
       new_dirs = []
       music_directories.each do |dir|
-        new_dirs = new_dirs + Dir.glob(File.join(dir,"**/")).map { |dir_name| File.expand_path(dir_name) }
+        new_dirs = new_dirs + all_subdirectories(dir)
       end
       self.music_directories = music_directories + new_dirs
     end

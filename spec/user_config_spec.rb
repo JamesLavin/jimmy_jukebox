@@ -27,7 +27,7 @@ describe UserConfig do
   describe "#top_music_dir" do
 
     it "should parse '~/Music'" do
-      UserConfig.top_music_dir("~/Music").should == "/home/xavier/Music"
+      UserConfig.top_music_dir("~/Music").should == File.expand_path("~/Music")
     end
 
     it "should parse '/home/xavier/Music'" do
@@ -35,15 +35,15 @@ describe UserConfig do
     end
 
     it "should parse '~/Music/Rock/The_Eagles/hotel_california.mp3'" do
-      UserConfig.top_music_dir("~/Music/Rock/The_Eagles/hotel_california.mp3").should == "/home/xavier/Music"
+      UserConfig.top_music_dir("~/Music/Rock/The_Eagles/hotel_california.mp3").should == File.expand_path("~/Music")
     end
 
     it "should parse '~/Music/Rock/The Eagles/Hotel California.mp3'" do
-      UserConfig.top_music_dir("~/Music/Rock/The Eagles/Hotel California.mp3").should == "/home/xavier/Music"
+      UserConfig.top_music_dir("~/Music/Rock/The Eagles/Hotel California.mp3").should == File.expand_path("~/Music")
     end
 
     it "should parse '~/My Music'" do
-      UserConfig.top_music_dir("~/My Music").should == "/home/xavier/My Music"
+      UserConfig.top_music_dir("~/My Music").should == File.expand_path("~/My Music")
     end
 
   end
@@ -64,14 +64,30 @@ describe UserConfig do
 
     end
 
-    context "with songs" do
+    context "with songs in ~/Music" do
 
-      before do
-        FileUtils.mkdir_p "/home/xavier/Music"
-        FileUtils.touch "/home/xavier/Music/Yellow_Submarine.mp3"
+      before(:each) do
+        FileUtils.mkdir_p File.expand_path("~/Music")
+        FileUtils.touch File.expand_path("~/Music/Yellow_Submarine.mp3")
       end
 
       it "finds songs" do
+        uc.songs.should_not be_empty
+        uc.songs.length.should == 1
+      end
+
+    end
+
+    context "with songs in ~/Music subdirectory" do
+
+      before do
+        FileUtils.mkdir_p File.expand_path("~/Music/ROCK/Beatles")
+        FileUtils.touch File.expand_path("~/Music/ROCK/Beatles/Yellow_Submarine.mp3")
+      end
+
+      it "finds songs" do
+        File.directory?(File.expand_path("~/Music/ROCK/Beatles")).should be_true
+        p uc.songs.to_s
         uc.songs.should_not be_empty
         uc.songs.length.should == 1
       end
