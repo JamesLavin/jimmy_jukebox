@@ -8,7 +8,7 @@ JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playin
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Charlie Parker, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, King Oliver, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, Red Norvo, and Sidney Bechet.
 
-We're also beginning to enable downloading of old classical music performances. We've begun with Beethoven.
+We're also beginning to enable downloading of old classical music performances. We've begun with Beethoven, Haydn and Mendelssohn.
 
 ## REQUIREMENTS
 
@@ -48,6 +48,8 @@ To download music, use this on the command line:
 
     CLASSICAL
     Beethoven:                    "load_jukebox lvb"  ( 49 songs)
+    Haydn:                        "load_jukebox h"    ( 47 songs)
+    Mendelssohn:                  "load_jukebox m"    ( 46 songs)
 
     JAZZ
     Art Tatum:                    "load_jukebox at"   (168 songs)
@@ -79,7 +81,7 @@ To download music, use this on the command line:
     Sidney Bechet:                "load_jukebox sb"   ( 25 songs)
 
     OTHER
-    Archibald Camp (banjo):       "load_jukebox acb"  ( 20 songs) (not jazz -- OLD banjo songs)
+    Archibald Camp (banjo):       "load_jukebox acb"  ( 20 songs) (old banjo songs)
 
 After downloading music, you can play just that artist by typing
 
