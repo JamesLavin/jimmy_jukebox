@@ -2,11 +2,13 @@
 
 ## DESCRIPTION
 
-JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old jazz
+JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old jazz and classical music
 
 JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files in your `~/Music` directory tree (including subdirectories). You can specify a different top music directory by passing a directory name as a command line parameter (example: `play_jukebox ~/Music/JAZZ`). Or you can pass the name of a text file containing a list of directory names.
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Charlie Parker, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, King Oliver, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, Red Norvo, and Sidney Bechet.
+
+We're also beginning to enable downloading of old classical music performances. We've begun with Beethoven.
 
 ## REQUIREMENTS
 
@@ -44,7 +46,10 @@ Warning: Songs average approximately 2.5MB or 3MB.
 
 To download music, use this on the command line:
 
-    Archibald Camp (banjo):       "load_jukebox acb"  ( 20 songs) (not jazz -- OLD banjo songs)
+    CLASSICAL
+    Beethoven:                    "load_jukebox lvb"  ( 49 songs)
+
+    JAZZ
     Art Tatum:                    "load_jukebox at"   (168 songs)
     Artie Shaw:                   "load_jukebox as"   (580 songs)
     Bennie Moten:                 "load_jukebox bm"   (107 songs)
@@ -72,6 +77,9 @@ To download music, use this on the command line:
     Ragtime (various artists):    "load_jukebox rt"   ( 14 songs)
     Red Norvo:                    "load_jukebox rn"   ( 39 songs)
     Sidney Bechet:                "load_jukebox sb"   ( 25 songs)
+
+    OTHER
+    Archibald Camp (banjo):       "load_jukebox acb"  ( 20 songs) (not jazz -- OLD banjo songs)
 
 After downloading music, you can play just that artist by typing
 
