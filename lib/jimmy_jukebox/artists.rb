@@ -8,6 +8,7 @@ module Artists
     bh:   { genre: 'JAZZ', name: "billie_holiday"},
     bb:   { genre: 'JAZZ', name: "bix_beiderbecke"},
     bm:   { genre: 'JAZZ', name: "bennie_moten"},
+    c:    { genre: 'CLASSICAL', name: "chopin"},
     cc:   { genre: 'JAZZ', name: "charlie_christian"},
     cp:   { genre: 'JAZZ', name: "charlie_parker"},
     ch:   { genre: 'JAZZ', name: "coleman_hawkins"},
@@ -31,6 +32,7 @@ module Artists
     odjb: { genre: 'JAZZ', name: "original_dixieland_jazz_band"},
     rt:   { genre: 'JAZZ', name: "ragtime"},
     rn:   { genre: 'JAZZ', name: "red_norvo"},
+    fs:   { genre: 'CLASSICAL', name: "franz_schubert"},
     sb:   { genre: 'JAZZ', name: "sidney_bechet"},
     wam:  { genre: 'CLASSICAL', name: "mozart"}
   }

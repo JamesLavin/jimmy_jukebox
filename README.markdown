@@ -8,7 +8,7 @@ JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playin
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Charlie Parker, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, King Oliver, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, Red Norvo, and Sidney Bechet.
 
-We've recently begun enabling downloading of classical music performances. We're starting with Beethoven, Haydn, Mendelssohn and Mozart. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
+We've recently begun enabling downloading of classical music performances. We're starting with Beethoven, Chopin, Haydn, Mendelssohn, Mozart and Schubert. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
 
 ## REQUIREMENTS
 
@@ -48,9 +48,11 @@ To download music, use this on the command line:
 
     CLASSICAL
     Beethoven:                    "load_jukebox lvb"  ( 49 songs)
+    Chopin:                       "load_jukebox c"    ( 47 songs)
     Haydn:                        "load_jukebox h"    ( 47 songs)
     Mendelssohn:                  "load_jukebox m"    ( 57 songs)
     Mozart:                       "load_jukebox wam"  (141 songs)
+    Schubert:                     "load_jukebox fs"   ( 38 songs)
 
     JAZZ
     Art Tatum:                    "load_jukebox at"   (168 songs)
