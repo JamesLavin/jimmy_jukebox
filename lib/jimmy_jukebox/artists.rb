@@ -31,7 +31,8 @@ module Artists
     odjb: { genre: 'JAZZ', name: "original_dixieland_jazz_band"},
     rt:   { genre: 'JAZZ', name: "ragtime"},
     rn:   { genre: 'JAZZ', name: "red_norvo"},
-    sb:   { genre: 'JAZZ', name: "sidney_bechet"}
+    sb:   { genre: 'JAZZ', name: "sidney_bechet"},
+    wam:  { genre: 'CLASSICAL', name: "mozart"}
   }
 
   def artist_genre(key)
