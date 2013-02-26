@@ -7,21 +7,35 @@ require 'fakefs/safe'
 require 'jimmy_jukebox/song'
 require 'jimmy_jukebox/song_loader'
 
-describe JimmyJukebox::SongLoader do
+describe "SongLoader" do
 
-  #before(:all) do
-    # If using fakefs without safe, make sure we're using FakeFS gem,
-    # not the real file system!
-    # File.directory?("/home").should be_false
-  #end
+  it "should have a SUPPORTED_MUSIC_TYPES of '/\.mp3$|\.ogg$/i'" do
+    SongLoader::MUSIC_TYPES.should == /\.mp3$|\.ogg$/i
+  end
+
+end
+
+describe SongLoader.new do
+
+  include FakeFS::SpecHelpers
+
+  let(:song1_url) { 'http://archive.org/fletcher_henderson/song1.mp3' }
+  let(:song2_url) { 'http://archive.org/fletcher_henderson/song2.ogg' }
+  let(:song3_url) { 'http://archive.org/fletcher_henderson/song3.mp3' }
+  let(:song4_url) { 'http://archive.org/fletcher_henderson/song4.ogg' }
+  let(:song5_url) { 'http://archive.org/fletcher_henderson/song5.mp3' }
+  let(:song1) { Song.new('~/Music/JAZZ/fletcher_henderson/song1.mp3') }
+  let(:song2) { Song.new('~/Music/JAZZ/fletcher_henderson/song2.ogg') }
+  let(:song3) { Song.new('~/Music/JAZZ/fletcher_henderson/song3.mp3') }
+  let(:song4) { Song.new('~/Music/JAZZ/fletcher_henderson/song4.ogg') }
+  let(:song5) { Song.new('~/Music/JAZZ/fletcher_henderson/song5.mp3') }
 
   before(:each) do
     ARGV.clear
-    @sl = JimmyJukebox::SongLoader
+    @sl = JimmyJukebox::SongLoader.new
   end
 
   describe "#create_save_dir" do
-    include FakeFS::SpecHelpers
 
     it "should create a directory" do
       topdir = File.join("/home","user_name4","Music")
@@ -34,7 +48,6 @@ describe JimmyJukebox::SongLoader do
   end
 
   describe "#version_of_song_in_any_dir?" do
-    include FakeFS::SpecHelpers
 
     it "should return true if song in top of directory tree" do
       topdir = "/home/user_name1/Music"
@@ -74,31 +87,41 @@ describe JimmyJukebox::SongLoader do
   describe "test defaults" do
 
     it "should have a user_config" do
-      @sl.instance_variable_get(:@user_config).should_not be_nil
+      @sl.user_config.should_not be_nil
     end
 
     it "should have a user_config with a non-nil default_music_dir" do
-      @sl.instance_variable_get(:@user_config).default_music_dir.should == File.expand_path("~/Music")
-    end
-
-    it "should have a SUPPORTED_MUSIC_TYPES of '/\.mp3$|\.ogg$/i'" do
-      @sl::SUPPORTED_MUSIC_TYPES.should == /\.mp3$|\.ogg$/i
+      @sl.user_config.default_music_dir.should == File.expand_path("~/Music")
     end
 
   end
 
   describe "#original_dixieland_jazz_band without dirname" do
   
-    context "no songs in directory" do
+    context "no songs yet downloaded" do
 
       before(:each) do
-        @dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Original_Dixieland_Jazz_Band')
         @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
+        @sl.stub!(:all_subdir_files).and_return([])
+        YAML.stub!(:load_file).and_return([song1_url, song2_url, song3_url, song4_url, song5_url])
       end
 
-      it "should try to download many songs" do
-        @sl.should_receive(:open).at_least(25).times
-        @sl.send(:original_dixieland_jazz_band)
+      context "without max_songs" do
+
+        it "should try to download all songs" do
+          @sl.should_receive(:open).exactly(5).times
+          @sl.send(:original_dixieland_jazz_band)
+        end
+
+      end
+
+      context "with max_songs" do
+
+        it "should try to download only max_songs songs" do
+          @sl.should_receive(:open).exactly(3).times
+          @sl.send(:original_dixieland_jazz_band, 3)
+        end
+
       end
 
     end
@@ -107,66 +130,54 @@ describe JimmyJukebox::SongLoader do
 
   describe "#charlie_christian without dirname" do
    
-    context "no songs yet downloaded" do
+    context "two songs downloaded" do
 
-      it "should try to download many songs" do
-        dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Charlie_Christian')
-        @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
-        @sl.should_receive(:open).exactly(9).times
-        @sl.charlie_christian
-        File.exists?(dirname).should be_true
+      before(:each) do
+        @sl.stub!(:check_downloaded_song_size).and_return(nil)
+        save_dir = @sl.user_config.default_music_dir + artist_name_to_subdir_name("charlie_christian")
+        FileUtils.mkdir_p save_dir
+        FileUtils.touch File.join(save_dir, File.basename(song1.music_file))
+        FileUtils.touch File.join(save_dir, File.basename(song2.music_file))
+        YAML.stub!(:load_file).and_return([song1_url, song2_url, song3_url, song4_url, song5_url])
+      end
+
+      context "without max_songs" do
+
+        it "should try to download only missing songs" do
+          @sl.should_receive(:open).exactly(3).times
+          @sl.charlie_christian
+        end
+
+      end
+
+      context "with max_songs" do
+
+        it "should try to download only missing songs until hitting max_num" do
+          @sl.should_receive(:open).exactly(2).times
+          @sl.charlie_christian(4)
+        end
+
       end
 
     end
 
     context "all songs already downloaded" do
 
+      before(:each) do
+        @sl.stub!(:check_downloaded_song_size).and_return(nil)
+        save_dir = @sl.user_config.default_music_dir + artist_name_to_subdir_name("charlie_christian")
+        FileUtils.mkdir_p save_dir
+        FileUtils.touch File.join(save_dir, File.basename(song1.music_file))
+        FileUtils.touch File.join(save_dir, File.basename(song2.music_file))
+        FileUtils.touch File.join(save_dir, File.basename(song3.music_file))
+        FileUtils.touch File.join(save_dir, File.basename(song4.music_file))
+        FileUtils.touch File.join(save_dir, File.basename(song5.music_file))
+        YAML.stub!(:load_file).and_return([song1_url, song2_url, song3_url, song4_url, song5_url])
+      end
+
       it "should not download any songs" do
-        dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Charlie_Christian')
-        @sl.stub!(:version_of_song_in_any_dir?).and_return(true)
         @sl.should_not_receive(:open)
         @sl.charlie_christian
-      end
-
-    end
-
-  end
-
-  describe "#lionel_hampton without dirname" do
-    
-    before(:each) do
-      @dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Lionel_Hampton')
-      @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
-    end
-
-    it "should try to download many songs" do
-      @sl.should_receive(:open).at_least(50).times
-      @sl.lionel_hampton
-      File.exists?(@dirname).should be_true
-    end
-
-    context "with max_songs" do
-      
-      it "should try to download only max_songs songs" do
-        @sl.should_receive(:open).exactly(23).times
-        @sl.lionel_hampton(23)
-        File.exists?(@dirname).should be_true
-      end
-    
-      context "with some songs already downloaded" do 
-
-        before(:each) do
-          (1..10).each do |num|
-            FileUtils.touch File.join(@dirname,"file_#{num}.mp3")
-          end
-        end
-
-        it "should try to download only max_songs songs" do
-          @sl.should_receive(:open).exactly(13).times
-          @sl.lionel_hampton(23)
-          File.exists?(@dirname).should be_true
-        end
-      
       end
 
     end
@@ -200,16 +211,11 @@ describe JimmyJukebox::SongLoader do
   end
 
   describe ".downloadable" do
-    let(:song1) { Song.new('~/Music/JAZZ/fletcher_henderson/song1.mp3') }
-    let(:song2) { Song.new('~/Music/JAZZ/fletcher_henderson/song2.ogg') }
-    let(:song3) { Song.new('~/Music/JAZZ/fletcher_henderson/song3.mp3') }
-    let(:song4) { Song.new('~/Music/JAZZ/fletcher_henderson/song4.ogg') }
-    let(:song5) { Song.new('~/Music/JAZZ/fletcher_henderson/song5.mp3') }
 
     it "returns an array with all downloadable songs" do
-      songs = [song1, song2, song3, song4, song5]
-      current_songs = [song2, song5]
-      SongLoader.downloadable(songs, current_songs).should == [song1, song3, song4]
+      songs = [song1_url, song2_url, song3_url, song4_url, song5_url]
+      current_songs = [File.basename(song2.music_file), File.basename(song5.music_file)]
+      SongLoader.new.downloadable(songs, current_songs).should == [song1_url, song3_url, song4_url]
     end
   end
 

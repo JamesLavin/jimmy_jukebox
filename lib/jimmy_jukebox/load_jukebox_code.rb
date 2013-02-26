@@ -1,7 +1,6 @@
 lib = File.expand_path(File.dirname(__FILE__) + '/..')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 require 'jimmy_jukebox/song_loader'
-include SongLoader
 
 require 'jimmy_jukebox/artists'
 include Artists
@@ -24,7 +23,7 @@ end
 no_argv0 unless ARGV[0]
 
 if ARTISTS.has_key?(ARGV[0].to_sym)
-  JimmyJukebox::SongLoader.send(ARTISTS[ARGV[0].to_sym][:name])
+  JimmyJukebox::SongLoader.new.send(ARTISTS[ARGV[0].to_sym][:name])
 else
   invalid_artist
 end
