@@ -41,12 +41,12 @@ module JimmyJukebox
 
     def self.version_of_song_in_any_dir?(song_filename, save_dir)
       top_dir = UserConfig.top_music_dir(save_dir)
-      @existing_files = calculate_existing_files(top_dir)
+      @existing_files = all_subdir_files(top_dir)
       @existing_files.include?(song_filename.gsub(SUPPORTED_MUSIC_TYPES,""))                  # does extensionless song_filename exist in directory?
     end
 
-    def self.calculate_existing_files(top_dir)
-      existing_files = Dir.glob(File.join(top_dir, '**', '*' ))       # all files in all subdirs
+    def self.all_subdir_files(dir)
+      existing_files = Dir.glob(File.join(dir, '**', '*' ))       # all files in all subdirs
       if "".respond_to?(:force_encoding)                                            # Ruby 1.8 doesn't have string encoding or String#force_encoding
         existing_files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
       end
