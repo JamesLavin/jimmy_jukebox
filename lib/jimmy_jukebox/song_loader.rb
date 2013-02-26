@@ -20,8 +20,6 @@ module JimmyJukebox
 
     SUPPORTED_MUSIC_TYPES = /\.mp3$|\.ogg$/i
 
-    @last_top_dir = nil            # enables returning previous result if @last_top_dir == top_dir
-
     @user_config = UserConfig.new
 
     def self.define_artist(name,user_config)
@@ -43,7 +41,7 @@ module JimmyJukebox
 
     def self.version_of_song_in_any_dir?(song_filename, save_dir)
       top_dir = UserConfig.top_music_dir(save_dir)
-      @existing_files = calculate_existing_files(top_dir) if top_dir != @last_top_dir  # recalculate existing files only if different top music directory
+      @existing_files = calculate_existing_files(top_dir)
       @existing_files.include?(song_filename.gsub(SUPPORTED_MUSIC_TYPES,""))                  # does extensionless song_filename exist in directory?
     end
 
@@ -55,7 +53,6 @@ module JimmyJukebox
       existing_files.delete_if { |f| !f.match(SUPPORTED_MUSIC_TYPES) }       # delete unless .mp3, .MP3, .ogg or .OGG
       existing_files.map! { |f| File.basename(f) }                    # strip any path info preceding the filename
       existing_files.map! { |f| f.gsub(SUPPORTED_MUSIC_TYPES,"") }           # strip extensions
-      @last_top_dir = top_dir
       @existing_files = existing_files
     end
 
