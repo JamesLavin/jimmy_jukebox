@@ -133,12 +133,41 @@ describe JimmyJukebox::SongLoader do
 
   describe "#lionel_hampton without dirname" do
     
-    it "should try to download many songs" do
-      dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Lionel_Hampton')
+    before(:each) do
+      @dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Lionel_Hampton')
       @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
+    end
+
+    it "should try to download many songs" do
       @sl.should_receive(:open).at_least(50).times
       @sl.lionel_hampton
-      File.exists?(dirname).should be_true
+      File.exists?(@dirname).should be_true
+    end
+
+    context "with max_songs" do
+      
+      it "should try to download only max_songs songs" do
+        @sl.should_receive(:open).exactly(23).times
+        @sl.lionel_hampton(23)
+        File.exists?(@dirname).should be_true
+      end
+    
+      context "with some songs already downloaded" do 
+
+        before(:each) do
+          (1..10).each do |num|
+            FileUtils.touch File.join(@dirname,"file_#{num}.mp3")
+          end
+        end
+
+        it "should try to download only max_songs songs" do
+          @sl.should_receive(:open).exactly(13).times
+          @sl.lionel_hampton(23)
+          File.exists?(@dirname).should be_true
+        end
+      
+      end
+
     end
 
   end

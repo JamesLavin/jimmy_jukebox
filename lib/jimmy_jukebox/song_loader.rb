@@ -26,10 +26,10 @@ module JimmyJukebox
 
     def self.define_artist(name,user_config)
       metaclass.instance_eval do
-        define_method(name) do
+        define_method(name) do |max_num = nil|
           save_dir = user_config.default_music_dir + artist_name_to_subdir_name(name.to_s)
           songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{artist_name_to_yaml_file(name.to_s)}")
-          download_songs(songs, save_dir)
+          download_num_songs(songs, save_dir, max_num)
         end
       end
     end
@@ -71,13 +71,23 @@ module JimmyJukebox
 
     private
 
+    def self.get_num_random(songs, num)
+      if num && num.kind_of?(Integer)
+        songs.shuffle.take(num)
+      else
+        songs
+      end
+    end
+
+    def self.download_num_songs(songs, save_dir, max_num = nil)
+      songs = get_num_random(songs, max_num) if max_num
+      self.download_songs(songs, save_dir)
+    end
+
     def self.download_songs(songs, save_dir)
       save_dir = File.expand_path(save_dir)
       create_save_dir(save_dir) unless File.directory?(save_dir)
-      #Dir.chdir(save_dir)
-      songs.each do |song_url|
-        download_song(song_url, save_dir)
-      end
+      songs.each { |song_url| download_song(song_url, save_dir) }
     end
 
     def self.song_savename(song_url)

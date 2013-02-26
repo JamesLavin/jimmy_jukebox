@@ -10,7 +10,7 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rspec-expectations')
   s.add_development_dependency('fakefs')
   s.add_development_dependency('fakeweb')
-  s.description = 'jimmy_jukebox plays random MP3 & OGG songs under a directory (or set of directories) and can download music'
+  s.description = 'jimmy_jukebox downloads great music and plays random MP3 & OGG songs under a directory (or set of directories)'
   s.email = 'james@jameslavin.com'
   s.files = Dir['README','roadmap.txt','LICENSE.txt','lib/**/*.rb','lib/**/*.yml','spec/**/*']
   s.homepage = "https://github.com/JamesLavin/jimmy_jukebox"
@@ -21,6 +21,6 @@ spec = Gem::Specification.new do |s|
   s.test_files = Dir.glob('spec/*.rb')
   s.version = JimmyJukebox::VERSION
   s.rubyforge_project = "jimmy_jukebox"
-  s.post_install_message = "I really hope you enjoy the great jazz downloadable using this gem!"
+  s.post_install_message = "I really hope you enjoy the great jazz and classical music downloadable using this gem!"
 end
 
