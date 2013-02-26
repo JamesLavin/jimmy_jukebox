@@ -46,8 +46,8 @@ module JimmyJukebox
     end
 
     def self.all_subdir_files(dir)
-      existing_files = Dir.glob(File.join(dir, '**', '*' ))       # all files in all subdirs
-      if "".respond_to?(:force_encoding)                                            # Ruby 1.8 doesn't have string encoding or String#force_encoding
+      existing_files = Dir.glob(File.join(dir, '**', '*' ))   # all files in all subdirs
+      if "".respond_to?(:force_encoding)                      # Ruby 1.8 doesn't have string encoding or String#force_encoding
         existing_files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
       end
       existing_files.delete_if { |f| !f.match(SUPPORTED_MUSIC_TYPES) }       # delete unless .mp3, .MP3, .ogg or .OGG
@@ -68,7 +68,7 @@ module JimmyJukebox
 
     private
 
-    def self.get_num_random(songs, num)
+    def self.n_random_songs(songs, num)
       if num && num.kind_of?(Integer)
         songs.shuffle.take(num)
       else
@@ -76,8 +76,13 @@ module JimmyJukebox
       end
     end
 
+    def self.downloadable(songs, current_songs)
+      songs.sort - current_songs.sort
+    end
+
     def self.download_num_songs(songs, save_dir, max_num = nil)
-      songs = get_num_random(songs, max_num) if max_num
+      current_songs = all_subdir_files(save_dir)
+      songs = n_random_songs(downloadable(songs, current_songs), max_num) if max_num
       self.download_songs(songs, save_dir)
     end
 

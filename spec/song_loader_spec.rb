@@ -4,6 +4,7 @@ require 'fakeweb' # apparently must be required before fakefs
 FakeWeb.allow_net_connect = false
 gem 'fakefs', require: 'fakefs/safe'
 require 'fakefs/safe'
+require 'jimmy_jukebox/song'
 require 'jimmy_jukebox/song_loader'
 
 describe JimmyJukebox::SongLoader do
@@ -196,6 +197,20 @@ describe JimmyJukebox::SongLoader do
       FakeWeb.clean_registry
     end
 
+  end
+
+  describe ".downloadable" do
+    let(:song1) { Song.new('~/Music/JAZZ/fletcher_henderson/song1.mp3') }
+    let(:song2) { Song.new('~/Music/JAZZ/fletcher_henderson/song2.ogg') }
+    let(:song3) { Song.new('~/Music/JAZZ/fletcher_henderson/song3.mp3') }
+    let(:song4) { Song.new('~/Music/JAZZ/fletcher_henderson/song4.ogg') }
+    let(:song5) { Song.new('~/Music/JAZZ/fletcher_henderson/song5.mp3') }
+
+    it "returns an array with all downloadable songs" do
+      songs = [song1, song2, song3, song4, song5]
+      current_songs = [song2, song5]
+      SongLoader.downloadable(songs, current_songs).should == [song1, song3, song4]
+    end
   end
 
   describe "call to non-existent method" do

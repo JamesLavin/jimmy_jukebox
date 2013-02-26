@@ -22,9 +22,13 @@ module JimmyJukebox
       @paused
     end
 
+    def <=>(other)
+      music_file <=> other.music_file
+    end
+
     def set_music_file(in_music_file)
       if in_music_file =~ /\.mp3$/i || in_music_file =~ /\.ogg$/i
-        @music_file = in_music_file
+        @music_file = File.expand_path(in_music_file)
       else
         raise InvalidSongFormatException, "JimmyJukebox plays only .mp3/.ogg files. #{in_music_file} is not valid"
       end
@@ -120,8 +124,7 @@ module JimmyJukebox
     def play_with_player
       p "Now playing '#{music_file}'"
       p "Press Ctrl-C to stop the music and exit this program"
-      music_file_path = File.expand_path(music_file)
-      run_command(player, music_file_path)
+      run_command(player, music_file)
       p "playing_pid = " + playing_pid.to_s
       Process.waitpid(playing_pid) # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
       $? # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus
