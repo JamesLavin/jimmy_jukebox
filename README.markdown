@@ -8,7 +8,7 @@ JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playin
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Charlie Parker, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, King Oliver, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, Red Norvo, and Sidney Bechet.
 
-I've recently begun enabling downloading of classical music performances, starting with Beethoven, Chopin, Haydn, Mendelssohn, Mozart, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
+I've recently begun enabling downloading of classical music performances, starting with Bach, Beethoven, Chopin, Haydn, Mendelssohn, Mozart, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
 
 ## REQUIREMENTS
 
@@ -51,6 +51,7 @@ To download a limited number of songs by an artist, add the number of songs you 
 To download all songs by an artist, use the following commands:
 
     CLASSICAL
+    Bach:                         "load_jukebox jsb"  (153 songs)
     Beethoven:                    "load_jukebox lvb"  ( 49 songs)
     Chopin:                       "load_jukebox c"    ( 47 songs)
     Haydn:                        "load_jukebox h"    ( 47 songs)
@@ -93,6 +94,7 @@ To download all songs by an artist, use the following commands:
 
 After downloading music, you can play just that artist by typing
 
+    ALL artists:                  "play_jukebox"
     Art Tatum:                    "play_jukebox at"
     Artie Shaw:                   "play_jukebox as"
     Bennie Moten:                 "play_jukebox bm"

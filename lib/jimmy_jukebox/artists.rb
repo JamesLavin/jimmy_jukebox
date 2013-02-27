@@ -23,6 +23,7 @@ module Artists
     h:    { genre: 'CLASSICAL', name: 'haydn'},
     jj:   { genre: 'JAZZ', name: "james_p_johnson"},
     jrm:  { genre: 'JAZZ', name: "jelly_roll_morton"},
+    jsb:  { genre: 'CLASSICAL', name: "bach"},
     ko:   { genre: 'JAZZ', name: "king_oliver"},
     la:   { genre: 'JAZZ', name: "louis_armstrong"},
     lh:   { genre: 'JAZZ', name: "lionel_hampton"},
