@@ -83,7 +83,7 @@ To download all songs by an artist, use the following commands:
     King Oliver:                  "load_jukebox ko"   ( 60 songs)
     Lionel Hampton:               "load_jukebox lh"   (148 songs)
     Louis Armstrong:              "load_jukebox la"   (150 songs)
-    Miles Davis:                  "load_jukebox md"   (  8 songs)
+    Miles Davis:                  "load_jukebox md"   ( 62 songs)
     Original Dixieland Jazz Band: "load_jukebox odjb" ( 45 songs)
     Ragtime (various artists):    "load_jukebox rt"   ( 14 songs)
     Red Norvo:                    "load_jukebox rn"   ( 39 songs)
