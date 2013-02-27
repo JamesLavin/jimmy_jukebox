@@ -104,7 +104,6 @@ module JimmyJukebox
 
     def download_num_songs(song_urls, save_dir, max_num = nil)
       current_songs = all_subdir_music_files(save_dir)
-      p current_songs.to_s
       do_not_have = downloadable(song_urls, current_songs)
       p "You already have all songs for this artist" if do_not_have.empty?
       if max_num
@@ -140,9 +139,8 @@ module JimmyJukebox
 
     def download_song(song_url, save_dir)
       savename = song_savename(song_url)
-      puts "Downloading #{savename} to #{save_dir}"
       return if song_already_exists?(savename, save_dir)
-      puts "Downloading #{savename}"
+      p "Downloading #{savename} to #{save_dir}"
       song_pathname = File.join(save_dir, savename)
       open(song_pathname, 'wb') do |dst|
         open(song_url) do |src|
