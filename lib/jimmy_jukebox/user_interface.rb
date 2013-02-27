@@ -1,4 +1,14 @@
-require 'readline'
+require 'io/console'
+
+if $running_jruby
+  class IO
+    def getch
+      raw do
+        getc
+      end
+    end
+  end
+end
 
 jj = Jukebox.new
 
@@ -8,8 +18,6 @@ end
 
 user_input_thread = Thread.new do
   
-  stty_save = `stty -g`.chomp   # Store state of the terminal
-
   def display_options
     p "'p' = (un)pause, 'q' = quit, 'r' = replay previous song, 's' = skip this song, 'e' = erase this song"
   end
@@ -25,8 +33,7 @@ user_input_thread = Thread.new do
   begin
     loop do
       display_options_after_delay
-      line = Readline.readline('> ', true)
-      case line.strip
+      case STDIN.getch
       when "q", "Q"
         raise Interrupt
       when "e", "E"
@@ -54,7 +61,6 @@ user_input_thread = Thread.new do
   rescue Interrupt, SystemExit => e
     p "JimmyJukebox closed by user request. Bye!"
     jj.quit
-    system('stty', stty_save) unless $running_jruby # Restore original terminal state
     exit
   end
 end

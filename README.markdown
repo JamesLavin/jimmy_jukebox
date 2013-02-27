@@ -2,7 +2,7 @@
 
 ## DESCRIPTION
 
-JimmyJukebox enables you to: 1) Play your music; and, 2) Download wonderful old jazz and classical music
+JimmyJukebox enables you to: 1) Download wonderful old jazz and classical music; and, 2) Play it and your other music.
 
 JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files in your `~/Music` directory tree (including subdirectories). You can specify a different top music directory by passing a directory name as a command line parameter (example: `play_jukebox ~/Music/JAZZ`). Or you can pass the name of a text file containing a list of directory names.
 
@@ -105,11 +105,11 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 - To play a random selection of music, type in the command line `play_jukebox`
   - A song will start playing
-  - To skip to the next song, type `s<RETURN>`
-  - To pause the song, type `p<RETURN>`
-  - To restart a paused song, type `p<RETURN>`
-  - To erase the playing song and never hear it again, type `e<RETURN>`
-  - To quit, type "q<RETURN>" or `<CTRL>-C`
+  - To skip to the next song, type `s`
+  - To pause the song, type `p`
+  - To restart a paused song, type `p`
+  - To erase the playing song and never hear it again, type `e`
+  - To quit, type "q" or `<CTRL>-C`
 
 - To play a random selection of just jazz, type `play_jukebox jazz`
 - To play a random selection of just classical, type `play_jukebox classical`
