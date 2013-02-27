@@ -34,6 +34,7 @@ module Artists
     rn:   { genre: 'JAZZ', name: "red_norvo"},
     fs:   { genre: 'CLASSICAL', name: "franz_schubert"},
     sb:   { genre: 'JAZZ', name: "sidney_bechet"},
+    v:    { genre: 'CLASSICAL', name: "vivaldi"},
     wam:  { genre: 'CLASSICAL', name: "mozart"}
   }
 

@@ -8,7 +8,7 @@ JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playin
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Charlie Parker, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, King Oliver, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, Red Norvo, and Sidney Bechet.
 
-I've recently begun enabling downloading of classical music performances, starting with Beethoven, Chopin, Haydn, Mendelssohn, Mozart and Schubert. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
+I've recently begun enabling downloading of classical music performances, starting with Beethoven, Chopin, Haydn, Mendelssohn, Mozart, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
 
 ## REQUIREMENTS
 
@@ -44,7 +44,11 @@ Windows:
 
 Warning: Songs average approximately 2.5MB or 3MB.
 
-To download music, use this on the command line:
+To download a limited number of songs by an artist, add the number of songs you want after the artist's initials. For example, to download just 15 pieces by Beethoven (lvb), type:
+
+    Beethoven:                    "load_jukebox lvb 15"
+
+To download all songs by an artist, use the following commands:
 
     CLASSICAL
     Beethoven:                    "load_jukebox lvb"  ( 49 songs)
@@ -53,6 +57,7 @@ To download music, use this on the command line:
     Mendelssohn:                  "load_jukebox m"    ( 57 songs)
     Mozart:                       "load_jukebox wam"  (141 songs)
     Schubert:                     "load_jukebox fs"   ( 38 songs)
+    Vivaldi:                      "load_jukebox v"    ( 52 songs)
 
     JAZZ
     Art Tatum:                    "load_jukebox at"   (168 songs)

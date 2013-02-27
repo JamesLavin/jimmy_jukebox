@@ -79,6 +79,7 @@ module JimmyJukebox
         song_to_erase = current_song
         skip_song
         File.delete(song_to_erase.music_file)
+        p "Erased #{song_to_erase.music_file}"
         user_config.generate_song_list
       else
         raise NoCurrentSongException, "No current_song"
