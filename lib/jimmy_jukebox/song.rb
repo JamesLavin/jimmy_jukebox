@@ -99,7 +99,7 @@ module JimmyJukebox
     end
 
     def spawn_method
-      if $running_jruby
+      if JimmyJukebox::RUNNING_JRUBY
         lambda { |command, arg| Spoon.spawnp(command, arg) }
       else
         begin

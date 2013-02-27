@@ -8,16 +8,19 @@ include JimmyJukebox
 # don't actually play music
 module JimmyJukebox
   class Song
-    def spawn_method(command, arg)
-      lambda { |command, arg| sleep(5) }
+    def spawn_method
+      if JimmyJukebox::RUNNING_JRUBY
+        require 'spoon'
+        lambda { |command, arg| Spoon.spawnp('sleep 2') }
+      else
+        require 'posix/spawn'
+        lambda { |command, arg| POSIX::Spawn::spawn('sleep 2') }
+      end
     end
   end
 end
 
 describe Song do
-
-  before(:each) do
-  end
 
   describe "#initialize" do
 
@@ -49,109 +52,67 @@ describe Song do
 
     before(:each) do
       @uc = UserConfig.new
-      @jj = Jukebox.new(@uc)
+      @jj = Jukebox.new(@uc, false)
       @song = Song.new("~/Music/JAZZ/art_tatum.mp3")
     end
 
     it "is initially not paused" do
-      @song.play(@uc, @jj)
+      @jj.play_song(@song)
       @song.paused?.should be_false
     end
 
     it "is paused after calling #pause" do
-      @song.play
-      @song.pause
+      @jj.play_song(@song)
+      @jj.pause_current_song
       @song.paused?.should be_true
     end
 
     it "is unpaused after calling #pause and #unpause" do
+      @jj.play_song(@song)
       @song.pause
+      @song.paused?.should be_true
       @song.unpause
       @song.paused?.should be_false
     end
 
   end
 
-  describe "#play" do
+  describe "#skip_song" do
 
     before(:each) do
-      @music_file = "~/Music/JAZZ/art_tatum.mp3"
-      @song = Song.new(@music_file)
-    end
-
-    let(:uc) { double('user_config').as_null_object }
-    let(:ps) { double('process_status').as_null_object}
-
-    it "calls #play_with_player" do
-      ps.stub(:exitstatus).and_return(0)
-      @song.should_receive(:play_with_player).and_return(ps)
-      uc.stub(:mp3_player) {"play"}
-      uc.stub(:ogg_player) {"play"}
-      @song.play(uc)
-    end
-
-    it "raises error when exitstatus != 0" do
-      ps.stub(:exitstatus).and_return(1)
-      @song.should_receive(:play_with_player).and_return(ps)
-      uc.stub(:mp3_player) {"play"}
-      uc.stub(:ogg_player) {"play"}
-      expect{@song.play(uc)}.to raise_error
-    end
-
-  end
-
-  describe "#play_with_player" do
-
-    before(:each) do
-      @music_file = "~/Music/JAZZ/art_tatum.mp3"
-      @song = Song.new(@music_file)
-    end
-
-    let(:uc) { double('user_config').as_null_object }
-    let(:ps) { double('process_status').as_null_object}
-
-    it "calls #system_yield_pid" do
-      uc.stub(:mp3_player) {"play"}
-      uc.stub(:ogg_player) {"play"}
-      @song.set_player(uc)
-      @song.should_receive(:system_yield_pid).with("play",File.expand_path(@music_file)).and_return(ps)
-      @song.play_with_player
-    end
-
-    it "calls #system_yield_pid and captures playing_pid" do
-      pending
-      uc.stub(:mp3_player) {"play"}
-      uc.stub(:ogg_player) {"play"}
-      @song.set_player(uc)
-      @song.should_receive(:system_yield_pid).with("play",File.expand_path(@music_file)).and_yield(1469)
-      @song.play_with_player
-      @song.playing_pid.should == 1469
-    end
-
-  end
-
-  describe "#playing_pid" do
-
-    before(:each) do
+      @uc = UserConfig.new
+      @jj = Jukebox.new(@uc, false)
       @song = Song.new("~/Music/JAZZ/art_tatum.mp3")
     end
 
-    let(:uc) { double('user_config').as_null_object }
-
-    it "is initially nil" do
+    it "is initially not paused" do
+      @jj.play_song(@song)
+      @song.playing_pid.should be_kind_of(Integer)
+      @jj.skip_song
       @song.playing_pid.should be_nil
     end
 
-    it "is not nil after #play" do
-      uc.stub(:mp3_player) {"play"}
-      uc.stub(:ogg_player) {"play"}
-      thread = Thread.new do
-        @song.play(uc)
-      end
-      sleep 0.1
-      @song.playing_pid.should_not be_nil
+  end
+
+  describe "#play_loop" do
+
+    before(:each) do
+      @uc = UserConfig.new
+      #FileUtils.mkdir_p(File.expand_path("~/Music/JAZZ"))
+      @song = Song.new("~/Music/JAZZ/art_tatum.mp3")
+      Jukebox.any_instance.stub(:songs).and_return([@song])
+      Jukebox.any_instance.stub(:next_song).and_return(@song)
     end
 
+    it "should automatically play the first song" do
+      @jj = Jukebox.new(@uc)
+      play_loop_thread = Thread.new do
+        @jj.play_loop
+      end
+      sleep 0.1
+      @jj.playing?.should be_true
+      play_loop_thread.exit
+    end
   end
 
 end

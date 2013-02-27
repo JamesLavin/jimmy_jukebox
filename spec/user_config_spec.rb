@@ -87,7 +87,6 @@ describe UserConfig do
 
       it "finds songs" do
         File.directory?(File.expand_path("~/Music/ROCK/Beatles")).should be_true
-        p uc.songs.to_s
         uc.songs.should_not be_empty
         uc.songs.length.should == 1
       end
