@@ -1,11 +1,11 @@
+require 'fileutils'
+
+require 'jimmy_jukebox/artists'
+include Artists
+
 module JimmyJukebox
 
   class UserConfig
-
-    require 'fileutils'
-
-    require 'jimmy_jukebox/artists'
-    include Artists
 
     attr_writer   :music_directories
     attr_accessor :songs, :ogg_player, :mp3_player
@@ -28,6 +28,14 @@ module JimmyJukebox
 
     def default_music_dir
       File.expand_path(File.join("~","Music"))
+    end
+
+    def jazz_dir
+      default_music_dir + '/JAZZ'
+    end
+
+    def classical_dir
+      default_music_dir + '/CLASSICAL'
     end
 
     def set_music_players
@@ -64,11 +72,6 @@ module JimmyJukebox
         self.ogg_player = "mplayer -nolirc -noconfig all"
       elsif play_exists?
         self.ogg_player = "play"
-      #elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
-      #  ogg_player = "afplay"
-      #  return
-      #elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
-      #  ogg_player = "afplay"
       end
     end
 
@@ -89,11 +92,6 @@ module JimmyJukebox
         self.mp3_player = "mplayer -nolirc -noconfig all"
       elsif play_exists?
         self.mp3_player = "play"
-      #elsif RUBY_PLATFORM.downcase.include?('mac') || RUBY_PLATFORM.downcase.include?('darwin')
-      #  mp3_player = "afplay"
-      #  return
-      #elsif (require 'rbconfig') && ['mac','darwin'].include?(RbConfig::CONFIG['host_os'])
-      #  mp3_player = "afplay"
       end
     end
 
@@ -143,6 +141,10 @@ module JimmyJukebox
       # puts "ARGV: " + ARGV.inspect + " (" + ARGV.class.to_s + ")"
       if ARGV.empty?
         music_directories << default_music_dir
+      elsif ARGV[0].strip =~ /^jazz$/i
+        music_directories << jazz_dir
+      elsif ARGV[0].strip =~ /^classical$/i
+        music_directories << classical_dir
       elsif ARTISTS.keys.include?(ARGV[0].to_sym)
         music_directories << default_music_dir + artist_key_to_subdir_name(ARGV[0].to_sym)
       elsif is_a_txt_file?(ARGV[0])

@@ -93,27 +93,33 @@ To download all songs by an artist, use the following commands:
     OTHER
     Archibald Camp (banjo):       "load_jukebox acb"  ( 20 songs) (old banjo songs)
 
-After downloading music, you can play just that artist by typing
-
-    ALL artists:                  "play_jukebox"
-    Art Tatum:                    "play_jukebox at"
-    Artie Shaw:                   "play_jukebox as"
-    Bennie Moten:                 "play_jukebox bm"
-    etc.
-
 By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically).
 
 To specify a different directory, type the full directory path after `load_jukebox`, e.g.: `load_jukebox "/home/my_name/MyMusic/Jazz/ODJB"`. Place the directory path in quotation marks if it contains any spaces or other "unusual" characters.
 
 ## BASIC USAGE - PLAYING MUSIC
 
-- On the command line, type `play_jukebox`
 - By default, JimmyJukebox assumes your music is stored in a directory tree descending from `~/Music`
-- A song will start playing
-- To skip to the next song, type `s<RETURN>`
-- To pause the song, type `p<RETURN>`
-- To restart a paused song, type `p<RETURN>`
-- To quit, type "q<RETURN>" or `<CTRL>-C`
+- By default, jazz music is stored under `~/Music/JAZZ`
+- By default, classical music is stored under `~/Music/CLASSICAL`
+
+- To play a random selection of music, type in the command line `play_jukebox`
+  - A song will start playing
+  - To skip to the next song, type `s<RETURN>`
+  - To pause the song, type `p<RETURN>`
+  - To restart a paused song, type `p<RETURN>`
+  - To erase the playing song and never hear it again, type `e<RETURN>`
+  - To quit, type "q<RETURN>" or `<CTRL>-C`
+
+- To play a random selection of just jazz, type `play_jukebox jazz`
+- To play a random selection of just classical, type `play_jukebox classical`
+- To play a particular artist, type:
+
+    Art Tatum:                    "play_jukebox at"
+    Artie Shaw:                   "play_jukebox as"
+    Bennie Moten:                 "play_jukebox bm"
+    Haydn:                        "load_jukebox h"
+    etc.
 
 ## TELLING JIMMYJUKEBOX WHERE TO FIND YOUR MUSIC
 
