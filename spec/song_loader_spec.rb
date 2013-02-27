@@ -24,11 +24,13 @@ describe SongLoader.new do
   let(:song3_url) { 'http://archive.org/fletcher_henderson/song3.mp3' }
   let(:song4_url) { 'http://archive.org/fletcher_henderson/song4.ogg' }
   let(:song5_url) { 'http://archive.org/fletcher_henderson/song5.mp3' }
+  let(:song6_url) { 'http://archive.org/fletcher_henderson/06.mp3' }
   let(:song1) { Song.new('~/Music/JAZZ/fletcher_henderson/song1.mp3') }
   let(:song2) { Song.new('~/Music/JAZZ/fletcher_henderson/song2.ogg') }
   let(:song3) { Song.new('~/Music/JAZZ/fletcher_henderson/song3.mp3') }
   let(:song4) { Song.new('~/Music/JAZZ/fletcher_henderson/song4.ogg') }
   let(:song5) { Song.new('~/Music/JAZZ/fletcher_henderson/song5.mp3') }
+  let(:song6) { Song.new('~/Music/JAZZ/fletcher_henderson/06.mp3') }
 
   before(:each) do
     ARGV.clear
@@ -47,7 +49,7 @@ describe SongLoader.new do
 
   end
 
-  describe "#version_of_song_in_any_dir?" do
+  describe "#version_of_song_in_dir_or_subdir?" do
 
     it "should return true if song in top of directory tree" do
       topdir = "/home/user_name1/Music"
@@ -59,7 +61,7 @@ describe SongLoader.new do
       File.exists?(songname).should be_false
       FileUtils.touch(songname)
       File.exists?(songname).should be_true
-      @sl.version_of_song_in_any_dir?(songname,topdir).should be_true
+      @sl.version_of_song_in_dir_or_subdir?(songname,topdir).should be_true
     end
 
     it "should return true if song in subdirectory" do
@@ -70,7 +72,7 @@ describe SongLoader.new do
       FileUtils.mkdir_p(subdir)
       FileUtils.touch(File.join(subdir, songname))
       File.exists?(File.join(subdir, songname)).should be_true
-      @sl.version_of_song_in_any_dir?(songname,subdir).should be_true
+      @sl.version_of_song_in_dir_or_subdir?(songname,subdir).should be_true
     end
 
     it "should return false if song not in directory tree" do
@@ -79,7 +81,7 @@ describe SongLoader.new do
       songname = "Paperback_Writer.mp3"
       FileUtils.mkdir_p(subdir)
       File.exists?(File.join(subdir, songname)).should be_false
-      @sl.version_of_song_in_any_dir?(songname,subdir).should be_false
+      @sl.version_of_song_in_dir_or_subdir?(songname,subdir).should be_false
     end
 
   end
@@ -101,8 +103,8 @@ describe SongLoader.new do
     context "no songs yet downloaded" do
 
       before(:each) do
-        @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
-        @sl.stub!(:all_subdir_files).and_return([])
+        @sl.stub!(:version_of_song_in_dir_or_subdir?).and_return(false)
+        @sl.stub!(:all_subdir_music_files).and_return([])
         YAML.stub!(:load_file).and_return([song1_url, song2_url, song3_url, song4_url, song5_url])
       end
 
@@ -130,6 +132,31 @@ describe SongLoader.new do
 
   describe "#charlie_christian without dirname" do
    
+    context "when song name exists in another artist's directory" do
+
+      before(:each) do
+        @sl.stub!(:check_downloaded_song_size).and_return(nil)
+        dixieland_dir = @sl.user_config.default_music_dir + artist_name_to_subdir_name("dixieland")
+        FileUtils.mkdir_p dixieland_dir
+        FileUtils.touch File.join(dixieland_dir, '06.mp3')
+        YAML.stub!(:load_file).and_return(['http://www.archive.org/06.mp3'])
+      end
+
+      context "without max_songs" do
+
+        it "should try to download the missing song" do
+          charlie_christian_dir = @sl.user_config.default_music_dir + artist_name_to_subdir_name("charlie_christian")
+          File.exists?(File.join(charlie_christian_dir, '06.mp3')).should be_false
+          dixieland_dir = @sl.user_config.default_music_dir + artist_name_to_subdir_name("dixieland")
+          File.exists?(File.join(dixieland_dir, '06.mp3')).should be_true
+          @sl.should_receive(:open).once
+          @sl.charlie_christian
+        end
+
+      end
+
+    end
+
     context "two songs downloaded" do
 
       before(:each) do
@@ -189,7 +216,7 @@ describe SongLoader.new do
     it "should try to download three songs" do
       pending "have not yet implemented way to specify artist-specific directory"
       dirname = File.expand_path(@sl.instance_variable_get(:@user_config).default_music_dir + '/JAZZ/Dizzy_Gillespie')
-      @sl.stub!(:version_of_song_in_any_dir?).and_return(false)
+      @sl.stub!(:version_of_song_in_dir_or_subdir?).and_return(false)
       @sl.should_receive(:open).exactly(3).times
       @sl.dizzy_gillespie(dirname)
     end

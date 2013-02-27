@@ -20,10 +20,24 @@ def invalid_artist
   exit
 end
 
+def valid_artist?(arg)
+  ARTISTS.has_key?(arg.to_sym)
+end
+
+def artist_name(arg)
+  ARTISTS[arg.to_sym][:name]
+end
+
+def valid_integer?(arg)
+  arg && arg.to_i.is_a?(Integer)
+end
+
 no_argv0 unless ARGV[0]
 
-if ARTISTS.has_key?(ARGV[0].to_sym)
-  JimmyJukebox::SongLoader.new.send(ARTISTS[ARGV[0].to_sym][:name])
+invalid_artist unless valid_artist?(ARGV[0])
+
+if valid_integer?(ARGV[1])
+  JimmyJukebox::SongLoader.new.send(artist_name(ARGV[0]), ARGV[1].to_i)
 else
-  invalid_artist
+  JimmyJukebox::SongLoader.new.send(artist_name(ARGV[0]))
 end

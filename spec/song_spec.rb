@@ -1,8 +1,18 @@
 require 'spec_helper'
 require 'jimmy_jukebox/song'
 require 'jimmy_jukebox/user_config'
+require 'jimmy_jukebox/jukebox'
 
 include JimmyJukebox
+
+# don't actually play music
+module JimmyJukebox
+  class Song
+    def spawn_method(command, arg)
+      lambda { |command, arg| sleep(5) }
+    end
+  end
+end
 
 describe Song do
 
@@ -38,14 +48,18 @@ describe Song do
   describe "#paused?" do
 
     before(:each) do
+      @uc = UserConfig.new
+      @jj = Jukebox.new(@uc)
       @song = Song.new("~/Music/JAZZ/art_tatum.mp3")
     end
 
     it "is initially not paused" do
+      @song.play(@uc, @jj)
       @song.paused?.should be_false
     end
 
     it "is paused after calling #pause" do
+      @song.play
       @song.pause
       @song.paused?.should be_true
     end

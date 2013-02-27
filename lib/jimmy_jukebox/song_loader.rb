@@ -39,29 +39,38 @@ module JimmyJukebox
     end
 
 
-    def sample(num_songs)
+    def sample_jazz(num_songs)
       # create array of all possible songs
       # loop through array and download num_songs new songs (or until end of array reached)
+      raise "not yet implemented"
     end
 
-    def version_of_song_in_any_dir?(song_filename, save_dir)
-      top_dir = UserConfig.top_music_dir(save_dir)
-      @existing_files = all_subdir_files_extensionless(top_dir)
-      @existing_files.include?(song_filename.gsub(SongLoader::MUSIC_TYPES,"")) # does extensionless song_filename exist in directory?
+    def sample_classical(num_songs)
+      raise "not yet implemented"
     end
 
-    def all_subdir_files(dir)
+    def version_of_song_in_dir_or_subdir?(song_filename, save_dir)
+      existing_files = all_subdir_music_files_extensionless(save_dir)
+      existing_files.include?(song_filename.gsub(SongLoader::MUSIC_TYPES,"")) # does extensionless song_filename exist in directory?
+    end
+
+    def version_of_song_under_specific_dir?(song_filename, save_dir)
+      existing_files = Dir.entries(".").delete_if { |f| !f.match(SongLoader::MUSIC_TYPES) }  # delete unless .mp3 or .ogg
+      existing_files.map! { |f| f.gsub(SongLoader::MUSIC_TYPES,"") }                         # strip extensions
+      existing_files.include?(song_filename.gsub(SongLoader::MUSIC_TYPES,"")) ? true : false # does extensionless song_filename exist in directory?
+    end
+
+    def all_subdir_music_files(dir)
       existing_files = Dir.glob(File.join(dir, '**', '*' ))   # all files in all subdirs
       if "".respond_to?(:force_encoding)                      # Ruby 1.8 doesn't have string encoding or String#force_encoding
         existing_files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
       end
       existing_files.delete_if { |f| !f.match(SongLoader::MUSIC_TYPES) }  # delete unless .mp3, .MP3, .ogg or .OGG
-      existing_files.map! { |f| File.basename(f) }                        # strip any path info preceding the filename
-      @existing_files = existing_files
+      existing_files.map { |f| File.basename(f) }                        # strip any path info preceding the filename
     end
 
-    def all_subdir_files_extensionless(dir)
-      all_subdir_files(dir).map! { |f| f.gsub(SongLoader::MUSIC_TYPES,"") }      # strip extensions
+    def all_subdir_music_files_extensionless(dir)
+      all_subdir_music_files(dir).map! { |f| f.gsub(SongLoader::MUSIC_TYPES,"") }      # strip extensions
     end
 
     def create_save_dir(save_dir)
@@ -94,12 +103,20 @@ module JimmyJukebox
     end
 
     def download_num_songs(song_urls, save_dir, max_num = nil)
-      current_songs = all_subdir_files(save_dir)
+      current_songs = all_subdir_music_files(save_dir)
+      p current_songs.to_s
+      do_not_have = downloadable(song_urls, current_songs)
+      p "You already have all songs for this artist" if do_not_have.empty?
       if max_num
         more_songs = max_num - current_songs.length
-        song_urls = n_random_songs(downloadable(song_urls, current_songs), more_songs) if more_songs > 0
+        if more_songs > 0
+          do_not_have = n_random_songs(do_not_have, more_songs)
+        else
+          p "You already have #{current_songs.length} songs by this artist and are requesting a maximum of #{max_num} songs"
+          do_not_have = []
+        end
       end
-      download_songs(song_urls, save_dir)
+      download_songs(do_not_have, save_dir)
     end
 
     def download_songs(song_urls, save_dir)
@@ -113,8 +130,8 @@ module JimmyJukebox
     end
 
     def song_already_exists?(savename, save_dir)
-      if version_of_song_in_any_dir?(savename, save_dir)
-        puts "#{savename} already exists in #{save_dir}"
+      if version_of_song_in_dir_or_subdir?(savename, save_dir)
+        p "#{savename} already exists in #{save_dir}"
         true
       else
         false
@@ -123,6 +140,7 @@ module JimmyJukebox
 
     def download_song(song_url, save_dir)
       savename = song_savename(song_url)
+      puts "Downloading #{savename} to #{save_dir}"
       return if song_already_exists?(savename, save_dir)
       puts "Downloading #{savename}"
       song_pathname = File.join(save_dir, savename)
@@ -148,12 +166,6 @@ module JimmyJukebox
         puts "You might want to try downloading again."
         File.delete(song_pathname)
       end
-    end
-
-    def version_of_song_in_current_dir?(song_filename)
-      existing_files = Dir.entries(".").delete_if { |f| !f.match(SongLoader::MUSIC_TYPES) }  # delete unless .mp3 or .ogg
-      existing_files.map! { |f| f.gsub(SongLoader::MUSIC_TYPES,"") }                         # strip extensions
-      existing_files.include?(song_filename.gsub(SongLoader::MUSIC_TYPES,"")) ? true : false # does extensionless song_filename exist in directory?
     end
 
   end

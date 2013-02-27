@@ -46,9 +46,7 @@ module Artists
   end
 
   def artist_name_to_genre(name)
-    p "looking for #{name}"
     artists = ARTISTS.select { |k,v| v[:name] == name }
-    p artists
     key, value = artists.first
     value[:genre]
   end
