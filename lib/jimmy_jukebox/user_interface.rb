@@ -11,7 +11,7 @@ user_input_thread = Thread.new do
   stty_save = `stty -g`.chomp   # Store state of the terminal
 
   def display_options
-    p "Press 'p' to (un)pause, 'q' to quit, 'r' for replay previous song, or 's' to skip this song"
+    p "'p' = (un)pause, 'q' = quit, 'r' = replay previous song, 's' = skip this song, 'e' = erase this song"
   end
 
   def display_options_after_delay
@@ -28,6 +28,8 @@ user_input_thread = Thread.new do
       case line.strip
       when "q", "Q"
         raise Interrupt
+      when "e", "E"
+        jj.erase_song
       when "p", "P"
         raise NoPlayLoopThreadException, "Can't find play_loop_thread" unless play_loop_thread
         if jj.current_song.paused?

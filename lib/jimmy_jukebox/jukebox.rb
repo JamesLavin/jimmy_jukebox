@@ -74,11 +74,21 @@ module JimmyJukebox
       end
     end
 
+    def erase_song
+      if current_song
+        song_to_erase = current_song
+        skip_song
+        File.delete(song_to_erase.music_file)
+        user_config.generate_song_list
+      else
+        raise NoCurrentSongException, "No current_song"
+      end
+    end
+
     def skip_song
       if current_song
         enable_continuous_play
         p "Skipping #{current_song.music_file}"
-        #play_random_song
         current_song.terminate
         self.current_song = nil
         self.playing = false
