@@ -136,7 +136,6 @@ module JimmyJukebox
       self.songs_played << song
       current_song.play(user_config, self)
       p "Finished playing"
-      #p "Songs played: " + songs_played.to_s
       self.current_song = nil
       self.playing = false
     rescue Song::SongTerminatedPrematurelyException

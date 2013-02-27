@@ -1,12 +1,21 @@
 require 'spec_helper'
-require_relative '../lib/jimmy_jukebox/jukebox'
+require 'jimmy_jukebox/song'
+require 'jimmy_jukebox/jukebox'
 include JimmyJukebox
 
 # don't actually play music
 module JimmyJukebox
   class Song
-    def spawn_method(command, arg)
-      lambda { |command, arg| sleep(5) }
+    def spawn_method
+      if JimmyJukebox::RUNNING_JRUBY
+        gem 'spoon'
+        require 'spoon'
+        lambda { |command, arg| Spoon.spawnp('sleep 2') }
+      else
+        gem 'posix-spawn'
+        require 'posix/spawn'
+        lambda { |command, arg| POSIX::Spawn::spawn('sleep 2') }
+      end
     end
   end
 end
@@ -19,50 +28,63 @@ describe Jukebox do
     ARGV.clear
   end
 
-  let(:jb) { Jukebox.new }
-
-  let(:uc) { double('user_config').as_null_object }
+  let(:uc) { UserConfig.new }
 
   context "with no command line parameter" do
 
     context "when no songs available" do
+
+      let(:jb) { Jukebox.new(uc, false) }
+
       it "raises exception when no songs available" do
         expect { jb }.to raise_error(Jukebox::NoSongsException)
       end
+
     end
 
     context "when songs exist" do
 
-      let(:song1) { File.expand_path('~/Music/Rock/Beatles/Abbey_Road.mp3') }
-      let(:song2) { File.expand_path('~/Music/Rock/Beatles/Sgt_Pepper.mp3') }
-      let(:song3) { File.expand_path('~/Music/Rock/Eagles/Hotel_California.ogg') }
+      let(:song1_path) { File.expand_path('~/Music/Rock/Beatles/Abbey_Road.mp3') }
+      let(:song2_path) { File.expand_path('~/Music/Rock/Beatles/Sgt_Pepper.mp3') }
+      let(:song3_path) { File.expand_path('~/Music/Rock/Eagles/Hotel_California.ogg') }
+      let(:jb) { Jukebox.new(uc) }
 
       before do
-        [song1, song2, song3].each do |song|
+        [song1_path, song2_path, song3_path].each do |song|
           FileUtils.mkdir_p(File.dirname(song))
           FileUtils.touch(song)
           Dir.chdir(File.expand_path('~'))
         end
-        File.exists?(song1).should be_true
+        File.exists?(song1_path).should be_true
       end
 
       it "generates a non-empty song list" do
         jb.songs.should_not be_nil
         jb.songs.should_not be_empty
         jb.songs.length.should == 3
-        jb.songs.should include(/Abbey_Road.mp3/)
+        jb.songs.grep(/Abbey_Road.mp3/).length.should == 1
       end
 
       it "can quit" do
         jb.should_not be_nil
+        #jb.stub(:songs).and_return([song1, song2, song3])
+        #jb.stub(:next_song).and_return(song1)
+        play_loop_thread = Thread.new do
+          jb.play_loop
+        end
+        sleep 0.5
+        jb.playing?.should be_true
+        p jb.current_song
         jb.quit
       end
 
-      it "calls play_random_song" do
-        jb.stub(:play_random_song).and_return(nil)
-        jb.should_receive(:play_once)
-        jb.play_once
-        jb.quit
+      it "calls play_next_song" do
+        jb.should_receive(:play_next_song).at_least(:once)
+        play_loop_thread = Thread.new do
+          jb.play_loop
+        end
+        sleep 0.1
+        play_loop_thread.exit
       end
 
       it "has a user_config method" do
