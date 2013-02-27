@@ -125,7 +125,6 @@ module JimmyJukebox
       p "Now playing '#{music_file}'"
       p "Press Ctrl-C to stop the music and exit this program"
       run_command(player, music_file)
-      p "playing_pid = " + playing_pid.to_s
       Process.waitpid(playing_pid) # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
       $? # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus
     end
