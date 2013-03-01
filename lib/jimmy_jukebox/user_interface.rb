@@ -33,7 +33,18 @@ user_input_thread = Thread.new do
   begin
     loop do
       display_options_after_delay
-      case char = STDIN.getch
+      if $running_jruby
+        char = STDIN.getch
+      else
+        begin
+          stty_state = `stty -g`
+          system("stty raw opost -echo -icanon isig")
+          char = STDIN.getc.chr
+        ensure
+          `stty #{stty_state}`
+        end
+      end
+      case char
       when "q", "Q"
         raise Interrupt
       when "e", "E"
