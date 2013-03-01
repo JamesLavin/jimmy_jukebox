@@ -1,5 +1,15 @@
 require 'io/console'
 
+if $running_jruby
+  class IO
+    def getch
+      raw do
+        getc
+      end
+    end
+  end
+end
+
 jj = Jukebox.new
 
 play_loop_thread = Thread.new do
@@ -23,13 +33,7 @@ user_input_thread = Thread.new do
   begin
     loop do
       display_options_after_delay
-      begin
-        system("stty raw opost -echo")
-        char = STDIN.getc
-      ensure
-        system("stty -raw echo")
-      end
-      case char
+      case char = STDIN.getch
       when "q", "Q"
         raise Interrupt
       when "e", "E"
@@ -47,7 +51,7 @@ user_input_thread = Thread.new do
       when "s", "S"
         jj.skip_song
       else
-        puts "#{line.strip} is not a valid response"
+        puts "#{char.strip} is not a valid response" if char
       end
     end
   rescue Interrupt, SystemExit => e
