@@ -140,7 +140,7 @@ module JimmyJukebox
       self.current_song = nil
       self.playing = false
     rescue Song::SongTerminatedPrematurelyException
-      p "Song ended prematurely"
+      p "-------------------------------------"
     end
 
     def terminate_current_song(opts=nil)

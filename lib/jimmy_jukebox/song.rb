@@ -72,7 +72,6 @@ module JimmyJukebox
       playpid = playing_pid
       if grandpid
         `kill #{grandpid}`
-        p "killed #{grandpid}"
       end
       `kill #{playpid}`
     end
