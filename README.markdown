@@ -42,7 +42,7 @@ Windows:
 
 ## BASIC USAGE - DOWNLOADING MUSIC
 
-Warning: Songs average approximately 2.5MB or 3MB.
+Warning: Downloading every available song would consume about 10GB of your hard drive. The roughly 1,750 jazz songs take up 5.2GB (~ 3MB per song). The roughly 435 classical pieces take up 4.5GB (~ 10MB per piece).
 
 To download a limited number of songs by an artist, add the number of songs you want after the artist's initials. For example, to download just 15 pieces by Beethoven (lvb), type:
 
