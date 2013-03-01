@@ -1,15 +1,3 @@
-require 'io/console'
-
-if $running_jruby
-  class IO
-    def getch
-      raw do
-        getc
-      end
-    end
-  end
-end
-
 jj = Jukebox.new
 
 play_loop_thread = Thread.new do
@@ -33,7 +21,13 @@ user_input_thread = Thread.new do
   begin
     loop do
       display_options_after_delay
-      case STDIN.getch
+      begin
+        system("stty raw -echo")
+        char = STDIN.getc
+      ensure
+        system("stty -raw echo")
+      end
+      case char
       when "q", "Q"
         raise Interrupt
       when "e", "E"
