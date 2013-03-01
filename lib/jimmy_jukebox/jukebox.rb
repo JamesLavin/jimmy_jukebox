@@ -23,7 +23,6 @@ module JimmyJukebox
     def play_loop
       loop do
         if continuous_play && !playing?
-          p "Playing next song"
           play_next_song
         else
           sleep 0.1
@@ -67,7 +66,7 @@ module JimmyJukebox
       if previous_song && current_song
         enable_continuous_play
         self.next_song = previous_song
-        p "Replaying #{previous_song.music_file}"
+        puts "Replaying #{previous_song.music_file}"
         current_song.terminate
         self.current_song = nil
         self.playing = false
@@ -81,7 +80,7 @@ module JimmyJukebox
         song_to_erase = current_song
         skip_song
         File.delete(song_to_erase.music_file)
-        p "Erased #{song_to_erase.music_file}"
+        puts "Erased #{song_to_erase.music_file}"
         user_config.generate_song_list
       else
         raise NoCurrentSongException, "No current_song"
@@ -91,7 +90,7 @@ module JimmyJukebox
     def skip_song
       if current_song
         enable_continuous_play
-        p "Skipping #{current_song.music_file}"
+        puts "Skipping #{current_song.music_file}"
         current_song.terminate
         self.current_song = nil
         self.playing = false
@@ -135,19 +134,19 @@ module JimmyJukebox
       self.current_song = song
       self.songs_played << song
       current_song.play(user_config, self)
-      p "Finished playing"
-      p '-------------------------------------'
+      puts "Finished playing"
       self.current_song = nil
       self.playing = false
     rescue Song::SongTerminatedPrematurelyException
-      p "-------------------------------------"
+    ensure
+      puts "-------------------------------------"
     end
 
     def terminate_current_song(opts=nil)
       # By default, stops song and lets a new song play automatically
       # To prevent another song from playing automatically, pass "play_another: false"
       if current_song
-        p "Terminating #{current_song.music_file}"
+        puts "Terminating #{current_song.music_file}"
         current_song.terminate
         self.current_song = nil
         self.playing = (opts && opts[:play_another]) ? !play_another : false

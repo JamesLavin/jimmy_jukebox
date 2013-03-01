@@ -105,13 +105,13 @@ module JimmyJukebox
     def download_num_songs(song_urls, save_dir, max_num = nil)
       current_songs = all_subdir_music_files(save_dir)
       do_not_have = downloadable(song_urls, current_songs)
-      p "You already have all songs for this artist" if do_not_have.empty?
+      puts "You already have all songs for this artist" if do_not_have.empty?
       if max_num
         more_songs = max_num - current_songs.length
         if more_songs > 0
           do_not_have = n_random_songs(do_not_have, more_songs)
         else
-          p "You already have #{current_songs.length} songs by this artist and are requesting a maximum of #{max_num} songs"
+          puts "You already have #{current_songs.length} songs by this artist and are requesting a maximum of #{max_num} songs"
           do_not_have = []
         end
       end
@@ -130,7 +130,7 @@ module JimmyJukebox
 
     def song_already_exists?(savename, save_dir)
       if version_of_song_in_dir_or_subdir?(savename, save_dir)
-        p "#{savename} already exists in #{save_dir}"
+        puts "#{savename} already exists in #{save_dir}"
         true
       else
         false
@@ -140,7 +140,7 @@ module JimmyJukebox
     def download_song(song_url, save_dir)
       savename = song_savename(song_url)
       return if song_already_exists?(savename, save_dir)
-      p "Downloading #{savename} to #{save_dir}"
+      puts "Downloading #{savename} to #{save_dir}"
       song_pathname = File.join(save_dir, savename)
       open(song_pathname, 'wb') do |dst|
         open(song_url) do |src|
@@ -149,7 +149,7 @@ module JimmyJukebox
       end
       check_downloaded_song_size(song_pathname)
       rescue OpenURI::HTTPError
-        p "Warning: Could not download #{song_url}"
+        puts "Warning: Could not download #{song_url}"
         File.delete(song_pathname) if File.exists?(song_pathname)
         nil
     end

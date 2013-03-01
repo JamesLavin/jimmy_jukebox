@@ -7,7 +7,7 @@ if $running_jruby
     require 'spoon'
   rescue LoadError => e
     if e.message =~ /spoon/
-      p "*** You must run 'gem install spoon' before using JimmyJukebox on JRuby ***"
+      puts "*** You must run 'gem install spoon' before using JimmyJukebox on JRuby ***"
       exit
     else
       raise
@@ -18,7 +18,7 @@ else
     require 'posix/spawn'
   rescue LoadError => e
     if e.message =~ /posix/ || e.message =~ /spawn/
-      p "*** You must run 'gem install posix-spawn' before using JimmyJukebox in Ruby ***"
+      puts "*** You must run 'gem install posix-spawn' before using JimmyJukebox in Ruby ***"
       exit
     else
       raise

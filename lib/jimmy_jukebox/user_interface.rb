@@ -1,3 +1,5 @@
+require 'io/console'
+
 jj = Jukebox.new
 
 play_loop_thread = Thread.new do
@@ -7,7 +9,7 @@ end
 user_input_thread = Thread.new do
   
   def display_options
-    p "'p' = (un)pause, 'q' = quit, 'r' = replay previous song, 's' = skip this song, 'e' = erase this song"
+    puts "'p' = (un)pause, 'q' = quit, 'r' = replay previous song, 's' = skip this song, 'e' = erase this song"
   end
 
   def display_options_after_delay
@@ -22,7 +24,7 @@ user_input_thread = Thread.new do
     loop do
       display_options_after_delay
       begin
-        system("stty raw -echo")
+        system("stty raw opost -echo")
         char = STDIN.getc
       ensure
         system("stty -raw echo")
@@ -35,25 +37,21 @@ user_input_thread = Thread.new do
       when "p", "P"
         raise NoPlayLoopThreadException, "Can't find play_loop_thread" unless play_loop_thread
         if jj.current_song.paused?
-          p "Unpause requested"
           jj.unpause_current_song
         else
-          p "Pause requested"
-          p "To unpause, enter 'p' again"
+          puts "Pausing. To unpause, enter 'p' again"
           jj.pause_current_song
         end
       when "r", "R"
-        p "Replay previous song requested"
         jj.replay_previous_song
       when "s", "S"
-        p "Skip song requested"
         jj.skip_song
       else
-        p "#{line.strip} is not a valid response"
+        puts "#{line.strip} is not a valid response"
       end
     end
   rescue Interrupt, SystemExit => e
-    p "JimmyJukebox closed by user request. Bye!"
+    puts "JimmyJukebox closed by user request. Bye!"
     jj.quit
     exit
   end
