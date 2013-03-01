@@ -24,7 +24,7 @@ user_input_thread = Thread.new do
 
   def display_options_after_delay
     # pause to let song display song info and begin playing before displaying user options
-    sleep 0.4
+    sleep 1
     display_options
   end
 
