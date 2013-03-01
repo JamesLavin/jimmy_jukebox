@@ -1,6 +1,10 @@
+require_relative "display_options"
+
 module JimmyJukebox
 
   class Song
+
+    include JimmyJukebox::DisplayOptions
 
     class InvalidSongFormatException < Exception; end
     class NoPlayingPidException < Exception; end
@@ -121,9 +125,9 @@ module JimmyJukebox
     end
 
     def play_with_player
-      puts "Now playing '#{music_file}'"
-      puts "Press Ctrl-C to stop the music and exit this program"
       run_command(player, music_file)
+      puts "Now playing '#{music_file}'"
+      display_options_after_delay
       Process.waitpid(playing_pid) # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
       $? # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus
     end
