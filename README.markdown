@@ -67,6 +67,7 @@ To download all songs by an artist, use the following commands:
     Benny Goodman:                "load_jukebox bg"   (401 songs)
     Billie Holiday:               "load_jukebox bh"   ( 63 songs)
     Bix Beiderbecke:              "load_jukebox bb"   ( 95 songs)
+    Cannonball Adderley:          "load_jukebox ca"   (  7 songs)
     Charlie Christian:            "load_jukebox cc"   (  8 songs)
     Charlie Parker:               "load_jukebox cp"   ( 34 songs) [Archive.org has apparently removed many of these]
     Clifford Hayes Jug Blowers:   "load_jukebox chjb" ( 15 songs)
@@ -80,6 +81,7 @@ To download all songs by an artist, use the following commands:
     Fletcher Henderson:           "load_jukebox fh"   (158 songs)
     James P Johnson:              "load_jukebox jj"   (  8 songs)
     Jelly Roll Morton:            "load_jukebox jrm"  ( 89 songs)
+    Jazz medleys (various):       "load_jukebox jm"   ( 13 songs) [some are long radio broadcasts]
     King Oliver:                  "load_jukebox ko"   ( 60 songs)
     Lionel Hampton:               "load_jukebox lh"   (148 songs)
     Louis Armstrong:              "load_jukebox la"   (150 songs)
