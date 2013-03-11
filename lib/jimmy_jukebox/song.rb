@@ -104,7 +104,8 @@ module JimmyJukebox
     def pre_command
       if JimmyJukebox::RUNNING_LINUX
         # prevent screen blanking that pauses running song
-        'setterm -blank 0 -powersave off; '
+        puts "*** Preventing screen blanking ***"
+        'setterm -blank 0 -powerdown 0 -powersave off; '
       else
         ''
       end
@@ -112,10 +113,10 @@ module JimmyJukebox
 
     def spawn_method
       if JimmyJukebox::RUNNING_JRUBY
-        lambda { |command, arg| Spoon.spawnp(pre_command + command, arg) }
+        lambda { |command, arg| Spoon.spawnp(command, arg) }
       else
         begin
-          lambda { |command, arg| POSIX::Spawn::spawn(pre_command + command + ' ' + arg) }
+          lambda { |command, arg| POSIX::Spawn::spawn(command + ' ' + arg) }
           
           # posix/spawn is much faster than fork-exec
           #pid = Process.fork do
