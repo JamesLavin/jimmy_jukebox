@@ -5,6 +5,9 @@ include Artists
 
 module JimmyJukebox
 
+  RUNNING_JRUBY = defined?(JRUBY_VERSION) || (defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby') || RUBY_PLATFORM == 'java'
+  RUNNING_LINUX = RbConfig::CONFIG['host_os'] =~ /linux/i
+
   class UserConfig
 
     attr_writer   :music_directories
@@ -141,9 +144,9 @@ module JimmyJukebox
       # puts "ARGV: " + ARGV.inspect + " (" + ARGV.class.to_s + ")"
       if ARGV.empty?
         music_directories << default_music_dir
-      elsif ARGV[0].strip =~ /^jazz$/i
+      elsif ARGV[0].strip =~ /^j$/i || ARGV[0].strip =~ /^jazz$/i
         music_directories << jazz_dir
-      elsif ARGV[0].strip =~ /^classical$/i
+      elsif ARGV[0].strip =~ /^c$/i || ARGV[0].strip =~ /^classical$/i
         music_directories << classical_dir
       elsif ARTISTS.keys.include?(ARGV[0].to_sym)
         music_directories << default_music_dir + artist_key_to_subdir_name(ARGV[0].to_sym)

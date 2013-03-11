@@ -53,7 +53,7 @@ To download all songs by an artist, use the following commands:
     CLASSICAL
     Bach:                         "load_jukebox jsb"  (153 songs)
     Beethoven:                    "load_jukebox lvb"  ( 49 songs)
-    Chopin:                       "load_jukebox c"    ( 47 songs)
+    Chopin:                       "load_jukebox fc"   ( 47 songs)
     Haydn:                        "load_jukebox h"    ( 47 songs)
     Mendelssohn:                  "load_jukebox m"    ( 57 songs)
     Mozart:                       "load_jukebox wam"  (141 songs)
@@ -111,8 +111,8 @@ To specify a different directory, type the full directory path after `load_jukeb
   - To erase the playing song and never hear it again, type `e`
   - To quit, type "q" or `<CTRL>-C`
 
-- To play a random selection of just jazz, type `play_jukebox jazz`
-- To play a random selection of just classical, type `play_jukebox classical`
+- To play a random selection of just jazz, type `play_jukebox jazz` or `play_jukebox j`
+- To play a random selection of just classical, type `play_jukebox classical` or `play_jukebox c`
 - To play a particular artist, type:
 
     Art Tatum:                    "play_jukebox at"

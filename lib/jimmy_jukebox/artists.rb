@@ -8,7 +8,7 @@ module Artists
     bh:   { genre: 'JAZZ', name: "billie_holiday"},
     bb:   { genre: 'JAZZ', name: "bix_beiderbecke"},
     bm:   { genre: 'JAZZ', name: "bennie_moten"},
-    c:    { genre: 'CLASSICAL', name: "chopin"},
+    fc:   { genre: 'CLASSICAL', name: "chopin"},
     cc:   { genre: 'JAZZ', name: "charlie_christian"},
     cp:   { genre: 'JAZZ', name: "charlie_parker"},
     ch:   { genre: 'JAZZ', name: "coleman_hawkins"},

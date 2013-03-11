@@ -1,6 +1,6 @@
 require 'io/console'
 
-if $running_jruby
+if JimmyJukebox::RUNNING_JRUBY
   class IO
     def getch
       raw do
@@ -22,7 +22,7 @@ user_input_thread = Thread.new do
 
   begin
     loop do
-      if $running_jruby
+      if JimmyJukebox::RUNNING_JRUBY
         char = STDIN.getch
       else
         begin

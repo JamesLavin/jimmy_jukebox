@@ -2,8 +2,6 @@ require 'jimmy_jukebox/user_config'
 
 module JimmyJukebox
 
-  RUNNING_JRUBY = defined?(JRUBY_VERSION) || (defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby') || RUBY_PLATFORM == 'java'
-
   class Jukebox
 
     class NoSongsException < Exception; end
