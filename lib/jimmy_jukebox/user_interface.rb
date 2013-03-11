@@ -16,6 +16,13 @@ play_loop_thread = Thread.new do
   jj.play_loop
 end
 
+def disable_monitor_powerdown
+  puts "*** Disabling monitor powerdown ***"
+  `xset -dpms; xset s off`
+end
+
+disable_monitor_powerdown if JimmyJukebox::RUNNING_LINUX
+
 user_input_thread = Thread.new do
   
   class NoPlayLoopThreadException < Exception; end
