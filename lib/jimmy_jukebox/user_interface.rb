@@ -13,15 +13,9 @@ end
 jj = Jukebox.new
 
 play_loop_thread = Thread.new do
+  at_exit { jj.restore_dpms_state } if JimmyJukebox::RUNNING_LINUX 
   jj.play_loop
 end
-
-def disable_monitor_powerdown
-  puts "*** Disabling monitor powerdown ***"
-  `xset -dpms; xset s off`
-end
-
-disable_monitor_powerdown if JimmyJukebox::RUNNING_LINUX
 
 user_input_thread = Thread.new do
   

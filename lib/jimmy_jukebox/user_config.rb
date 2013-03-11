@@ -5,8 +5,18 @@ include Artists
 
 module JimmyJukebox
 
+  def self.running_x_windows
+    xset_location = `which xset`
+    if xset_location
+      !!xset_location.match(/\/xset/)
+    else
+      false
+    end
+  end
+
   RUNNING_JRUBY = defined?(JRUBY_VERSION) || (defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby') || RUBY_PLATFORM == 'java'
   RUNNING_LINUX = RbConfig::CONFIG['host_os'] =~ /linux/i
+  RUNNING_X_WINDOWS = running_x_windows
 
   class UserConfig
 

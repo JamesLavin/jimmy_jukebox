@@ -101,16 +101,6 @@ module JimmyJukebox
       end
     end
 
-    def pre_command
-      if JimmyJukebox::RUNNING_LINUX
-        # prevent screen blanking that pauses running song
-        puts "*** Preventing screen blanking ***"
-        'setterm -blank 0 -powerdown 0 -powersave off; '
-      else
-        ''
-      end
-    end
-
     def spawn_method
       if JimmyJukebox::RUNNING_JRUBY
         lambda { |command, arg| Spoon.spawnp(command, arg) }
