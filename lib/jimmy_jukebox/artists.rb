@@ -22,6 +22,7 @@ module Artists
     eh:   { genre: 'JAZZ', name: "earl_hines"},
     fh:   { genre: 'JAZZ', name: "fletcher_henderson"},
     h:    { genre: 'CLASSICAL', name: 'haydn'},
+    jc:   { genre: 'JAZZ', name: "john_coltrane"},
     jj:   { genre: 'JAZZ', name: "james_p_johnson"},
     jm:   { genre: 'JAZZ', name: "jazz_medleys"},
     jrm:  { genre: 'JAZZ', name: "jelly_roll_morton"},

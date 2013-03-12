@@ -6,7 +6,7 @@ JimmyJukebox enables you to: 1) Download wonderful old jazz and classical music;
 
 JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files in your `~/Music` directory tree (including subdirectories). You can specify a different top music directory by passing a directory name as a command line parameter (example: `play_jukebox ~/Music/JAZZ`). Or you can pass the name of a text file containing a list of directory names.
 
-JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Charlie Christian, Charlie Parker, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, King Oliver, Lionel Hampton, Louis Armstrong, the Original Dixieland Jazz Band, Oscar Peterson, Red Norvo, and Sidney Bechet.
+JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Cannonball Adderley, Charlie Christian, Charlie Parker, Clifford Hayes, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, John Coltrane, King Oliver, Lionel Hampton, Louis Armstrong, Miles Davis, the Original Dixieland Jazz Band, Oscar Peterson, Red Norvo, and Sidney Bechet.
 
 I've recently begun enabling downloading of classical music performances, starting with Bach, Beethoven, Chopin, Haydn, Mendelssohn, Mozart, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
 
@@ -82,6 +82,7 @@ To download all songs by an artist, use the following commands:
     James P Johnson:              "load_jukebox jj"   (  8 songs)
     Jelly Roll Morton:            "load_jukebox jrm"  ( 89 songs)
     Jazz medleys (various):       "load_jukebox jm"   ( 13 songs) [some are long radio broadcasts]
+    John Coltrane:                "load_jukebox jc"   ( 10 songs)
     King Oliver:                  "load_jukebox ko"   ( 60 songs)
     Lionel Hampton:               "load_jukebox lh"   (148 songs)
     Louis Armstrong:              "load_jukebox la"   (150 songs)
