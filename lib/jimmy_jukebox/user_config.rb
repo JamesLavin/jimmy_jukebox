@@ -1,6 +1,7 @@
 require 'fileutils'
 
 require 'jimmy_jukebox/artists'
+require 'jimmy_jukebox/music_player_detector'
 include Artists
 
 module JimmyJukebox
@@ -71,8 +72,9 @@ module JimmyJukebox
     end
 
     def set_music_players
-      set_ogg_player
-      set_mp3_player
+      detector = MusicPlayerDetector.new
+      self.ogg_player = detector.ogg_player
+      self.mp3_player = detector.mp3_player
       no_player_configured unless ogg_player || mp3_player
       warn_about_partial_functionality if !ogg_player || !mp3_player
     end
@@ -88,71 +90,6 @@ module JimmyJukebox
       elsif mp3_player && !ogg_player
         puts "*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL OGG123 ***"
       end
-    end
-
-    def set_ogg_player
-      if ogg123_exists?
-        self.ogg_player = "ogg123"
-        return
-      elsif music123_exists?
-        self.ogg_player = "music123"
-        return
-      elsif afplay_exists?
-        self.ogg_player = "afplay"
-        return
-      elsif mplayer_exists?
-        self.ogg_player = "mplayer -nolirc -noconfig all"
-      elsif play_exists?
-        self.ogg_player = "play"
-      end
-    end
-
-    def set_mp3_player
-      if mpg123_exists?
-        self.mp3_player = "mpg123"
-        return
-      elsif mpg321_exists?
-        self.mp3_player = "mpg321"
-        return
-      elsif music123_exists?
-        self.mp3_player = "music123"
-        return
-      elsif afplay_exists?
-        self.mp3_player = "afplay"
-        return
-      elsif mplayer_exists?
-        self.mp3_player = "mplayer -nolirc -noconfig all"
-      elsif play_exists?
-        self.mp3_player = "play"
-      end
-    end
-
-    def ogg123_exists?
-      `which ogg123`.match(/.*\/ogg123$/) ? true : false
-    end
-
-    def mpg123_exists?
-      `which mpg123`.match(/.*\/mpg123$/) ? true : false
-    end
-
-    def music123_exists?
-      `which music123`.match(/.*\/music123$/) ? true : false
-    end
-
-    def mpg321_exists?
-      `which mpg321`.match(/.*\/mpg321$/) ? true : false
-    end
-
-    def afplay_exists?
-      `which afplay`.match(/.*\/afplay$/) ? true : false
-    end
-
-    def mplayer_exists?
-      `which mplayer`.match(/.*\/mplayer$/) ? true : false
-    end
-
-    def play_exists?
-      `which play`.match(/.*\/play$/) ? true : false
     end
 
     def set_music_directories_from_file
