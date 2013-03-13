@@ -41,10 +41,12 @@ module Artists
     mr:   { genre: 'CLASSICAL', name: "maurice_ravel"},
     odjb: { genre: 'JAZZ', name: "original_dixieland_jazz_band"},
     op:   { genre: 'JAZZ', name: "oscar_peterson"},
+    pw:   { genre: 'JAZZ', name: "paul_whiteman"},
     rt:   { genre: 'JAZZ', name: "ragtime"},
     rn:   { genre: 'JAZZ', name: "red_norvo"},
     fs:   { genre: 'CLASSICAL', name: "franz_schubert"},
     sb:   { genre: 'JAZZ', name: "sidney_bechet"},
+    sj:   { genre: 'JAZZ', name: "scott_joplin"},
     v:    { genre: 'CLASSICAL', name: "vivaldi"},
     wam:  { genre: 'CLASSICAL', name: "mozart"}
   }
