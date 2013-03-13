@@ -8,7 +8,7 @@ JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playin
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Cannonball Adderley, Charlie Christian, Charlie Parker, Clifford Hayes, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, John Coltrane, King Oliver, Lionel Hampton, Louis Armstrong, Miles Davis, the Original Dixieland Jazz Band, Oscar Peterson, Red Norvo, and Sidney Bechet.
 
-I've recently begun enabling downloading of classical music performances, starting with Bach, Beethoven, Chopin, Haydn, Mendelssohn, Mozart, Ravel, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
+I've recently begun enabling downloading of classical music performances, starting with Bach, Beethoven, Brahms, Chopin, Haydn, Mendelssohn, Mozart, Ravel, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When this was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches him such things!)
 
 ## REQUIREMENTS
 
@@ -53,6 +53,7 @@ To download all songs by an artist, use the following commands:
     CLASSICAL
     Bach:                         "load_jukebox jsb"  (153 songs)
     Beethoven:                    "load_jukebox lvb"  ( 49 songs)
+    Brahms:                       "load_jukebox jb"   ( 78 songs)
     Chopin:                       "load_jukebox fc"   ( 47 songs)
     Haydn:                        "load_jukebox h"    ( 47 songs)
     Mendelssohn:                  "load_jukebox m"    ( 57 songs)
