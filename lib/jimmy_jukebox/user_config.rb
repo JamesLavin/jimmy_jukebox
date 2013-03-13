@@ -39,6 +39,17 @@ module JimmyJukebox
       generate_song_list
     end
 
+    def shortcuts
+      { /^b$/i         => bluegrass_dir,
+        /^bluegrass$/i => bluegrass_dir,
+        /^c$/i         => classical_dir,
+        /^classical$/i => classical_dir,
+        /^j$/i         => jazz_dir,
+        /^jazz$/i      => jazz_dir,
+        /^r$/i         => rock_dir,
+        /^rock$/i      => rock_dir }
+    end
+
     def default_music_dir
       File.expand_path(File.join("~","Music"))
     end
@@ -49,6 +60,10 @@ module JimmyJukebox
 
     def jazz_dir
       default_music_dir + '/JAZZ'
+    end
+
+    def rock_dir
+      default_music_dir + '/ROCK'
     end
 
     def classical_dir
@@ -153,17 +168,21 @@ module JimmyJukebox
       @music_directories ||= []
     end
 
+    def shortcut_to_dir(user_input)
+      reg_ex = shortcuts.keys.detect { |re| re =~ user_input }
+      reg_ex ? shortcuts[reg_ex] : nil
+    end
+
     def generate_directories_list
-      # ARGV[0] can be "jazz.txt" (a file holding directory names), "~/Music/JAZZ" (a directory path) or nil
-      # puts "ARGV: " + ARGV.inspect + " (" + ARGV.class.to_s + ")"
+      # ARGV[0] can be "jazz.txt" (a file holding directory names),
+      # a shortcut (like 'j' or 'jazz' for jazz or 'r' or 'rock' for rock),
+      # an artist shortcut (like 'bg' for Benny Goodman or 'md' for Miles Davis),
+      # a directory path (like "~/Music/JAZZ")
+      # or nil
       if ARGV.empty?
         music_directories << default_music_dir
-      elsif ARGV[0].strip =~ /^b$/i || ARGV[0].strip =~ /^bluegrass$/i
-        music_directories << bluegrass_dir
-      elsif ARGV[0].strip =~ /^j$/i || ARGV[0].strip =~ /^jazz$/i
-        music_directories << jazz_dir
-      elsif ARGV[0].strip =~ /^c$/i || ARGV[0].strip =~ /^classical$/i
-        music_directories << classical_dir
+      elsif dir = shortcut_to_dir(ARGV[0].strip)
+        music_directories << dir
       elsif ARTISTS.keys.include?(ARGV[0].to_sym)
         music_directories << default_music_dir + artist_key_to_subdir_name(ARGV[0].to_sym)
       elsif is_a_txt_file?(ARGV[0])

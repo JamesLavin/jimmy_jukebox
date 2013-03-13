@@ -10,6 +10,7 @@ module Artists
     bm:   { genre: 'JAZZ', name: "bennie_moten"},
     fc:   { genre: 'CLASSICAL', name: "chopin"},
     ca:   { genre: 'JAZZ', name: "cannonball_adderley"},
+    berry: { genre: 'ROCK', name: "chuck_berry"},
     cc:   { genre: 'JAZZ', name: "charlie_christian"},
     cp:   { genre: 'JAZZ', name: "charlie_parker"},
     ch:   { genre: 'JAZZ', name: "coleman_hawkins"},

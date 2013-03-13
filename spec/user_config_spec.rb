@@ -24,6 +24,22 @@ describe UserConfig do
   #
   #end
 
+  describe "#shortcuts" do
+
+    it "finds dirs based on regex keys" do
+      UserConfig.new().shortcuts[/^bluegrass$/i] == UserConfig.new().bluegrass_dir
+    end
+
+  end
+
+  describe "#shortcut_to_dir" do
+    
+    it "knows 'r' means rock-and-roll" do
+      UserConfig.new().shortcut_to_dir('r') == UserConfig.new().rock_dir
+    end
+
+  end
+
   describe "#top_music_dir" do
 
     it "should parse '~/Music'" do
