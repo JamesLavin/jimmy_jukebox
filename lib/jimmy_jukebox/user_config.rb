@@ -43,6 +43,10 @@ module JimmyJukebox
       File.expand_path(File.join("~","Music"))
     end
 
+    def bluegrass_dir
+      default_music_dir + '/BLUEGRASS'
+    end
+
     def jazz_dir
       default_music_dir + '/JAZZ'
     end
@@ -154,6 +158,8 @@ module JimmyJukebox
       # puts "ARGV: " + ARGV.inspect + " (" + ARGV.class.to_s + ")"
       if ARGV.empty?
         music_directories << default_music_dir
+      elsif ARGV[0].strip =~ /^b$/i || ARGV[0].strip =~ /^bluegrass$/i
+        music_directories << bluegrass_dir
       elsif ARGV[0].strip =~ /^j$/i || ARGV[0].strip =~ /^jazz$/i
         music_directories << jazz_dir
       elsif ARGV[0].strip =~ /^c$/i || ARGV[0].strip =~ /^classical$/i

@@ -109,8 +109,10 @@ To specify a different directory, type the full directory path after `load_jukeb
 ## BASIC USAGE - PLAYING MUSIC
 
 - By default, JimmyJukebox assumes your music is stored in a directory tree descending from `~/Music`
-- By default, jazz music is stored under `~/Music/JAZZ`
-- By default, classical music is stored under `~/Music/CLASSICAL`
+- By default:
+  - Bluegrass is stored under `~/Music/BLUEGRASS`
+  - Classical is stored under `~/Music/CLASSICAL`
+  - Jazz is stored under `~/Music/JAZZ`
 
 - To play a random selection of music, type in the command line `play_jukebox`
   - A song will start playing
@@ -120,8 +122,11 @@ To specify a different directory, type the full directory path after `load_jukeb
   - To erase the playing song and never hear it again, type `e`
   - To quit, type "q" or `<CTRL>-C`
 
-- To play a random selection of just jazz, type `play_jukebox jazz` or `play_jukebox j`
-- To play a random selection of just classical, type `play_jukebox classical` or `play_jukebox c`
+- To play a random selection of...
+  - bluegrass: `play_jukebox bluegrass` or `play_jukebox b`
+  - classical: `play_jukebox classical` or `play_jukebox c`
+  - jazz: `play_jukebox jazz` or `play_jukebox j`
+
 - To play a particular artist, type:
 
     Art Tatum:                    "play_jukebox at"
