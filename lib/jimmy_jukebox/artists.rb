@@ -34,6 +34,7 @@ module Artists
     lvb:  { genre: 'CLASSICAL', name: "beethoven"},
     m:    { genre: 'CLASSICAL', name: "mendelssohn"},
     md:   { genre: 'JAZZ', name: "miles_davis"},
+    mon:  { genre: 'BLUEGRASS', name: "bill_monroe"},
     mr:   { genre: 'CLASSICAL', name: "maurice_ravel"},
     odjb: { genre: 'JAZZ', name: "original_dixieland_jazz_band"},
     op:   { genre: 'JAZZ', name: "oscar_peterson"},

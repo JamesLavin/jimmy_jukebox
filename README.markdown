@@ -50,6 +50,9 @@ To download a limited number of songs by an artist, add the number of songs you 
 
 To download all songs by an artist, use the following commands:
 
+    BLUEGRASS
+    Bill Monroe:                  "load_jukebox mon"  (155 songs)
+
     CLASSICAL
     Bach:                         "load_jukebox jsb"  (153 songs)
     Beethoven:                    "load_jukebox lvb"  ( 49 songs)
@@ -89,6 +92,7 @@ To download all songs by an artist, use the following commands:
     Lionel Hampton:               "load_jukebox lh"   (148 songs)
     Louis Armstrong:              "load_jukebox la"   (150 songs)
     Miles Davis:                  "load_jukebox md"   ( 62 songs)
+    Modern Jazz Quartet:          "load_jukebox mjq"  (  3 songs)
     Original Dixieland Jazz Band: "load_jukebox odjb" ( 45 songs)
     Oscar Peterson:               "load_jukebox op"   ( 10 songs) [one "song" is > 2 hour performance]
     Ragtime (various artists):    "load_jukebox rt"   ( 14 songs)
