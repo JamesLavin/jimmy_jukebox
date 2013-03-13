@@ -4,7 +4,7 @@
 
 JimmyJukebox enables you to: 1) Download wonderful bluegrass, classical, jazz and early rock music; and, 2) Play it and your other music.
 
-JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox will play all .mp3 and .ogg files in your `~/Music` directory tree (including subdirectories). You can specify a different top music directory by passing a directory name as a command line parameter (example: `play_jukebox ~/Music/JAZZ`). Or you can pass the name of a text file containing a list of directory names.
+JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playing song, skip a song, or quit. By default, JimmyJukebox will play all .mp3, .ogg, .flac and .wav files in your `~/Music` directory tree (including subdirectories). You can specify a different top music directory by passing a directory name as a command line parameter (example: `play_jukebox ~/Music/JAZZ`). Or you can pass the name of a text file containing a list of directory names.
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Cannonball Adderley, Charlie Christian, Charlie Parker, Clifford Hayes, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, James P Johnson, Jelly Roll Morton, John Coltrane, King Oliver, Lionel Hampton, Louis Armstrong, Miles Davis, the Original Dixieland Jazz Band, Oscar Peterson, Red Norvo, and Sidney Bechet.
 
@@ -16,14 +16,16 @@ And I've started adding two more truly American inventions: bluegrass -- startin
 
 Linux/Unix:
 
-- Playing MP3s requires `mplayer`, `mpg123`, `mpg321`, `music123` or `play` (package name: `sox`)
-- Playing OGG files requires `mplayer`, `ogg123`, `music123` or `play` (package name: `sox`)
+- Playing MP3s requires `mplayer`, `mpg123`, `mpg321`, `music123`, `cvlc`, `amarok` or `play` (package name: `sox`)
+- Playing OGG files requires `mplayer`, `ogg123`, `music123`, `cvlc`, `amarok` or `play` (package name: `sox`)
+- Playing FLAC files requires `mplayer`, `cvlc` or `play` (package name: `sox`)
+- Playing WAV files requires `mplayer`, `cvlc`, `aplay` or `play` (package name: `sox`)
 - Requires the `posix-spawn` Ruby gem
 - On my machine, runs well with 1.9.2-p320 and 1.9.3-p327
 
 Mac:
 
-- No additional requirements. Should play MP3s and OGG files using built-in `afplay`
+- No additional requirements. The built-in `afplay` should play MP3, OGG, FLAC and WAV files.
 
 JRuby:
 
@@ -44,7 +46,7 @@ Windows:
 
 ## BASIC USAGE - DOWNLOADING MUSIC
 
-Warning: Downloading every available song would consume over 13GB of your hard drive. At last count, the roughly 1,796 jazz songs take up 6 GB (~ 3.3 MB/song). The roughly 657 classical performances also take up 6 GB (~ 9.1 MB/piece). The 243 bluegrass songs take up 822 MB (~ 3.4 MB/song). And the 126 rock songs are about 420 MB (~ 3.3 MB/song).
+Warning: Downloading every available song would consume nearly 14GB of your hard drive. At last count, the roughly 1,956 jazz songs take up 6.4 GB (~ 3.3 MB/song). The roughly 657 classical performances also take up 6 GB (~ 9.1 MB/piece). The 243 bluegrass songs take up 822 MB (~ 3.4 MB/song). And the 126 rock songs are about 420 MB (~ 3.3 MB/song).
 
 To download a limited number of songs by an artist, add the number of songs you want after the artist's initials. For example, to download just 15 pieces by Beethoven (lvb), type:
 

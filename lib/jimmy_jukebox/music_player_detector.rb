@@ -13,6 +13,10 @@ module JimmyJukebox
         "mplayer -nolirc -noconfig all"
       elsif play_exists?
         "play"
+      elsif cvlc_exists?
+        "cvlc --play-and-exit -q"
+      elsif amarok_exists?
+        "amarok"
       end
     end
 
@@ -29,7 +33,57 @@ module JimmyJukebox
         "mplayer -nolirc -noconfig all"
       elsif play_exists?
         "play"
+      elsif cvlc_exists?
+        "cvlc --play-and-exit -q"
+      elsif amarok_exists?
+        "amarok"
       end
+    end
+
+    def aac_player
+    end
+
+    def wma_player
+    end
+
+    def wav_player
+      if cvlc_exists?
+        "cvlc --play-and-exit -q"
+      elsif play_exists?
+        "play"
+      elsif mplayer_exists?
+        "mplayer -nolirc -noconfig all"
+      elsif aplay_exists?
+        "aplay"
+      elsif amarok_exists?
+        "amarok"
+      end
+    end
+
+    def flac_player
+      if cvlc_exists?
+        "cvlc --play-and-exit -q"
+      elsif play_exists?
+        "play"
+      elsif mplayer_exists?
+        "mplayer -nolirc -noconfig all"
+      end
+    end
+
+    # can't figure out how to play just one song
+    def mpc_exists?
+      `which mpc`.match(/.*\/mpc$/) ? true : false
+    end
+
+    # other players possibly worth enabling
+    # https://xmms2.org/wiki/Using_the_application
+    
+    def cvlc_exists?
+      `which cvlc`.match(/.*\/cvlc$/) ? true : false
+    end
+
+    def aplay_exists?
+      `which aplay`.match(/.*\/aplay$/) ? true : false
     end
 
     def ogg123_exists?
@@ -58,6 +112,10 @@ module JimmyJukebox
 
     def play_exists?
       `which play`.match(/.*\/play$/) ? true : false
+    end
+
+    def amarok_exists?
+      `which amarok`.match(/.*\/amarok$/) ? true : false
     end
 
   end

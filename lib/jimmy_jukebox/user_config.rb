@@ -22,7 +22,7 @@ module JimmyJukebox
   class UserConfig
 
     attr_writer   :music_directories
-    attr_accessor :songs, :ogg_player, :mp3_player
+    attr_accessor :songs, :ogg_player, :mp3_player, :wav_player, :flac_player
 
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
 
@@ -75,21 +75,21 @@ module JimmyJukebox
       detector = MusicPlayerDetector.new
       self.ogg_player = detector.ogg_player
       self.mp3_player = detector.mp3_player
+      self.wav_player = detector.wav_player
+      self.flac_player = detector.flac_player
       no_player_configured unless ogg_player || mp3_player
       warn_about_partial_functionality if !ogg_player || !mp3_player
     end
 
     def no_player_configured
-      puts "*** YOU CANNOT PLAY MP3S OR OGG FILES -- YOU MIGHT WANT TO INSTALL ogg123 AND mpg123/mpg321 BEFORE USING JIMMYJUKEBOX ***"
+      puts "*** YOU CANNOT PLAY MP3S OR OGG FILES -- YOU'LL PROBABLY NEED TO INSTALL AN OGG PLAYER (like ogg123) AND AN MP3 PLAYER (like mpg123) BEFORE USING JIMMYJUKEBOX ***"
       exit
     end
 
     def warn_about_partial_functionality
-      if ogg_player && !mp3_player
-        puts "*** YOU CANNOT PLAY MP3S -- YOU MIGHT WANT TO INSTALL MPG123 OR MPG321 ***"
-      elsif mp3_player && !ogg_player
-        puts "*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL OGG123 ***"
-      end
+      puts "*** YOU CANNOT PLAY MP3S -- YOU MIGHT WANT TO INSTALL AN MP3 PLAYER (like mpg123 OR mpg321) ***" if !mp3_player
+      puts "*** YOU CANNOT PLAY OGG FILES -- YOU MIGHT WANT TO INSTALL AN OGG PLAYER (like ogg123) ***" if !ogg_player
+      puts "*** YOU CANNOT PLAY WAV FILES -- YOU MIGHT WANT TO INSTALL A WAV PLAYER (like vlc) ***" if !wav_player
     end
 
     def set_music_directories_from_file
@@ -122,10 +122,10 @@ module JimmyJukebox
         music_directories << dir
       elsif ARTISTS.keys.include?(ARGV[0].to_sym)
         music_directories << default_music_dir + artist_key_to_subdir_name(ARGV[0].to_sym)
-      elsif is_a_txt_file?(ARGV[0])
+      elsif is_a_txt_file?(ARGV[0].strip)
         set_music_directories_from_file
-      elsif is_a_directory?(ARGV[0])
-        music_directories << File.expand_path(ARGV[0])
+      elsif is_a_directory?(ARGV[0].strip)
+        music_directories << File.expand_path(ARGV[0].strip)
       else
         music_directories << default_music_dir
       end
@@ -178,7 +178,7 @@ module JimmyJukebox
         if "".respond_to?(:force_encoding)                                  # Ruby 1.8 doesn't have string encoding or String#force_encoding
          files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
         end
-        files.delete_if { |f| !f.match(/.*\.mp3/i) && !f.match(/.*\.ogg/i) }
+        files.delete_if { |f| !f.match(/.*\.mp3/i) && !f.match(/.*\.ogg/i) && !f.match(/.*\.wav/i) && !f.match(/.*\.flac/i) }
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
         files.each { |f| songs << f }
       end

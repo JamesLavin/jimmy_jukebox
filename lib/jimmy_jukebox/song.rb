@@ -31,10 +31,10 @@ module JimmyJukebox
     end
 
     def set_music_file(in_music_file)
-      if in_music_file =~ /\.mp3$/i || in_music_file =~ /\.ogg$/i
+      if in_music_file =~ /\.mp3$/i || in_music_file =~ /\.ogg$/i || in_music_file =~ /\.wav$/i || in_music_file =~ /.flac$/i
         @music_file = File.expand_path(in_music_file)
       else
-        raise InvalidSongFormatException, "JimmyJukebox plays only .mp3/.ogg files. #{in_music_file} is not valid"
+        raise InvalidSongFormatException, "JimmyJukebox plays only .mp3/.ogg/.flac/.wav files. #{in_music_file} is not valid"
       end
     end
 
@@ -96,6 +96,10 @@ module JimmyJukebox
         self.player = user_config.mp3_player
       elsif music_file =~ /\.ogg$/i
         self.player = user_config.ogg_player
+      elsif music_file =~ /\.wav$/i
+        self.player = user_config.wav_player
+      elsif music_file =~ /\.flac$/i
+        self.player = user_config.flac_player
       else
         raise UnsupportedSongFormatException, "Attempted to play a file format this program cannot play"
       end

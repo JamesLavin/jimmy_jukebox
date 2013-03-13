@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'fileutils'
 require File.dirname(__FILE__) + '/../lib/jimmy_jukebox/user_config'
 include JimmyJukebox
 
@@ -23,6 +24,14 @@ describe UserConfig do
   #
   #
   #end
+
+  describe "#is_a_directory?" do
+    it "accepts relative paths" do
+      dir = '~/Music/JAZZ/Art_Tatum'
+      FileUtils.mkdir_p(File.expand_path(dir))
+      UserConfig.new.is_a_directory?(dir).should be_true
+    end
+  end
 
   describe "#shortcuts" do
 
