@@ -101,14 +101,8 @@ module JimmyJukebox
     end
 
     def set_player(user_config)
-      if music_file =~ /\.mp3$/i
-        self.player = user_config.send(AUDIO_FORMATS[/\.mp3$/i] + '_player')
-      elsif music_file =~ /\.ogg$/i
-        self.player = user_config.send(AUDIO_FORMATS[/\.ogg/i] + '_player')
-      elsif music_file =~ /\.wav$/i
-        self.player = user_config.send(AUDIO_FORMATS[/\.wav$/i] + '_player')
-      elsif music_file =~ /\.flac$/i
-        self.player = user_config.send(AUDIO_FORMATS[/\.flac$/i] + '_player')
+      if regex = AUDIO_FORMATS.keys.detect { |re| music_file =~ re }
+        self.player = user_config.send(AUDIO_FORMATS[regex] + '_player')
       else
         raise UnsupportedSongFormatException, "Attempted to play a file format this program cannot play"
       end
