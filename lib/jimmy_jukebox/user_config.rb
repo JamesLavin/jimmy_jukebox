@@ -2,6 +2,7 @@ require 'fileutils'
 require 'forwardable'
 
 require 'jimmy_jukebox/artists'
+require 'jimmy_jukebox/song'
 require 'jimmy_jukebox/music_player_detector'
 include Artists
 
@@ -178,7 +179,7 @@ module JimmyJukebox
         if "".respond_to?(:force_encoding)                                  # Ruby 1.8 doesn't have string encoding or String#force_encoding
          files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
         end
-        files.delete_if { |f| !f.match(/.*\.mp3/i) && !f.match(/.*\.ogg/i) && !f.match(/.*\.wav/i) && !f.match(/.*\.flac/i) }
+        files.delete_if { |f| AUDIO_FORMATS.keys.all? { |re| !f.match(re) } }
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
         files.each { |f| songs << f }
       end
