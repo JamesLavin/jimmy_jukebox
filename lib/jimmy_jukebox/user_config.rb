@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'forwardable'
 
 require 'jimmy_jukebox/artists'
 require 'jimmy_jukebox/music_player_detector'
@@ -21,8 +22,11 @@ module JimmyJukebox
 
   class UserConfig
 
+    extend Forwardable
+
     attr_writer   :music_directories
-    attr_accessor :songs, :ogg_player, :mp3_player, :wav_player, :flac_player
+    attr_accessor :songs, :music_player_detector
+    def_delegators :@music_player_detector, :ogg_player, :mp3_player, :wav_player, :flac_player
 
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
 
@@ -72,11 +76,7 @@ module JimmyJukebox
     end
 
     def set_music_players
-      detector = MusicPlayerDetector.new
-      self.ogg_player = detector.ogg_player
-      self.mp3_player = detector.mp3_player
-      self.wav_player = detector.wav_player
-      self.flac_player = detector.flac_player
+      self.music_player_detector = MusicPlayerDetector.new
       no_player_configured unless ogg_player || mp3_player
       warn_about_partial_functionality if !ogg_player || !mp3_player
     end
