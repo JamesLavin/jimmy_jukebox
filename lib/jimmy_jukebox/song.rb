@@ -2,6 +2,11 @@ require_relative "display_options"
 
 module JimmyJukebox
 
+  AUDIO_FORMATS = {/\.mp3$/i => 'mp3',
+                   /\.ogg$/i => 'ogg',
+                   /\.wav$/i => 'wav',
+                   /.flac$/i => 'flac'}
+
   class Song
 
     include JimmyJukebox::DisplayOptions
@@ -17,7 +22,7 @@ module JimmyJukebox
     attr_accessor :player, :playing_pid
 
     def initialize(in_music_file)
-      set_music_file(in_music_file)
+      self.music_file = in_music_file
       self.paused = false
       self.playing_pid = nil
     end
@@ -30,8 +35,12 @@ module JimmyJukebox
       music_file <=> other.music_file
     end
 
-    def set_music_file(in_music_file)
-      if in_music_file =~ /\.mp3$/i || in_music_file =~ /\.ogg$/i || in_music_file =~ /\.wav$/i || in_music_file =~ /.flac$/i
+    def valid_audio_format?(music_file)
+      AUDIO_FORMATS.keys.any? { |re| re =~ music_file }
+    end
+
+    def music_file=(in_music_file)
+      if valid_audio_format?(in_music_file)
         @music_file = File.expand_path(in_music_file)
       else
         raise InvalidSongFormatException, "JimmyJukebox plays only .mp3/.ogg/.flac/.wav files. #{in_music_file} is not valid"
@@ -93,13 +102,13 @@ module JimmyJukebox
 
     def set_player(user_config)
       if music_file =~ /\.mp3$/i
-        self.player = user_config.mp3_player
+        self.player = user_config.send(AUDIO_FORMATS[/\.mp3$/i] + '_player')
       elsif music_file =~ /\.ogg$/i
-        self.player = user_config.ogg_player
+        self.player = user_config.send(AUDIO_FORMATS[/\.ogg/i] + '_player')
       elsif music_file =~ /\.wav$/i
-        self.player = user_config.wav_player
+        self.player = user_config.send(AUDIO_FORMATS[/\.wav$/i] + '_player')
       elsif music_file =~ /\.flac$/i
-        self.player = user_config.flac_player
+        self.player = user_config.send(AUDIO_FORMATS[/\.flac$/i] + '_player')
       else
         raise UnsupportedSongFormatException, "Attempted to play a file format this program cannot play"
       end
