@@ -70,14 +70,11 @@ module JimmyJukebox
       end
     end
 
-    # can't figure out how to play just one song
-    def mpc_exists?
-      `which mpc`.match(/.*\/mpc$/) ? true : false
-    end
+    # other players possibly worth enabling:
+    # 1) https://xmms2.org/wiki/Using_the_application
+    # 2) cmus-remote -p [filename]
+    # 3) mpc: can't figure out how to play just one song
 
-    # other players possibly worth enabling
-    # https://xmms2.org/wiki/Using_the_application
-    
     def cvlc_exists?
       `which cvlc`.match(/.*\/cvlc$/) ? true : false
     end
