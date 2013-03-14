@@ -20,7 +20,7 @@ Linux/Unix:
 - Playing OGG files requires `mplayer`, `ogg123`, `music123`, `cvlc`, `amarok` or `play` (package name: `sox`)
 - Playing FLAC files requires `mplayer`, `cvlc` or `play` (package name: `sox`)
 - Playing WAV files requires `mplayer`, `cvlc`, `aplay` or `play` (package name: `sox`)
-- Requires the `posix-spawn` Ruby gem
+- Requires the `posix-spawn` Ruby gem (or `spoon` gem, if JRuby)
 - On my machine, runs well with 1.9.2-p320 and 1.9.3-p327
 
 Mac:
