@@ -46,7 +46,7 @@ Windows:
 
 ## BASIC USAGE - DOWNLOADING MUSIC
 
-Warning: Downloading every available song would consume nearly 14GB of your hard drive. At last count, the roughly 1,956 jazz songs take up 6.4 GB (~ 3.3 MB/song). The roughly 657 classical performances also take up 6 GB (~ 9.1 MB/piece). The 243 bluegrass songs take up 822 MB (~ 3.4 MB/song). And the 126 rock songs are about 420 MB (~ 3.3 MB/song).
+Warning: Downloading every available song would consume 15GB of your hard drive. At last count, the 2,222 jazz songs take up 7.3 GB (~ 3.3 MB/song). The roughly 657 classical performances also take up 6 GB (~ 9.1 MB/piece). The 243 bluegrass songs take up 822 MB (~ 3.4 MB/song). And the 126 rock songs are about 420 MB (~ 3.3 MB/song).
 
 To download a limited number of songs by an artist, add the number of songs you want after the artist's initials. For example, to download just 15 pieces by Beethoven (lvb), type:
 
