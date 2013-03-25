@@ -21,9 +21,9 @@ describe UserConfig do
   #end
 
   describe "#initialize" do
+    let(:user_config) { UserConfig.new }
 
     describe "blank ARGV" do
-      let(:user_config) { UserConfig.new }
 
       it "uses the default directory" do
         user_config.music_directories.first.should == UserConfig.new.default_music_dir
@@ -33,7 +33,6 @@ describe UserConfig do
     end
 
     describe "non-standard dir ARGV" do
-      let(:user_config) { UserConfig.new }
       let(:nonstd_dir) { "~/my_music_dir" }
 
       it "uses the non-standard directory" do
@@ -42,12 +41,12 @@ describe UserConfig do
         ARGV[0] = nonstd_dir
         user_config.music_directories.first.should == full_dir
         user_config.music_directories.length.should == 1
+        ARGV[0] = nil
       end
 
     end
 
     describe "artist dir ARGV" do
-      let(:user_config) { UserConfig.new }
       let(:artist_param) { 'jrm' }
 
       it "uses the artist directory" do
@@ -56,12 +55,12 @@ describe UserConfig do
         ARGV[0] = artist_param
         user_config.music_directories.first.should == artist_dir
         user_config.music_directories.length.should == 1
+        ARGV[0] = nil
       end
 
     end
 
     describe "shortcut 'j' ARGV" do
-      let(:user_config) { UserConfig.new }
       let(:shortcut_param) { 'j' }
 
       it "finds all the jazz directories" do
@@ -73,6 +72,31 @@ describe UserConfig do
         user_config.music_directories.should include at_dir
         user_config.music_directories.should include de_dir
         user_config.music_directories.length.should == 3
+        ARGV[0] = nil
+      end
+
+    end
+
+    describe "(playlist) file as ARGV" do
+      let(:file_param) { '~/path/my_music_dirs.txt' }
+      let(:dir1) { '~/path2/artist1' }
+      let(:dir2) { '~/path3/artist2' }
+
+      it "uses the file's directories" do
+        d0 = File.expand_path('~/path')
+        d1 = File.expand_path(dir1)
+        d2 = File.expand_path(dir2)
+        FileUtils.mkdir_p(d0)
+        FileUtils.mkdir_p(d1)
+        FileUtils.mkdir_p(d2)
+        File.open(File.expand_path(file_param), "w") { |f| 
+          f.puts dir1
+          f.puts dir2
+        }
+        ARGV[0] = file_param 
+        user_config.music_directories.should include d1
+        user_config.music_directories.should include d2
+        ARGV[0] = nil
       end
 
     end
@@ -90,7 +114,7 @@ describe UserConfig do
   describe "#shortcuts" do
 
     it "finds dirs based on regex keys" do
-      UserConfig.new().shortcuts[/^bluegrass$/i] == UserConfig.new().bluegrass_dir
+      UserConfig.new.shortcuts[/^bluegrass$/i] == UserConfig.new().bluegrass_dir
     end
 
   end
@@ -98,7 +122,7 @@ describe UserConfig do
   describe "#shortcut_to_dir" do
     
     it "knows 'r' means rock-and-roll" do
-      UserConfig.new().shortcut_to_dir('r') == UserConfig.new().rock_dir
+      UserConfig.new.shortcut_to_dir('r') == UserConfig.new().rock_dir
     end
 
   end

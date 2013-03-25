@@ -23,6 +23,8 @@ module JimmyJukebox
 
   class UserConfig
 
+    class FileHoldingDirectoriesNotFoundException < Exception; end
+
     extend Forwardable
 
     attr_writer   :music_directories
@@ -103,6 +105,8 @@ module JimmyJukebox
         @music_directories_file = File.expand_path(argv0)
       elsif File.exists?( File.expand_path( File.join(DEFAULT_PLAYLIST_DIR, argv0) ) )
         @music_directories_file = File.expand_path(File.join(DEFAULT_PLAYLIST_DIR, argv0))
+      else
+        raise FileHoldingDirectoriesNotFoundException, "Can't find the file #{argv0}"
       end
       load_top_level_directories_from_file
     end
