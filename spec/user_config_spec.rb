@@ -128,6 +128,36 @@ describe UserConfig do
 
   end
 
+  describe "#files" do
+    let(:user_config) { UserConfig.new }
+    let(:dir1) { '~/Music/artist1' }
+    let(:dir2) { '~/Music/artist2' }
+    let(:d1) { File.expand_path(dir1) }
+    let(:d2) { File.expand_path(dir2) }
+
+    before(:each) do
+      FileUtils.mkdir_p(d1)
+      FileUtils.mkdir_p(d1 + '/subdir')
+      FileUtils.mkdir_p(d2)
+      FileUtils.touch d1 + '/song1.mp3'
+      FileUtils.touch d1 + '/subdir/song2.ogg'
+      FileUtils.touch d1 + '/subdir/song5.afdsdf'
+      FileUtils.touch d2 + '/song3.flac'
+      FileUtils.touch d2 + '/song4.wav'
+      FileUtils.touch d2 + '/song5.WAV'
+    end
+
+    it "generates a complete song list" do
+      user_config.songs.should include File.expand_path(d1 + '/song1.mp3')
+      user_config.songs.should include File.expand_path(d1 + '/subdir/song2.ogg')
+      user_config.songs.should include File.expand_path(d2 + '/song3.flac')
+      user_config.songs.should include File.expand_path(d2 + '/song4.wav')
+      user_config.songs.should include File.expand_path(d2 + '/song5.WAV')
+      user_config.songs.length.should == 5
+    end
+
+  end
+
   describe "#is_a_directory?" do
     it "accepts relative paths" do
       dir = '~/Music/JAZZ/Art_Tatum'

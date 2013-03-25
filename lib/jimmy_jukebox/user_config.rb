@@ -141,9 +141,6 @@ module JimmyJukebox
       end
     end
 
-    def set_music_directories
-    end
-
     def generate_directories_list
       set_top_music_directories
       create_nonexistent_music_directories
