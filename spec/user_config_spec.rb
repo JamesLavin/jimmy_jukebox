@@ -20,10 +20,33 @@ describe UserConfig do
   #  end
   #end
 
-  #describe "#set_default_mp3_dir" do
-  #
-  #
-  #end
+  describe "#initialize" do
+
+    describe "blank ARGV" do
+      let(:user_config) { UserConfig.new }
+
+      it "uses the default directory" do
+        user_config.music_directories.first.should == UserConfig.new.default_music_dir
+        user_config.music_directories.length.should == 1
+      end
+
+    end
+
+    describe "non-standard dir ARGV" do
+      let(:user_config) { UserConfig.new }
+      let(:nonstd_dir) { "~/my_music_dir" }
+
+      it "uses the default directory" do
+        full_dir = File.expand_path(nonstd_dir)
+        FileUtils.mkdir_p(File.expand_path(nonstd_dir))
+        ARGV[0] = nonstd_dir
+        user_config.music_directories.first.should == full_dir
+        user_config.music_directories.length.should == 1
+      end
+
+    end
+
+  end
 
   describe "#is_a_directory?" do
     it "accepts relative paths" do
