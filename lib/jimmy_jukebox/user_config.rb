@@ -57,24 +57,28 @@ module JimmyJukebox
         /^rock$/i      => rock_dir }
     end
 
+    def root_music_dir
+      default_music_dir
+    end
+
     def default_music_dir
       File.expand_path(File.join("~","Music"))
     end
 
     def bluegrass_dir
-      default_music_dir + '/BLUEGRASS'
+      root_music_dir + '/BLUEGRASS'
     end
 
     def jazz_dir
-      default_music_dir + '/JAZZ'
+      root_music_dir + '/JAZZ'
     end
 
     def rock_dir
-      default_music_dir + '/ROCK'
+      root_music_dir + '/ROCK'
     end
 
     def classical_dir
-      default_music_dir + '/CLASSICAL'
+      root_music_dir + '/CLASSICAL'
     end
 
     def set_music_players
@@ -119,17 +123,17 @@ module JimmyJukebox
       # a directory path (like "~/Music/JAZZ")
       # or nil
       if argv0.nil?
-        music_directories << default_music_dir
+        music_directories << root_music_dir
       elsif dir = shortcut_to_dir(argv0)
         music_directories << dir
       elsif ARTISTS.keys.include?(argv0.to_sym)
-        music_directories << default_music_dir + artist_key_to_subdir_name(argv0.to_sym)
+        music_directories << root_music_dir + artist_key_to_subdir_name(argv0.to_sym)
       elsif is_a_txt_file?(argv0.strip)
         set_music_directories_from_file
       elsif is_a_directory?(argv0.strip)
         music_directories << File.expand_path(argv0.strip)
       else
-        music_directories << default_music_dir
+        music_directories << root_music_dir
       end
     end
 

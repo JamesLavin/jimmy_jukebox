@@ -38,7 +38,7 @@ describe UserConfig do
 
       it "uses the default directory" do
         full_dir = File.expand_path(nonstd_dir)
-        FileUtils.mkdir_p(File.expand_path(nonstd_dir))
+        FileUtils.mkdir_p(full_dir)
         ARGV[0] = nonstd_dir
         user_config.music_directories.first.should == full_dir
         user_config.music_directories.length.should == 1
