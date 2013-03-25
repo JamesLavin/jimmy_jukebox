@@ -147,7 +147,7 @@ module JimmyJukebox
 
     def is_a_directory?(whatever)
       return false unless whatever
-      File.directory?(File.expand_path(whatever)) ? true : false
+      File.directory?(File.expand_path(whatever))
     end
 
     def load_top_level_directories_from_file
