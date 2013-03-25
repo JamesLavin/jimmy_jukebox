@@ -78,25 +78,50 @@ describe UserConfig do
     end
 
     describe "(playlist) file as ARGV" do
-      let(:file_param) { '~/path/my_music_dirs.txt' }
       let(:dir1) { '~/path2/artist1' }
       let(:dir2) { '~/path3/artist2' }
+      let(:d1) { File.expand_path(dir1) }
+      let(:d2) { File.expand_path(dir2) }
 
-      it "uses the file's directories" do
-        d0 = File.expand_path('~/path')
-        d1 = File.expand_path(dir1)
-        d2 = File.expand_path(dir2)
-        FileUtils.mkdir_p(d0)
+      before(:each) do
         FileUtils.mkdir_p(d1)
         FileUtils.mkdir_p(d2)
-        File.open(File.expand_path(file_param), "w") { |f| 
-          f.puts dir1
-          f.puts dir2
-        }
-        ARGV[0] = file_param 
-        user_config.music_directories.should include d1
-        user_config.music_directories.should include d2
-        ARGV[0] = nil
+      end
+
+      context "full filepath given" do
+        let(:file_param) { '~/path/my_music_dirs.txt' }
+        let(:d0) { File.expand_path('~/path') }
+      
+        it "uses the file's directories" do
+          FileUtils.mkdir_p(d0)
+          File.open(File.expand_path(file_param), "w") { |f| 
+            f.puts dir1
+            f.puts dir2
+          }
+          ARGV[0] = file_param 
+          user_config.music_directories.should include d1
+          user_config.music_directories.should include d2
+          ARGV[0] = nil
+        end
+
+      end
+
+      context "only filename given" do
+        let(:file_param) { 'my_music_dirs.txt' }
+        let(:d0) { File.expand_path('~/.jimmy_jukebox') }
+      
+        it "uses the file's directories" do
+          FileUtils.mkdir_p(d0)
+          File.open(File.expand_path(d0 + '/' + file_param), "w") { |f| 
+            f.puts dir1
+            f.puts dir2
+          }
+          ARGV[0] = file_param 
+          user_config.music_directories.should include d1
+          user_config.music_directories.should include d2
+          ARGV[0] = nil
+        end
+
       end
 
     end
