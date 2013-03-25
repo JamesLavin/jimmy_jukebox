@@ -60,11 +60,11 @@ describe UserConfig do
 
     end
 
-    describe "shortcut ARGV" do
+    describe "shortcut 'j' ARGV" do
       let(:user_config) { UserConfig.new }
       let(:shortcut_param) { 'j' }
 
-      it "uses the artist directory" do
+      it "finds all the jazz directories" do
         at_dir = File.expand_path("~/Music/JAZZ/Art_Tatum")
         de_dir = File.expand_path("~/Music/JAZZ/Duke_Ellington")
         FileUtils.mkdir_p(at_dir)
