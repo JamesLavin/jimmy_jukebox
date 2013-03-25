@@ -26,7 +26,7 @@ module JimmyJukebox
     extend Forwardable
 
     attr_writer   :music_directories
-    attr_accessor :songs, :music_player_detector, :top_music_dir, :argv0
+    attr_accessor :songs, :music_player_detector, :argv0
     def_delegators :@music_player_detector, :ogg_player, :mp3_player, :wav_player, :flac_player
 
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
@@ -112,13 +112,15 @@ module JimmyJukebox
       reg_ex ? shortcuts[reg_ex] : nil
     end
 
-    def set_top_music_dir
-      #@top_music_dir = case argv0
-      #                 when nil then default_music_dir
-      #                 else default_music_dir
+    def set_top_music_directories
+      # argv0 can be "jazz.txt" (a file holding directory names),
+      # a shortcut (like 'j' or 'jazz' for jazz or 'r' or 'rock' for rock),
+      # an artist shortcut (like 'bg' for Benny Goodman or 'md' for Miles Davis),
+      # a directory path (like "~/Music/JAZZ")
+      # or nil
       if argv0.nil?
         music_directories << default_music_dir
-      elsif dir = shortcut_to_dir(argv0.strip)
+      elsif dir = shortcut_to_dir(argv0)
         music_directories << dir
       elsif ARTISTS.keys.include?(argv0.to_sym)
         music_directories << default_music_dir + artist_key_to_subdir_name(argv0.to_sym)
@@ -131,13 +133,11 @@ module JimmyJukebox
       end
     end
 
+    def set_music_directories
+    end
+
     def generate_directories_list
-      # argv0 can be "jazz.txt" (a file holding directory names),
-      # a shortcut (like 'j' or 'jazz' for jazz or 'r' or 'rock' for rock),
-      # an artist shortcut (like 'bg' for Benny Goodman or 'md' for Miles Davis),
-      # a directory path (like "~/Music/JAZZ")
-      # or nil
-      set_top_music_dir
+      set_top_music_directories
       create_nonexistent_music_directories
       add_all_subdirectories
     end
