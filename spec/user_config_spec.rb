@@ -60,6 +60,23 @@ describe UserConfig do
 
     end
 
+    describe "shortcut ARGV" do
+      let(:user_config) { UserConfig.new }
+      let(:shortcut_param) { 'j' }
+
+      it "uses the artist directory" do
+        at_dir = File.expand_path("~/Music/JAZZ/Art_Tatum")
+        de_dir = File.expand_path("~/Music/JAZZ/Duke_Ellington")
+        FileUtils.mkdir_p(at_dir)
+        FileUtils.mkdir_p(de_dir)
+        ARGV[0] = shortcut_param
+        user_config.music_directories.should include at_dir
+        user_config.music_directories.should include de_dir
+        user_config.music_directories.length.should == 3
+      end
+
+    end
+
   end
 
   describe "#is_a_directory?" do

@@ -58,7 +58,7 @@ module JimmyJukebox
     end
 
     def root_music_dir
-      default_music_dir
+      @root_music_dir || default_music_dir
     end
 
     def default_music_dir
@@ -128,10 +128,10 @@ module JimmyJukebox
         music_directories << dir
       elsif ARTISTS.keys.include?(argv0.to_sym)
         music_directories << root_music_dir + artist_key_to_subdir_name(argv0.to_sym)
-      elsif is_a_txt_file?(argv0.strip)
+      elsif is_a_txt_file?(argv0)
         set_music_directories_from_file
-      elsif is_a_directory?(argv0.strip)
-        music_directories << File.expand_path(argv0.strip)
+      elsif is_a_directory?(argv0)
+        music_directories << File.expand_path(argv0)
       else
         music_directories << root_music_dir
       end
