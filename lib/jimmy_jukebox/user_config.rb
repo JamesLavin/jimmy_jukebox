@@ -26,7 +26,7 @@ module JimmyJukebox
     extend Forwardable
 
     attr_writer   :music_directories
-    attr_accessor :songs, :music_player_detector
+    attr_accessor :songs, :music_player_detector, :top_music_dir, :argv0
     def_delegators :@music_player_detector, :ogg_player, :mp3_player, :wav_player, :flac_player
 
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
@@ -40,6 +40,7 @@ module JimmyJukebox
 
     def initialize
       self.songs = []
+      self.argv0 = ARGV[0]
       set_music_players
       generate_directories_list
       generate_song_list
@@ -94,10 +95,10 @@ module JimmyJukebox
     end
 
     def set_music_directories_from_file
-      if File.exists?(File.expand_path(ARGV[0]))
-        @music_directories_file = File.expand_path(ARGV[0])
-      elsif File.exists?( File.expand_path( File.join(DEFAULT_PLAYLIST_DIR, ARGV[0]) ) )
-        @music_directories_file = File.expand_path(File.join(DEFAULT_PLAYLIST_DIR, ARGV[0]))
+      if File.exists?(File.expand_path(argv0))
+        @music_directories_file = File.expand_path(argv0)
+      elsif File.exists?( File.expand_path( File.join(DEFAULT_PLAYLIST_DIR, argv0) ) )
+        @music_directories_file = File.expand_path(File.join(DEFAULT_PLAYLIST_DIR, argv0))
       end
       load_top_level_directories_from_file
     end
@@ -111,25 +112,32 @@ module JimmyJukebox
       reg_ex ? shortcuts[reg_ex] : nil
     end
 
+    def set_top_music_dir
+      #@top_music_dir = case argv0
+      #                 when nil then default_music_dir
+      #                 else default_music_dir
+      if argv0.nil?
+        music_directories << default_music_dir
+      elsif dir = shortcut_to_dir(argv0.strip)
+        music_directories << dir
+      elsif ARTISTS.keys.include?(argv0.to_sym)
+        music_directories << default_music_dir + artist_key_to_subdir_name(argv0.to_sym)
+      elsif is_a_txt_file?(argv0.strip)
+        set_music_directories_from_file
+      elsif is_a_directory?(argv0.strip)
+        music_directories << File.expand_path(argv0.strip)
+      else
+        music_directories << default_music_dir
+      end
+    end
+
     def generate_directories_list
-      # ARGV[0] can be "jazz.txt" (a file holding directory names),
+      # argv0 can be "jazz.txt" (a file holding directory names),
       # a shortcut (like 'j' or 'jazz' for jazz or 'r' or 'rock' for rock),
       # an artist shortcut (like 'bg' for Benny Goodman or 'md' for Miles Davis),
       # a directory path (like "~/Music/JAZZ")
       # or nil
-      if ARGV.empty?
-        music_directories << default_music_dir
-      elsif dir = shortcut_to_dir(ARGV[0].strip)
-        music_directories << dir
-      elsif ARTISTS.keys.include?(ARGV[0].to_sym)
-        music_directories << default_music_dir + artist_key_to_subdir_name(ARGV[0].to_sym)
-      elsif is_a_txt_file?(ARGV[0].strip)
-        set_music_directories_from_file
-      elsif is_a_directory?(ARGV[0].strip)
-        music_directories << File.expand_path(ARGV[0].strip)
-      else
-        music_directories << default_music_dir
-      end
+      set_top_music_dir
       create_nonexistent_music_directories
       add_all_subdirectories
     end
