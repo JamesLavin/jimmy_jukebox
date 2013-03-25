@@ -167,18 +167,18 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 - Create a `~/.jimmy_jukebox` directory
 
-- Create a file (or files) in `~/.jimmy_jukebox` named whatever you want but ending in `.txt`
+- Create one or more files in `~/.jimmy_jukebox` named whatever you want but ending in `.txt`. Each will become a playlist:
   - ~/.jimmy_jukebox/jazz.txt
   - ~/.jimmy_jukebox/rock.txt
   - ~/.jimmy_jukebox/country.txt
   - etc.
 
-- Inside each file, each row names the top of a music directory tree (no need to escape spaces and other frequently escaped characters). For example, `~/.jimmy_jukebox/rock.txt` might contain the following:
+- Inside each file, add a row name for each top-level music directory tree for that playlist. (No need to escape spaces and other frequently escaped characters.) For example, `~/.jimmy_jukebox/rock.txt` might contain the following:
   - ~/My_rock_files/The_Beatles
   - ~/My_rock_files/The Eagles
   - /home/my_name/My_rock_files/The_Rolling_Stones
 
-- To play music stored in the directory trees specified in `~/.jimmy_jukebox/jazz.txt`, run `play_jukebox jazz.txt`.
+- To play music stored in the playlist (directory trees) specified in `~/.jimmy_jukebox/jazz.txt`, run `play_jukebox jazz.txt`.
 
 ## TROUBLESHOOTING
 
