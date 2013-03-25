@@ -36,11 +36,25 @@ describe UserConfig do
       let(:user_config) { UserConfig.new }
       let(:nonstd_dir) { "~/my_music_dir" }
 
-      it "uses the default directory" do
+      it "uses the non-standard directory" do
         full_dir = File.expand_path(nonstd_dir)
         FileUtils.mkdir_p(full_dir)
         ARGV[0] = nonstd_dir
         user_config.music_directories.first.should == full_dir
+        user_config.music_directories.length.should == 1
+      end
+
+    end
+
+    describe "artist dir ARGV" do
+      let(:user_config) { UserConfig.new }
+      let(:artist_param) { 'jrm' }
+
+      it "uses the artist directory" do
+        artist_dir = File.expand_path("~/Music/JAZZ/Jelly_Roll_Morton")
+        FileUtils.mkdir_p(artist_dir)
+        ARGV[0] = artist_param
+        user_config.music_directories.first.should == artist_dir
         user_config.music_directories.length.should == 1
       end
 
