@@ -83,6 +83,15 @@ module JimmyJukebox
       sample
     end
 
+    def download_sample_genre(num_songs, genre = nil)
+      sample = sample_genre(num_songs, genre)
+      p sample.to_s
+      sample.each do |song_url, artist|
+        save_dir = user_config.root_music_dir + artist_name_to_subdir_name(artist[:name].to_s)
+        download_song(song_url, save_dir)
+      end
+    end
+
     def sample_classical(num_songs)
       raise "not yet implemented"
     end
@@ -192,6 +201,7 @@ module JimmyJukebox
     end
 
     def download_song(song_url, save_dir)
+      create_save_dir(save_dir) unless File.directory?(save_dir)
       savename = song_savename(song_url)
       return if song_already_exists?(savename, save_dir)
       puts "Downloading #{savename} to #{save_dir}"

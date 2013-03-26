@@ -32,12 +32,31 @@ def valid_integer?(arg)
   arg && arg.to_i.is_a?(Integer)
 end
 
+def process_artist
+  if valid_integer?(ARGV[1])
+    JimmyJukebox::SongLoader.new.send(artist_name(ARGV[0]), ARGV[1].to_i)
+  else
+    JimmyJukebox::SongLoader.new.send(artist_name(ARGV[0]))
+  end
+end
+
+def process_sample
+  if ARGV[1].nil?
+    JimmyJukebox::SongLoader.new.download_sample_genre(1)
+  elsif valid_integer?(ARGV[1])
+    JimmyJukebox::SongLoader.new.download_sample_genre(ARGV[1].to_i)
+  else
+    JimmyJukebox::SongLoader.new.download_sample_genre(1)
+  end
+end
+
 no_argv0 unless ARGV[0]
 
-invalid_artist unless valid_artist?(ARGV[0])
-
-if valid_integer?(ARGV[1])
-  JimmyJukebox::SongLoader.new.send(artist_name(ARGV[0]), ARGV[1].to_i)
+if ARGV[0] =~ /sample/i
+  process_sample
+elsif valid_artist?(ARGV[0])
+  process_artist
 else
-  JimmyJukebox::SongLoader.new.send(artist_name(ARGV[0]))
+  invalid_artist
 end
+
