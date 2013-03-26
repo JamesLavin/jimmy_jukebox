@@ -83,9 +83,8 @@ module JimmyJukebox
       sample
     end
 
-    def download_sample_genre(num_songs, genre = nil)
+    def download_sample_genre(num_songs = 1, genre = nil)
       sample = sample_genre(num_songs, genre)
-      p sample.to_s
       sample.each do |song_url, artist|
         save_dir = user_config.root_music_dir + artist_name_to_subdir_name(artist[:name].to_s)
         download_song(song_url, save_dir)

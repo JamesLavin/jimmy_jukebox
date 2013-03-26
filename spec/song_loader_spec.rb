@@ -7,13 +7,49 @@ require 'fakefs/safe'
 require 'jimmy_jukebox/song'
 require 'jimmy_jukebox/song_loader'
 
-describe SongLoader.new do
+describe SongLoader do
 
   # WARNING: This section does NOT use FakeFS::SpecHelpers
 
+  describe "#download_sample_genre" do
+    
+    before(:each) do
+      ARGV.clear
+      @sl = JimmyJukebox::SongLoader.new
+    end
+
+    context "no genre or num specified" do
+
+      it "downloads one song" do
+        @sl.should_receive(:download_song).once
+        @sl.download_sample_genre
+      end
+
+    end
+
+    context "genre 'JAZZ' and num 10 specified" do
+
+      it "downloads 10 songs" do
+        @sl.should_receive(:download_song).exactly(10).times
+        @sl.download_sample_genre(10, 'JAZZ')
+      end
+
+    end
+
+    context "genre 'CLASSICAL' and num 1 specified" do
+
+      it "downloads one song" do
+        @sl.should_receive(:download_song).once
+        @sl.download_sample_genre(1, 'CLASSICAL')
+      end
+
+    end
+
+  end
+
   describe "#sample_genre" do
 
-    context "when genre is nil" do
+    context "genre is nil" do
       let(:sampled_songs) { SongLoader.new.sample_genre(13) }
 
       it "should select the indicated # of songs" do
@@ -22,7 +58,7 @@ describe SongLoader.new do
 
     end
 
-    context "when genre == 'JAZZ'" do
+    context "genre == 'JAZZ'" do
       let(:sampled_songs) { SongLoader.new.sample_genre(10, 'JAZZ') }
 
       it "should select the indicated # of jazz songs" do
@@ -34,7 +70,7 @@ describe SongLoader.new do
 
     end
 
-    context "when genre == 'CLASSICAL'" do
+    context "genre == 'CLASSICAL'" do
       let(:sampled_songs) { SongLoader.new.sample_genre(12, 'CLASSICAL') }
 
       it "should select the indicated # of classical songs" do

@@ -14,12 +14,24 @@ describe "#valid_genre?" do
     valid_genre?('jazz').should be_true
   end
 
-  it "should recognize 'JAZZ' as a valid genre" do
-    valid_genre?('JAZZ').should be_true
+  it "should recognize 'bluegrass' as a valid genre" do
+    valid_genre?('jazz').should be_true
+  end
+
+  it "should recognize 'banjo' as a valid genre" do
+    valid_genre?('jazz').should be_true
+  end
+
+  it "should recognize 'rock' as a valid genre" do
+    valid_genre?('jazz').should be_true
   end
 
   it "should recognize 'classical' as a valid genre" do
     valid_genre?('classical').should be_true
+  end
+
+  it "should recognize 'JAZZ' as a valid genre" do
+    valid_genre?('JAZZ').should be_true
   end
 
   it "should not recognize 'invalid' as a valid genre" do

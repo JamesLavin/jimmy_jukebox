@@ -39,10 +39,17 @@ Windows:
 
 ## QUICK-START INSTRUCTIONS
 
-- Download music: `load_jukebox [artist name]` (see next section)
-- Play downloaded music: `play_jukebox [artist name]` (see next section)
-- Play all music in default directory tree ("~/Music"): `play_jukebox`
-- Play music in user-specified directory tree: `play_jukebox [top directory name]` (see below) 
+- Download music:
+  - Load all music for an artist: `load_jukebox [artist name]` (see next section)
+  - Load 8 songs for an artist: `load_jukebox [artist name] 8` (see next section)
+  - Load sample of 20 songs from all genres: `load_jukebox sample 20`
+  - Load sample of 10 songs from one genre: `load_jukebox jazz 10`
+    - Valid genres: 'banjo' 'bluegrass' 'classical' 'jazz' 'rock'
+
+- Play downloaded music:
+  - Play artist: `play_jukebox [artist code]` (see next section)
+  - Play all music in default directory tree ("~/Music"): `play_jukebox`
+  - Play music in user-specified directory tree: `play_jukebox [top directory name]`
 
 ## BASIC USAGE - DOWNLOADING MUSIC
 
