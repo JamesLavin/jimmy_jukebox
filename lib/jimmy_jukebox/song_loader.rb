@@ -3,6 +3,7 @@ require 'fileutils'
 require 'yaml'
 require 'uri'
 
+require 'jimmy_jukebox/constants'
 require 'jimmy_jukebox/artists'
 include Artists
 
@@ -15,11 +16,11 @@ end
 require 'jimmy_jukebox/user_config'
 include JimmyJukebox
 
+require 'jimmy_jukebox/song'
+
 module JimmyJukebox
 
   class SongLoader
-
-    MUSIC_TYPES = /\.mp3$|\.ogg$/i
 
     attr_reader :user_config
 
@@ -31,13 +32,12 @@ module JimmyJukebox
     def define_artist(name)
       metaclass.instance_eval do
         define_method(name) do |max_num = nil|
-          save_dir = user_config.default_music_dir + artist_name_to_subdir_name(name.to_s)
+          save_dir = user_config.root_music_dir + artist_name_to_subdir_name(name.to_s)
           songs = YAML::load_file(File.dirname(__FILE__) + "/songs/#{artist_name_to_yaml_file(name.to_s)}")
           download_num_songs(songs, save_dir, max_num)
         end
       end
     end
-
 
     def sample_jazz(num_songs)
       # create array of all possible songs
@@ -49,15 +49,31 @@ module JimmyJukebox
       raise "not yet implemented"
     end
 
+    def valid_music_format_extension?(song_filename)
+      JimmyJukebox::AUDIO_FORMATS.keys.any? { |k|
+        song_filename =~ k
+      }
+    end
+
+    def strip_music_format_extension(song_filename)
+      fn = song_filename.dup
+      JimmyJukebox::AUDIO_FORMATS.keys.each do |k|
+        fn.gsub!(k,"") if fn =~ k
+      end
+      fn
+    end
+
     def version_of_song_in_dir_or_subdir?(song_filename, save_dir)
+      extensionless_song_filename = strip_music_format_extension(song_filename)
       existing_files = all_subdir_music_files_extensionless(save_dir)
-      existing_files.include?(song_filename.gsub(SongLoader::MUSIC_TYPES,"")) # does extensionless song_filename exist in directory?
+      existing_files.include?(extensionless_song_filename) # does extensionless song_filename exist in directory?
     end
 
     def version_of_song_under_specific_dir?(song_filename, save_dir)
-      existing_files = Dir.entries(".").delete_if { |f| !f.match(SongLoader::MUSIC_TYPES) }  # delete unless .mp3 or .ogg
-      existing_files.map! { |f| f.gsub(SongLoader::MUSIC_TYPES,"") }                         # strip extensions
-      existing_files.include?(song_filename.gsub(SongLoader::MUSIC_TYPES,"")) ? true : false # does extensionless song_filename exist in directory?
+      extensionless_song_filename = strip_music_format_extension(song_filename)
+      existing_files = Dir.entries(".").delete_if { |f| !valid_music_format_extension?(f) }  # delete unless valid format
+      existing_files.map! { |f| strip_music_format_extension(f) }  # strip extensions
+      existing_files.include?(extensionless_song_filename) # does extensionless song_filename exist in directory?
     end
 
     def all_subdir_music_files(dir)
@@ -65,12 +81,12 @@ module JimmyJukebox
       if "".respond_to?(:force_encoding)                      # Ruby 1.8 doesn't have string encoding or String#force_encoding
         existing_files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
       end
-      existing_files.delete_if { |f| !f.match(SongLoader::MUSIC_TYPES) }  # delete unless .mp3, .MP3, .ogg or .OGG
+      existing_files.delete_if { |f| !valid_music_format_extension?(f) }  # delete unless valid format
       existing_files.map { |f| File.basename(f) }                        # strip any path info preceding the filename
     end
 
     def all_subdir_music_files_extensionless(dir)
-      all_subdir_music_files(dir).map! { |f| f.gsub(SongLoader::MUSIC_TYPES,"") }      # strip extensions
+      all_subdir_music_files(dir).map! { |f| strip_music_format_extension(f) }      # strip extensions
     end
 
     def create_save_dir(save_dir)

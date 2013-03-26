@@ -7,14 +7,6 @@ require 'fakefs/safe'
 require 'jimmy_jukebox/song'
 require 'jimmy_jukebox/song_loader'
 
-describe "SongLoader" do
-
-  it "should have a SUPPORTED_MUSIC_TYPES of '/\.mp3$|\.ogg$/i'" do
-    SongLoader::MUSIC_TYPES.should == /\.mp3$|\.ogg$/i
-  end
-
-end
-
 describe SongLoader.new do
 
   include FakeFS::SpecHelpers

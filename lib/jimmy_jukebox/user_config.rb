@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'forwardable'
+require 'rbconfig'
 
 require 'jimmy_jukebox/artists'
 require 'jimmy_jukebox/song'
@@ -189,8 +190,8 @@ module JimmyJukebox
     def generate_song_list
       music_directories.each do |music_dir|
         files = Dir.entries(File.expand_path(music_dir))
-        if "".respond_to?(:force_encoding)                                  # Ruby 1.8 doesn't have string encoding or String#force_encoding
-         files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
+        if "".respond_to?(:force_encoding)  # Ruby 1.8 doesn't have string encoding or String#force_encoding
+          files.delete_if { |f| !f.force_encoding("UTF-8").valid_encoding? } # avoid "invalid byte sequence in UTF-8 (ArgumentError)"
         end
         files.delete_if { |f| AUDIO_FORMATS.keys.all? { |re| !f.match(re) } }
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
