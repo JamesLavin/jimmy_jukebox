@@ -39,6 +39,16 @@ module JimmyJukebox
       end
     end
 
+    def all_songs
+      all_songs = []
+      ARTISTS.values.each do |artist|
+        fn = File.dirname(__FILE__) + "/songs/#{artist_name_to_yaml_file(artist[:name].to_s)}"
+        p fn
+        all_songs.concat(YAML::load_file(fn)) if File.exists?(fn)
+      end
+      all_songs
+    end
+
     def sample_jazz(num_songs)
       # create array of all possible songs
       # loop through array and download num_songs new songs (or until end of array reached)
@@ -121,14 +131,14 @@ module JimmyJukebox
     def download_num_songs(song_urls, save_dir, max_num = nil)
       current_songs = all_subdir_music_files(save_dir)
       do_not_have = downloadable(song_urls, current_songs)
-      puts "You already have all songs for this artist" if do_not_have.empty?
+      puts "You already have all #{current_songs.length} songs for this artist" if do_not_have.empty?
       if max_num
         more_songs = max_num - current_songs.length
         if more_songs > 0
           do_not_have = n_random_songs(do_not_have, more_songs)
         else
           puts "You already have #{current_songs.length} songs by this artist and are requesting a maximum of #{max_num} songs"
-          do_not_have = []
+          return nil
         end
       end
       download_songs(do_not_have, save_dir)

@@ -9,6 +9,23 @@ require 'jimmy_jukebox/song_loader'
 
 describe SongLoader.new do
 
+  # WARNING: NOT using FakeFS::SpecHelpers
+
+  describe "#all_songs" do
+
+    let(:all_songs) { SongLoader.new.all_songs }
+
+    it "should include songs from artist lists" do
+      all_songs.should include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
+      all_songs.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
+    end
+
+  end
+
+end
+
+describe SongLoader.new do
+
   include FakeFS::SpecHelpers
 
   let(:song1_url) { 'http://archive.org/fletcher_henderson/song1.mp3' }
