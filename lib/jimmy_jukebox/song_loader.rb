@@ -39,9 +39,10 @@ module JimmyJukebox
       end
     end
 
-    def all_songs
+    def all_songs(genre = nil) # valid genres: 'JAZZ', 'CLASSICAL', 'BLUEGRASS', 'BANJO', 'ROCK'
       all_songs = []
       ARTISTS.values.each do |artist|
+        next if genre && artist[:genre] != genre
         fn = File.dirname(__FILE__) + "/songs/#{artist_name_to_yaml_file(artist[:name].to_s)}"
         p fn
         all_songs.concat(YAML::load_file(fn)) if File.exists?(fn)
