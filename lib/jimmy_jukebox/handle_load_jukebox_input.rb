@@ -32,7 +32,7 @@ module JimmyJukebox
     end
 
     def valid_integer?(arg)
-      arg && arg.to_i.is_a?(Integer)
+      arg && arg.to_i.is_a?(Integer) && arg.to_i > 0
     end
 
     def process_artist
