@@ -13,6 +13,23 @@ class Object
   end
 end
 
+class Hash
+  def rand_key
+    keys.at(Random.new.rand(0..(keys.size - 1)))
+  end
+
+  def rand_pair
+    k = rand_key
+    return k, fetch(k)
+  end
+
+  def rand_pair!
+    k,v = rand_pair
+    delete( k )
+    return k,v
+  end
+end
+
 require 'jimmy_jukebox/user_config'
 include JimmyJukebox
 
@@ -40,20 +57,30 @@ module JimmyJukebox
     end
 
     def all_songs(genre = nil) # valid genres: 'JAZZ', 'CLASSICAL', 'BLUEGRASS', 'BANJO', 'ROCK'
-      all_songs = []
+      all_songs = {}
       ARTISTS.values.each do |artist|
         next if genre && artist[:genre] != genre
         fn = File.dirname(__FILE__) + "/songs/#{artist_name_to_yaml_file(artist[:name].to_s)}"
-        p fn
-        all_songs.concat(YAML::load_file(fn)) if File.exists?(fn)
+        if File.exists?(fn)
+          YAML::load_file(fn).each do |song|
+            all_songs[song] = artist
+          end
+        end
       end
       all_songs
     end
 
-    def sample_jazz(num_songs)
-      # create array of all possible songs
+    def sample_genre(num_songs, genre = nil)
       # loop through array and download num_songs new songs (or until end of array reached)
-      raise "not yet implemented"
+      sample = {}
+      available_songs = all_songs(genre)
+      num_songs.times do
+        unless available_songs.length == 0
+          k, v = available_songs.rand_pair!
+          sample[k] = v
+        end
+      end
+      sample
     end
 
     def sample_classical(num_songs)

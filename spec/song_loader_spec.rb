@@ -9,26 +9,65 @@ require 'jimmy_jukebox/song_loader'
 
 describe SongLoader.new do
 
-  # WARNING: NOT using FakeFS::SpecHelpers
+  # WARNING: This section does NOT use FakeFS::SpecHelpers
+
+  describe "#sample_genre" do
+
+    context "when genre is nil" do
+      let(:sampled_songs) { SongLoader.new.sample_genre(13) }
+
+      it "should select the indicated # of songs" do
+        sampled_songs.length.should == 13
+      end
+
+    end
+
+    context "when genre == 'JAZZ'" do
+      let(:sampled_songs) { SongLoader.new.sample_genre(10, 'JAZZ') }
+
+      it "should select the indicated # of jazz songs" do
+        sampled_songs.length.should == 10
+        sampled_songs.values.each do |artist|
+          artist[:genre].should == 'JAZZ'
+        end
+      end
+
+    end
+
+    context "when genre == 'CLASSICAL'" do
+      let(:sampled_songs) { SongLoader.new.sample_genre(12, 'CLASSICAL') }
+
+      it "should select the indicated # of classical songs" do
+        sampled_songs.length.should == 12
+        sampled_songs.values.each do |artist|
+          artist[:genre].should == 'CLASSICAL'
+        end
+      end
+
+    end
+
+  end
 
   describe "#all_songs" do
 
     context "no genre specified" do
+
       let(:all_songs) { SongLoader.new.all_songs }
 
       it "should include songs from artist lists" do
-        all_songs.should include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
-        all_songs.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
+        all_songs.keys.should include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
+        all_songs.keys.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
       end
 
     end
 
     context "genre 'JAZZ' specified" do
+
       let(:all_songs) { SongLoader.new.all_songs('JAZZ') }
 
       it "should include only songs from jazz artist lists" do
-        all_songs.should_not include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
-        all_songs.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
+        all_songs.keys.should_not include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
+        all_songs.keys.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
       end
 
     end
