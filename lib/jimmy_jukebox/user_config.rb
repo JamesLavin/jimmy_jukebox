@@ -2,8 +2,10 @@ require 'fileutils'
 require 'forwardable'
 require 'rbconfig'
 
+require 'jimmy_jukebox/constants'
 require 'jimmy_jukebox/artists'
 require 'jimmy_jukebox/song'
+require 'jimmy_jukebox/song_loader'
 require 'jimmy_jukebox/music_player_detector'
 include Artists
 
@@ -198,8 +200,18 @@ module JimmyJukebox
         files.each { |f| songs << f }
       end
       puts "WARNING: JimmyJukebox could not find any songs" unless songs.length > 0
-      #songs = ["~/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
-      #         "~/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
+      #songs = ["/home/xxx/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
+      #         "/home/xxx/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
+    end
+
+    def undownloaded_songs
+      result = {}
+      JimmyJukebox::SongLoader.new(self).all_downloadable_songs.each do |url, artist|
+        save_path = root_music_dir + artist_name_to_subdir_name(artist[:name]) + '/' + File.basename(url)
+        next if songs.include?(save_path)
+        result[url] = artist
+      end
+      result
     end
 
   end

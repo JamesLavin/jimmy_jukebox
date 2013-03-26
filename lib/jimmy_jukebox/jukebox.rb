@@ -36,7 +36,7 @@ module JimmyJukebox
       disable_monitor_powerdown if JimmyJukebox::RUNNING_X_WINDOWS
       self.user_config = new_user_config
       self.continuous_play = continuous_play
-      raise NoSongsException if songs.empty?
+      raise NoSongsException if downloaded_songs.empty?
     end
 
     def play_loop
@@ -126,13 +126,17 @@ module JimmyJukebox
       current_song.unpause
     end
 
-    def songs
+    def downloaded_songs
       user_config.songs
     end
 
+    def undownloaded_songs
+      user_config.undownloaded_songs
+    end
+
     def random_song
-      raise NoNewSongException, "JimmyJukebox can't find any songs to play!" if songs.length == 0
-      Song.new( songs[rand(songs.length)] )
+      raise NoNewSongException, "JimmyJukebox can't find any songs to play!" if downloaded_songs.length == 0
+      Song.new( downloaded_songs[rand(downloaded_songs.length)] )
     end
 
     def play_random_song

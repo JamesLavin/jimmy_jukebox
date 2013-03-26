@@ -128,32 +128,60 @@ describe UserConfig do
 
   end
 
-  describe "#files" do
+  describe "#songs and #undownloaded_songs" do
     let(:user_config) { UserConfig.new }
-    let(:dir1) { '~/Music/artist1' }
-    let(:dir2) { '~/Music/artist2' }
+    let(:dir1) { '~/Music/JAZZ/John_Coltrane' }
+    let(:dir2) { '~/Music/CLASSICAL/Vivaldi' }
     let(:d1) { File.expand_path(dir1) }
     let(:d2) { File.expand_path(dir2) }
 
     before(:each) do
       FileUtils.mkdir_p(d1)
-      FileUtils.mkdir_p(d1 + '/subdir')
       FileUtils.mkdir_p(d2)
-      FileUtils.touch d1 + '/song1.mp3'
-      FileUtils.touch d1 + '/subdir/song2.ogg'
-      FileUtils.touch d1 + '/subdir/song5.afdsdf'
-      FileUtils.touch d2 + '/song3.flac'
-      FileUtils.touch d2 + '/song4.wav'
-      FileUtils.touch d2 + '/song5.WAV'
+      FileUtils.touch d1 + '/a_love_supreme.mp3'
+      FileUtils.touch d1 + '/my_funny_valentine.ogg'
+      FileUtils.touch d1 + '/song5.afdsdf'
+      FileUtils.touch d2 + '/four_seasons.flac'
+      FileUtils.touch d2 + '/spring.wav'
+      FileUtils.touch d2 + '/Summer.WAV'
     end
 
-    it "generates a complete song list" do
-      user_config.songs.should include File.expand_path(d1 + '/song1.mp3')
-      user_config.songs.should include File.expand_path(d1 + '/subdir/song2.ogg')
-      user_config.songs.should include File.expand_path(d2 + '/song3.flac')
-      user_config.songs.should include File.expand_path(d2 + '/song4.wav')
-      user_config.songs.should include File.expand_path(d2 + '/song5.WAV')
-      user_config.songs.length.should == 5
+    describe "#songs" do
+
+      it "generates a complete song list" do
+        user_config.songs.should include File.expand_path(d1 + '/a_love_supreme.mp3')
+        user_config.songs.should include File.expand_path(d1 + '/my_funny_valentine.ogg')
+        user_config.songs.should include File.expand_path(d2 + '/four_seasons.flac')
+        user_config.songs.should include File.expand_path(d2 + '/spring.wav')
+        user_config.songs.should include File.expand_path(d2 + '/Summer.WAV')
+        user_config.songs.length.should == 5
+      end
+
+      it "does not include the invalid-formatted song in the list" do
+        user_config.songs.should_not include File.expand_path(d1 + '/song5.afdsdf')
+      end
+
+    end
+
+    describe "#undownloaded_songs" do
+   
+      before do
+        @song_hash = {'http://www.mp3.com/a_love_supreme.mp3' => {:genre => 'JAZZ', :name => 'john_coltrane'},
+                      'http://www.flac.net/four_seasons.flac' => {:genre => 'CLASSICAL', :name => 'vivaldi'},
+                      'http://www.wav.com/winter.wav' => {:genre => 'CLASSICAL', :name => 'vivaldi'},
+                      'http://www.ogg.org/maybeline.ogg' => {:genre => 'ROCK', :name => 'chuck_berry'}
+                     }
+      end
+
+      it "correctly generates the list of undownloaded songs" do
+        JimmyJukebox::SongLoader.any_instance.stub(:all_downloadable_songs).and_return(@song_hash)
+        undownloaded_urls = user_config.undownloaded_songs.keys
+        undownloaded_urls.should include 'http://www.wav.com/winter.wav'
+        undownloaded_urls.should include 'http://www.ogg.org/maybeline.ogg'
+        undownloaded_urls.should_not include 'http://www.flac.net/four_seasons.flac'
+        undownloaded_urls.should_not include 'http://www.mp3.com/a_love_supreme.mp3'
+      end
+
     end
 
   end

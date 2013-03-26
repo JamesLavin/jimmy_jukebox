@@ -84,26 +84,26 @@ describe SongLoader do
 
   end
 
-  describe "#all_songs" do
+  describe "#all_downloadable_songs" do
 
     context "no genre specified" do
 
-      let(:all_songs) { SongLoader.new.all_songs }
+      let(:all_downloadable_songs) { SongLoader.new.all_downloadable_songs }
 
       it "should include songs from artist lists" do
-        all_songs.keys.should include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
-        all_songs.keys.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
+        all_downloadable_songs.keys.should include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
+        all_downloadable_songs.keys.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
       end
 
     end
 
     context "genre 'JAZZ' specified" do
 
-      let(:all_songs) { SongLoader.new.all_songs('JAZZ') }
+      let(:all_downloadable_songs) { SongLoader.new.all_downloadable_songs('JAZZ') }
 
       it "should include only songs from jazz artist lists" do
-        all_songs.keys.should_not include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
-        all_songs.keys.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
+        all_downloadable_songs.keys.should_not include "http://archive.org/download/MozartSinfoniaConcertanteK.364spivakovMintz/02Mozart_SinfoniaConcertanteInEFlatK364-2.Andante.mp3"
+        all_downloadable_songs.keys.should include "http://archive.org/download/WinnerRagtimeBand-TheTurkeyTrot1912/WinnerRagtimeBand-TurkeyTrot1912.mp3"
       end
 
     end

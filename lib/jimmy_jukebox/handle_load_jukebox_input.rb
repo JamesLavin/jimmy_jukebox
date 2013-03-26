@@ -27,12 +27,26 @@ module JimmyJukebox
       valid_genres.any? { |g| g =~ arg }
     end
 
+    def radio?(arg)
+      arg && arg =~ /^radio$/i
+    end
+
     def artist_name(arg)
       ARTISTS[arg.to_sym][:name]
     end
 
     def valid_integer?(arg)
       arg && arg.to_i.is_a?(Integer) && arg.to_i > 0
+    end
+
+    def play_radio
+      require 'jimmy_jukebox/check_gems'
+      require 'jimmy_jukebox/user_interface'
+      #jj = Jukebox.new
+      #play_loop_thread = Thread.new do
+      #  jj.play_loop
+      #end
+      #play_loop_thread.join
     end
 
     def process_artist

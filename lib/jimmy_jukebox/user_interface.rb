@@ -5,6 +5,8 @@ rescue LoadError
   exit
 end
 
+require 'jimmy_jukebox/jukebox'
+
 if JimmyJukebox::RUNNING_JRUBY
   class IO
     def getch

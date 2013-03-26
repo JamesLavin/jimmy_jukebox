@@ -41,8 +41,8 @@ module JimmyJukebox
 
     attr_reader :user_config
 
-    def initialize
-      @user_config = UserConfig.new
+    def initialize(user_config = nil)
+      @user_config = user_config || UserConfig.new
       ARTISTS.values.each { |artist| define_artist artist[:name].to_sym }
     end
 
@@ -56,24 +56,24 @@ module JimmyJukebox
       end
     end
 
-    def all_songs(genre = nil) # valid genres: 'JAZZ', 'CLASSICAL', 'BLUEGRASS', 'BANJO', 'ROCK'
-      all_songs = {}
+    def all_downloadable_songs(genre = nil) # valid genres: 'JAZZ', 'CLASSICAL', 'BLUEGRASS', 'BANJO', 'ROCK'
+      result = {}
       ARTISTS.values.each do |artist|
         next if genre && artist[:genre] != genre
         fn = File.dirname(__FILE__) + "/songs/#{artist_name_to_yaml_file(artist[:name].to_s)}"
         if File.exists?(fn)
           YAML::load_file(fn).each do |song|
-            all_songs[song] = artist
+            result[song] = artist
           end
         end
       end
-      all_songs
+      result
     end
 
     def sample_genre(num_songs, genre = nil)
       # loop through array and download num_songs new songs (or until end of array reached)
       sample = {}
-      available_songs = all_songs(genre)
+      available_songs = all_downloadable_songs(genre)
       num_songs.times do
         unless available_songs.length == 0
           k, v = available_songs.rand_pair!
