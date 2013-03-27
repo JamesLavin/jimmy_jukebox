@@ -12,6 +12,8 @@ no_argv0 unless ARGV[0]
 
 if ARGV[0] =~ /sample/i
   process_sample
+elsif ARGV[0] =~ /artists/i
+  list_artists
 elsif valid_genre?(ARGV[0])
   process_genre
 elsif radio?(ARGV[0])

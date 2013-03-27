@@ -85,4 +85,9 @@ module Artists
     name.to_s.split("_").map! { |name_component| name_component.capitalize }.join("") + '.yml'
   end
 
+  def prettified_artist_name(name)
+    return name.to_s.capitalize unless name.to_s.match(/_/)
+    name.to_s.split("_").map! { |name_component| name_component.capitalize }.join(" ")
+  end
+
 end

@@ -1,3 +1,5 @@
+require 'jimmy_jukebox/artists'
+
 module JimmyJukebox
 
   module HandleLoadJukeboxInput
@@ -15,15 +17,32 @@ module JimmyJukebox
       exit
     end
 
+    def list_artists
+      display_template {
+        puts "    Artist symbol = Artist name (Genre)\n\n"
+        ARTISTS.each do |k,v|
+          puts "            " + k.to_s.rjust(5) + ' = ' + prettified_artist_name(v[:name]) + ' (' + v[:genre].capitalize + ')'
+        end
+        puts "\n"
+      }
+    end
+
     def invalid_artist
       display_template {
         puts "    No action taken in response to your command 'load_jukebox #{ARGV[0]}'.\n\n"
-        puts "    JimmyJukebox does not recognize '#{ARGV[0]}'. You must select a valid artist.\n\n"
-        puts "    For example, valid artists include:\n\n"
+        puts "    JimmyJukebox does not recognize '#{ARGV[0]}'.\n\n"
+        puts "    You must select a valid artist or genre.\n\n"
+        puts "    Valid genres:\n\n"
+        puts "         'bluegrass'"
+        puts "         'banjo'"
+        puts "         'classical'"
+        puts "         'jazz'"
+        puts "         'rock'\n\n"
+        puts "    Valid artists include:\n\n"
         puts "         'bh' for Billie Holiday"
         puts "         'cb' for Count Basie"
         puts "         'lh' for Lionel Hampton.\n\n"
-        puts "    Please see the link below for a complete list of valid artists.\n\n"
+        puts "    Please visit the link below for a complete list of valid artists.\n\n"
       }
       exit
     end
@@ -80,12 +99,12 @@ module JimmyJukebox
     end
 
     def display_genre_download_requires_n_message
-      display_template do
+      display_template {
         puts "    You requested a sample of #{ARGV[0]} songs without specifying how many.\n\n"
         puts "    Please try again but specify how many songs you wish to download.\n\n"
         puts "    For example, to download 10 #{ARGV[0]} songs, type:\n\n"
         puts "         load_jukebox #{ARGV[0]} 10"
-      end
+      }
     end
 
     def process_sample
