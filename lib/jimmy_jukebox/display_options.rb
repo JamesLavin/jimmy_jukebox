@@ -8,7 +8,7 @@ module JimmyJukebox
 
     def display_options_after_delay
       # pause to let song display song info and begin playing before displaying user options
-      sleep 1
+      sleep 0.4
       display_options
     end
 
