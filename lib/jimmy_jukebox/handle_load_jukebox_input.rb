@@ -60,13 +60,20 @@ module JimmyJukebox
       end
     end
 
+    def display_template(&msg)
+      puts "   ----------------------------------------------------------------------"
+      puts "   JimmyJukebox message:\n\n"
+      msg.call if msg
+      puts "   ----------------------------------------------------------------------"
+    end
+
     def display_genre_download_requires_n_message
-      puts "   --------------------------------------------------------------------"
-      puts "   You requested a sample of #{ARGV[0]} songs without specifying how many.\n\n"
-      puts "   Please try again but specify how many songs you wish to download.\n\n"
-      puts "   For example, to download 10 #{ARGV[0]} songs, type:\n\n"
-      puts "        load_jukebox #{ARGV[0]} 10"
-      puts "   --------------------------------------------------------------------"
+      display_template do
+        puts "   You requested a sample of #{ARGV[0]} songs without specifying how many.\n\n"
+        puts "   Please try again but specify how many songs you wish to download.\n\n"
+        puts "   For example, to download 10 #{ARGV[0]} songs, type:\n\n"
+        puts "        load_jukebox #{ARGV[0]} 10"
+      end
     end
 
     def process_sample
