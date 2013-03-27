@@ -14,10 +14,10 @@ if ARGV[0] =~ /sample/i
   process_sample
 elsif ARGV[0] =~ /artists/i
   list_artists
+elsif ARGV[0] =~ /radio/i
+  play_radio
 elsif valid_genre?(ARGV[0])
   process_genre
-elsif radio?(ARGV[0])
-  play_radio
 elsif valid_artist?(ARGV[0])
   process_artist
 else

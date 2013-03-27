@@ -57,10 +57,6 @@ module JimmyJukebox
       valid_genres.any? { |g| g =~ arg }
     end
 
-    def radio?(arg)
-      arg && arg =~ /^radio$/i
-    end
-
     def artist_name(arg)
       ARTISTS[arg.to_sym][:name]
     end

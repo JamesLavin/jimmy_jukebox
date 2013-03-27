@@ -43,7 +43,8 @@ Windows:
   - Load all music for an artist: `load_jukebox [artist name]` (see next section)
   - Load 8 songs for an artist: `load_jukebox [artist name] 8` (see next section)
   - Load sample of 20 songs from all genres: `load_jukebox sample 20`
-  - Load sample of 10 songs from one genre: `load_jukebox jazz 10` (valid genres: 'banjo' 'bluegrass' 'classical' 'jazz' 'rock')
+  - Load sample of 10 songs from a genre: `load_jukebox jazz 10` (valid genres: 'banjo' 'bluegrass' 'classical' 'jazz' 'rock')
+  - List all artists with their symbols: `load_jukebox artists`
 
 - Play downloaded music:
   - Play artist: `play_jukebox [artist code]` (see next section)

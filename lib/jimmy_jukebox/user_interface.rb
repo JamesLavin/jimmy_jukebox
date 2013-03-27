@@ -1,21 +1,6 @@
-begin
-  require 'io/console'
-rescue LoadError
-  puts "*** JimmyJukebox uses io/console, which is built into Ruby 1.9.3. I recommend running JimmyJukebox on 1.9.3. You could instead install the 'io-console' gem, but the most recent version works only with 1.9.3, so try \"gem install io-console -v '0.3'\" ***"
-  exit
-end
-
+require 'jimmy_jukebox/check_io_console'
 require 'jimmy_jukebox/jukebox'
-
-if JimmyJukebox::RUNNING_JRUBY
-  class IO
-    def getch
-      raw do
-        getc
-      end
-    end
-  end
-end
+require 'jimmy_jukebox/check_jruby'
 
 jj = Jukebox.new
 
@@ -28,20 +13,30 @@ user_input_thread = Thread.new do
   
   class NoPlayLoopThreadException < Exception; end
 
+  def set_get_char_method
+    @get_char_method = if JimmyJukebox::RUNNING_JRUBY
+                         lambda { STDIN.getch }
+                       else
+                         lambda {
+                           begin
+                             stty_state = `stty -g`
+                             system("stty raw opost -echo -icanon isig")
+                             STDIN.getc.chr
+                           ensure
+                             `stty #{stty_state}`
+                           end
+                         }
+                       end
+  end
+
+  def get_char
+    @get_char_method.call
+  end
+
   begin
+    set_get_char_method
     loop do
-      if JimmyJukebox::RUNNING_JRUBY
-        char = STDIN.getch
-      else
-        begin
-          stty_state = `stty -g`
-          system("stty raw opost -echo -icanon isig")
-          char = STDIN.getc.chr
-        ensure
-          `stty #{stty_state}`
-        end
-      end
-      case char
+      case char = get_char
       when "q", "Q"
         raise Interrupt
       when "e", "E"
