@@ -3,17 +3,28 @@ module JimmyJukebox
   module HandleLoadJukeboxInput
 
     def no_argv0
-      puts "You must select an artist to use 'load_jukebox'."
-      puts "For example: 'load_jukebox at' to load Art Tatum"
-      puts "Another example: 'load_jukebox dr' to load Django Reinhardt"
+      display_template {
+        puts "    You must select an artist or genre to use 'load_jukebox'.\n\n"
+        puts "    Examples:\n\n"
+        puts "         load_jukebox at            (to download Art Tatum)\n\n"
+        puts "         load_jukebox dr            (to download Django Reinhardt)\n\n"
+        puts "         load_jukebox bluegrass     (to download bluegrass)\n\n"
+        puts "         load_jukebox classical     (to download classical)\n\n"
+        puts "         load_jukebox jazz          (to download jazz)\n\n"
+      }
       exit
     end
 
     def invalid_artist
-      puts "No action taken in response to your command 'load_jukebox #{ARGV[0]}'."
-      puts "JimmyJukebox does not recognize '#{ARGV[0]}'. You must select a valid artist."
-      puts "For example, valid artists include: 'bh' for Billie Holiday, 'cb' for Count Basie, and 'lh' for Lionel Hampton"
-      puts "Please see the README for a complete list of valid artists."
+      display_template {
+        puts "    No action taken in response to your command 'load_jukebox #{ARGV[0]}'.\n\n"
+        puts "    JimmyJukebox does not recognize '#{ARGV[0]}'. You must select a valid artist.\n\n"
+        puts "    For example, valid artists include:\n\n"
+        puts "         'bh' for Billie Holiday"
+        puts "         'cb' for Count Basie"
+        puts "         'lh' for Lionel Hampton.\n\n"
+        puts "    Please see the link below for a complete list of valid artists.\n\n"
+      }
       exit
     end
 
@@ -61,18 +72,19 @@ module JimmyJukebox
     end
 
     def display_template(&msg)
-      puts "   ----------------------------------------------------------------------"
-      puts "   JimmyJukebox message:\n\n"
+      puts "    ------------------------------------------------------------------------"
+      puts "                     JimmyJukebox usage help\n\n"
       msg.call if msg
-      puts "   ----------------------------------------------------------------------"
+      puts "    Full instructions: https://github.com/JamesLavin/jimmy_jukebox"
+      puts "    ------------------------------------------------------------------------"
     end
 
     def display_genre_download_requires_n_message
       display_template do
-        puts "   You requested a sample of #{ARGV[0]} songs without specifying how many.\n\n"
-        puts "   Please try again but specify how many songs you wish to download.\n\n"
-        puts "   For example, to download 10 #{ARGV[0]} songs, type:\n\n"
-        puts "        load_jukebox #{ARGV[0]} 10"
+        puts "    You requested a sample of #{ARGV[0]} songs without specifying how many.\n\n"
+        puts "    Please try again but specify how many songs you wish to download.\n\n"
+        puts "    For example, to download 10 #{ARGV[0]} songs, type:\n\n"
+        puts "         load_jukebox #{ARGV[0]} 10"
       end
     end
 
