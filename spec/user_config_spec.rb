@@ -128,7 +128,7 @@ describe UserConfig do
 
   end
 
-  describe "#songs and #undownloaded_songs" do
+  describe "#song_paths and #undownloaded_songs" do
     let(:user_config) { UserConfig.new }
     let(:dir1) { '~/Music/JAZZ/John_Coltrane' }
     let(:dir2) { '~/Music/CLASSICAL/Vivaldi' }
@@ -146,19 +146,19 @@ describe UserConfig do
       FileUtils.touch d2 + '/Summer.WAV'
     end
 
-    describe "#songs" do
+    describe "#song_paths" do
 
       it "generates a complete song list" do
-        user_config.songs.should include File.expand_path(d1 + '/a_love_supreme.mp3')
-        user_config.songs.should include File.expand_path(d1 + '/my_funny_valentine.ogg')
-        user_config.songs.should include File.expand_path(d2 + '/four_seasons.flac')
-        user_config.songs.should include File.expand_path(d2 + '/spring.wav')
-        user_config.songs.should include File.expand_path(d2 + '/Summer.WAV')
-        user_config.songs.length.should == 5
+        user_config.song_paths.should include File.expand_path(d1 + '/a_love_supreme.mp3')
+        user_config.song_paths.should include File.expand_path(d1 + '/my_funny_valentine.ogg')
+        user_config.song_paths.should include File.expand_path(d2 + '/four_seasons.flac')
+        user_config.song_paths.should include File.expand_path(d2 + '/spring.wav')
+        user_config.song_paths.should include File.expand_path(d2 + '/Summer.WAV')
+        user_config.song_paths.length.should == 5
       end
 
       it "does not include the invalid-formatted song in the list" do
-        user_config.songs.should_not include File.expand_path(d1 + '/song5.afdsdf')
+        user_config.song_paths.should_not include File.expand_path(d1 + '/song5.afdsdf')
       end
 
     end
@@ -242,39 +242,39 @@ describe UserConfig do
 
     let(:uc) { UserConfig.new }
 
-    context "with no songs" do
+    context "with no song_paths" do
 
-      it "finds no songs" do
-        uc.songs.length.should == 0
+      it "finds no song_paths" do
+        uc.song_paths.length.should == 0
       end
 
     end
 
-    context "with songs in ~/Music" do
+    context "with song_paths in ~/Music" do
 
       before(:each) do
         FileUtils.mkdir_p File.expand_path("~/Music")
         FileUtils.touch File.expand_path("~/Music/Yellow_Submarine.mp3")
       end
 
-      it "finds songs" do
-        uc.songs.should_not be_empty
-        uc.songs.length.should == 1
+      it "finds song_paths" do
+        uc.song_paths.should_not be_empty
+        uc.song_paths.length.should == 1
       end
 
     end
 
-    context "with songs in ~/Music subdirectory" do
+    context "with song_paths in ~/Music subdirectory" do
 
       before do
         FileUtils.mkdir_p File.expand_path("~/Music/ROCK/Beatles")
         FileUtils.touch File.expand_path("~/Music/ROCK/Beatles/Yellow_Submarine.mp3")
       end
 
-      it "finds songs" do
+      it "finds song_paths" do
         File.directory?(File.expand_path("~/Music/ROCK/Beatles")).should be_true
-        uc.songs.should_not be_empty
-        uc.songs.length.should == 1
+        uc.song_paths.should_not be_empty
+        uc.song_paths.length.should == 1
       end
 
     end

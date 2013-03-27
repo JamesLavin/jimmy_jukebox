@@ -55,10 +55,12 @@ module JimmyJukebox
 
     def pause
       self.paused = true
-      if grandchild_pid
-        `kill -s STOP #{grandchild_pid}`
-      elsif playing_pid
-        `kill -s STOP #{playing_pid}`
+      if playing_pid
+        if grandchild_pid
+          `kill -s STOP #{grandchild_pid}`
+        else
+          `kill -s STOP #{playing_pid}`
+        end
       else
         raise NoPlayingPidException, "*** Can't pause song because can't find playing_pid #{playing_pid} ***"
       end
@@ -66,21 +68,21 @@ module JimmyJukebox
 
     def unpause
       self.paused = false
-      if grandchild_pid
-        `kill -s CONT #{grandchild_pid}`
-      elsif playing_pid
+      if playing_pid
+        if grandchild_pid
+          `kill -s CONT #{grandchild_pid}`
+        else playing_pid
         `kill -s CONT #{playing_pid}`
+        end
       else
         raise NoPlayingPidException, "*** Can't unpause song because can't find playing_pid #{playing_pid} ***"
       end
     end
 
     def kill_playing_pid_and_children
+      return nil unless playpid = playing_pid
       grandpid = grandchild_pid
-      playpid = playing_pid
-      if grandpid
-        `kill #{grandpid}`
-      end
+      `kill #{grandpid}` if grandpid
       `kill #{playpid}`
     end
 

@@ -31,7 +31,7 @@ module JimmyJukebox
     extend Forwardable
 
     attr_writer   :music_directories
-    attr_accessor :songs, :music_player_detector, :argv0
+    attr_accessor :song_paths, :music_player_detector, :argv0
     def_delegators :@music_player_detector, :ogg_player, :mp3_player, :wav_player, :flac_player
 
     DEFAULT_PLAYLIST_DIR = File.expand_path(File.join("~",".jimmy_jukebox"))
@@ -44,7 +44,7 @@ module JimmyJukebox
     end
 
     def initialize
-      self.songs = []
+      self.song_paths = []
       self.argv0 = ARGV[0]
       set_music_players
       generate_directories_list
@@ -197,18 +197,18 @@ module JimmyJukebox
         end
         files.delete_if { |f| AUDIO_FORMATS.keys.all? { |re| !f.match(re) } }
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
-        files.each { |f| songs << f }
+        files.each { |f| song_paths << f }
       end
-      puts "WARNING: JimmyJukebox could not find any songs" unless songs.length > 0
-      #songs = ["/home/xxx/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
-      #         "/home/xxx/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
+      puts "WARNING: JimmyJukebox could not find any songs" unless song_paths.length > 0
+      #song_paths = ["/home/xxx/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
+      #              "/home/xxx/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
     end
 
     def undownloaded_songs
       result = {}
       JimmyJukebox::SongLoader.new(self).all_downloadable_songs.each do |url, artist|
         save_path = root_music_dir + artist_name_to_subdir_name(artist[:name]) + '/' + File.basename(url)
-        next if songs.include?(save_path)
+        next if song_paths.include?(save_path)
         result[url] = artist
       end
       result

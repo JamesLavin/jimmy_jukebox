@@ -48,6 +48,7 @@ describe Jukebox do
       let(:song2_path) { File.expand_path('~/Music/Rock/Beatles/Sgt_Pepper.mp3') }
       let(:song3_path) { File.expand_path('~/Music/Rock/Eagles/Hotel_California.ogg') }
       let(:jb) { Jukebox.new(uc) }
+      let(:downloaded) { jb.downloaded_song_paths }
 
       before do
         [song1_path, song2_path, song3_path].each do |song|
@@ -59,10 +60,10 @@ describe Jukebox do
       end
 
       it "generates a non-empty song list" do
-        jb.songs.should_not be_nil
-        jb.songs.should_not be_empty
-        jb.songs.length.should == 3
-        jb.songs.grep(/Abbey_Road.mp3/).length.should == 1
+        downloaded.should_not be_nil
+        downloaded.should_not be_empty
+        downloaded.length.should == 3
+        downloaded.grep(/Abbey_Road.mp3/).length.should == 1
       end
 
       it "can quit" do
@@ -72,9 +73,8 @@ describe Jukebox do
         play_loop_thread = Thread.new do
           jb.play_loop
         end
-        sleep 0.5
+        sleep 0.1
         jb.playing?.should be_true
-        p jb.current_song
         jb.quit
       end
 
