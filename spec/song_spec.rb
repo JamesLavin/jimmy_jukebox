@@ -30,22 +30,40 @@ describe Song do
       expect {Song.new}.to raise_error
     end
 
-    it "fails if parameter does not end in .mp3 or .ogg" do
-      expect {Song.new("/home/bill/music_file")}.to raise_error
+    it "fails if parameter does not have file extension" do
+      expect {Song.new(File.expand_path("~/music_file"))}.to raise_error
     end
 
     it "accepts a parameter ending in .mp3" do
-      Song.new("/home/bill/music_file.mp3").is_a?(Song)
+      Song.new(File.expand_path("~/music_file.mp3")).is_a?(Song)
     end
 
     it "accepts a parameter ending in .ogg" do
-      Song.new("/home/bill/music_file.ogg").is_a?(Song)
+      Song.new(File.expand_path("~/music_file.ogg")).is_a?(Song)
+    end
+
+    it "accepts a parameter ending in .flac" do
+      Song.new(File.expand_path("~/music_file.flac")).is_a?(Song)
+    end
+
+    it "accepts a parameter ending in .wav" do
+      Song.new(File.expand_path("~/music_file.wav")).is_a?(Song)
+    end
+
+    it "handles uppercase file extensions" do
+      Song.new(File.expand_path("~/music_file.WAV")).is_a?(Song)
     end
 
     it "sets a music file" do
       mf = "/home/bill/Music/JAZZ/billie_holiday.ogg"
       song = Song.new(mf)
       song.music_file.should == mf
+    end
+
+    it "sets a music file when passed with ~" do
+      mf = "~/Music/JAZZ/billie_holiday.ogg"
+      song = Song.new(mf)
+      song.music_file.should == File.expand_path(mf)
     end
 
   end
@@ -55,37 +73,40 @@ describe Song do
     before(:each) do
       @uc = UserConfig.new
       @jj = Jukebox.new(@uc, false)
-      @song = Song.new("~/Music/JAZZ/art_tatum.mp3")
     end
 
     it "is initially not paused" do
       Thread.new do
-        @jj.play_song(@song)
+        song = Song.new("~/Music/JAZZ/art_tatum.mp3")
+        @jj.play_song(song)
       end
       sleep 0.1
-      @song.paused?.should be_false
+      @jj.should be_playing
+      @jj.current_song.paused?.should be_false
       @jj.quit
     end
 
     it "is paused after calling #pause" do
       Thread.new do
-        @jj.play_song(@song)
+        song = Song.new("~/Music/JAZZ/art_tatum.mp3")
+        @jj.play_song(song)
       end
       sleep 0.1
       @jj.pause_current_song
-      @song.paused?.should be_true
+      @jj.current_song.paused?.should be_true
       @jj.quit
     end
 
     it "is unpaused after calling #pause and #unpause" do
       Thread.new do
-        @jj.play_song(@song)
+        song = Song.new("~/Music/JAZZ/art_tatum.mp3")
+        @jj.play_song(song)
       end
       sleep 0.1
-      @song.pause
-      @song.paused?.should be_true
-      @song.unpause
-      @song.paused?.should be_false
+      @jj.current_song.pause
+      @jj.current_song.paused?.should be_true
+      @jj.current_song.unpause
+      @jj.current_song.paused?.should be_false
       @jj.quit
     end
 
@@ -106,13 +127,10 @@ describe Song do
 
     before(:each) do
       @uc = UserConfig.new
-      #FileUtils.mkdir_p(File.expand_path("~/Music/JAZZ"))
       @song1 = "~/Music/JAZZ/art_tatum.mp3"
       @song2 = "~/Music/JAZZ/dizzy.mp3"
       @song3 = "~/Music/JAZZ/earl_hines.mp3"
       @song4 = "~/Music/CLASSICAL/beethoven.mp3"
-      #Jukebox.any_instance.stub(:downloaded_song_paths).and_return([@song, @song2])
-      #Jukebox.any_instance.stub(:next_song).and_return(@song2)
       @jj = Jukebox.new(@uc)
       @jj.stub(:downloaded_song_paths).and_return([@song1, @song2, @song3, @song4])
       @play_loop_thread = Thread.new do
@@ -134,23 +152,21 @@ describe Song do
     describe "#skip_song" do
 
       it "is initially not paused" do
-        @jj.should be_playing
-        puts @jj.current_song.playing_pid
-        puts @jj.current_song.music_file
-        first_song_pid = @jj.current_song.playing_pid
-        thread2 = Thread.new do
-          loop do
-            sleep 0.5
-            @jj.skip_song
-          end
+        test_thread = Thread.new do
+          @jj.should be_playing
+          puts @jj.current_song.playing_pid
+          puts @jj.current_song.music_file
+          first_song_pid = @jj.current_song.playing_pid
+          sleep 0.5
+          @jj.skip_song
+          puts @jj.current_song.playing_pid
+          puts @jj.current_song.music_file
+          @jj.current_song.playing_pid.should_not == first_song_pid
+          @jj.should be_playing
         end
-        [@play_loop_thread, thread2].each do |t|
+        [@play_loop_thread, test_thread].each do |t|
           t.join
         end
-        puts @jj.current_song.playing_pid
-        puts @jj.current_song.music_file
-        @jj.current_song.playing_pid.should_not == first_song_pid
-        @jj.should be_playing
         @play_loop_thread.exit
       end
 
