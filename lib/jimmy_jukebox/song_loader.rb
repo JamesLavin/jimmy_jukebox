@@ -164,16 +164,32 @@ module JimmyJukebox
       end
     end
 
+    def you_have_all_songs_message(num_songs)
+      if num_songs != 1
+        puts "You already have all #{current_songs.length} available songs for this artist"
+      else
+        puts "You already have this artist's only available song"
+      end
+    end
+
+    def you_have_max_songs_message(num_songs, max_songs)
+      if max_songs != 1
+        puts "You already have #{num_songs} songs by this artist and are requesting a maximum of #{max_songs} songs"
+      else
+        puts "You already have #{num_songs > 1 ? num_songs.to_s + " songs" : "a song"} by this artist and are requesting a maximum of just one song"
+      end
+    end
+
     def download_num_songs(song_urls, save_dir, max_num = nil)
       current_songs = all_subdir_music_files(save_dir)
       do_not_have = downloadable(song_urls, current_songs)
-      puts "You already have all #{current_songs.length} songs for this artist" if do_not_have.empty?
+      you_have_all_songs_message(current_songs.length) if do_not_have.empty?
       if max_num
         more_songs = max_num - current_songs.length
         if more_songs > 0
           do_not_have = n_random_songs(do_not_have, more_songs)
         else
-          puts "You already have #{current_songs.length} songs by this artist and are requesting a maximum of #{max_num} songs"
+          you_have_max_songs_message(current_songs.length, max_num)
           return nil
         end
       end

@@ -199,9 +199,17 @@ module JimmyJukebox
         files.map! { |f| File.expand_path(music_dir) + '/' + f }
         files.each { |f| song_paths << f }
       end
-      puts "WARNING: JimmyJukebox could not find any songs" unless song_paths.length > 0
+      display_num_songs_message
       #song_paths = ["/home/xxx/Music/Artie_Shaw/Georgia On My Mind 1941.mp3",
       #              "/home/xxx/Music/Jelly_Roll_Morton/High Society 1939.mp3"]
+    end
+
+    def display_num_songs_message
+      if song_paths.length != 1
+        puts "You currently have #{song_paths.length} matching songs"
+      else
+        puts "You currently have 1 matching song"
+      end
     end
 
     def undownloaded_songs
