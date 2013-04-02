@@ -33,6 +33,7 @@ module Artists
     jb:    { genre: 'CLASSICAL', name: 'johannes_brahms'},
     jc:    { genre: 'JAZZ', name: "john_coltrane"},
     jj:    { genre: 'JAZZ', name: "james_p_johnson"},
+    jll:   { genre: 'ROCK', name: "jerry_lee_lewis"},
     jm:    { genre: 'JAZZ', name: "jazz_medleys"},
     jrm:   { genre: 'JAZZ', name: "jelly_roll_morton"},
     jsb:   { genre: 'CLASSICAL', name: "bach"},
