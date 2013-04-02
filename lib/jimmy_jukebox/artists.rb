@@ -49,6 +49,7 @@ module Artists
     op:    { genre: 'JAZZ', name: "oscar_peterson"},
     pw:    { genre: 'JAZZ', name: "paul_whiteman"},
     rn:    { genre: 'JAZZ', name: "red_norvo"},
+    riv:   { genre: 'ROCK', name: "the_rivieras"},
     rt:    { genre: 'JAZZ', name: "ragtime"},
     rv:    { genre: 'ROCK', name: 'richie_valens'},
     sb:    { genre: 'JAZZ', name: "sidney_bechet"},
