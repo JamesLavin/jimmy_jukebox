@@ -10,7 +10,7 @@ JimmyJukebox also enables you to download thousands of great jazz performances b
 
 You can also download wonderful old classical music performances composed by Bach, Beethoven, Brahms, Chopin, Haydn, Mendelssohn, Mozart, Ravel, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When JimmyJukebox was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches such things!)
 
-And I've started adding two more truly American inventions: bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe -- and rock -- starting with Buddy Holly, Chuck Berry, Chubby Checker, and Bill Haley and the Comets.
+And I've started adding two more truly American inventions: bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe -- and rock -- starting with Buddy Holly, Chuck Berry, Chubby Checker, and Bill Haley (and the Comets), and Richie Valens.
 
 ## REQUIREMENTS
 
@@ -119,6 +119,7 @@ To download all songs by an artist, use the following commands:
     Chubby Checker:               "load_jukebox check" ( 52 songs)
     Chuck Berry:                  "load_jukebox berry" (127 songs)
     Buddy Holly:                  "load_jukebox holly" ( 57 songs)
+    Richie Valens:                "load_jukebox rv"    (  6 songs)
 
     OTHER
     Archibald Camp (banjo):       "load_jukebox acb"   ( 20 songs) (old banjo songs)
