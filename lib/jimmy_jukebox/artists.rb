@@ -15,6 +15,7 @@ module Artists
     cc:   { genre: 'JAZZ', name: "charlie_christian"},
     cp:   { genre: 'JAZZ', name: "charlie_parker"},
     ch:   { genre: 'JAZZ', name: "coleman_hawkins"},
+    check: { genre: 'ROCK', name: "chubby_checker"},
     chjb: { genre: 'JAZZ', name: "clifford_hayes_jug_blowers"},
     cb:   { genre: 'JAZZ', name: "count_basie"},
     dx:   { genre: 'JAZZ', name: "dixieland"},
