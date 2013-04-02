@@ -18,6 +18,7 @@ module Artists
     ch:    { genre: 'JAZZ', name: "coleman_hawkins"},
     check: { genre: 'ROCK', name: "chubby_checker"},
     chjb:  { genre: 'JAZZ', name: "clifford_hayes_jug_blowers"},
+    coast: { genre: 'ROCK', name: 'the_coasters'},
     cb:    { genre: 'JAZZ', name: "count_basie"},
     dx:    { genre: 'JAZZ', name: "dixieland"},
     dg:    { genre: 'JAZZ', name: "dizzy_gillespie"},
