@@ -166,7 +166,7 @@ module JimmyJukebox
 
     def you_have_all_songs_message(num_songs)
       if num_songs != 1
-        puts "You already have all #{current_songs.length} available songs for this artist"
+        puts "You already have all #{num_songs} available songs for this artist"
       else
         puts "You already have this artist's only available song"
       end
