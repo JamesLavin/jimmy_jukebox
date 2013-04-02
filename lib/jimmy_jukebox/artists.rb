@@ -23,6 +23,7 @@ module Artists
     dg:    { genre: 'JAZZ', name: "dizzy_gillespie"},
     dr:    { genre: 'JAZZ', name: "django_reinhardt"},
     de:    { genre: 'JAZZ', name: "duke_ellington"},
+    e:     { genre: 'ROCK', name: 'elvis'},
     eb:    { genre: 'ROCK', name: "everly_brothers"},
     eh:    { genre: 'JAZZ', name: "earl_hines"},
     es:    { genre: 'BLUEGRASS', name: "earl_scruggs"},
