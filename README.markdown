@@ -10,7 +10,7 @@ JimmyJukebox also enables you to download thousands of great jazz performances b
 
 You can also download wonderful old classical music performances composed by Bach, Beethoven, Brahms, Chopin, Haydn, Mendelssohn, Mozart, Ravel, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When JimmyJukebox was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches such things!)
 
-And I've started adding two more truly American inventions: bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe -- and rock -- starting with Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Elvis, The Everly Brothers, Jerry Lee Lewis, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, and Roy Orbison.
+And I've started adding two more truly American inventions: bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe -- and rock -- starting with the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Elvis, The Everly Brothers, Jerry Lee Lewis, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, and Roy Orbison.
 
 ## REQUIREMENTS
 
@@ -115,6 +115,7 @@ To download all songs by an artist, use the following commands:
     Sidney Bechet:                "load_jukebox sb"    ( 25 songs)
 
     ROCK
+    The Big Bopper:               "load_jukebox bop"   ( 21 songs)
     Bill Haley & the Comets:      "load_jukebox bhc"   ( 63 songs)
     Buddy Holly:                  "load_jukebox holly" ( 57 songs)
     Carl Perkins:                 "load_jukebox carl"  ( 89 songs)

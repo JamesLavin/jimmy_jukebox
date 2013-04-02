@@ -9,6 +9,7 @@ module Artists
     bhc:   { genre: 'ROCK', name: "bill_haley_comets"},
     bb:    { genre: 'JAZZ', name: "bix_beiderbecke"},
     bm:    { genre: 'JAZZ', name: "bennie_moten"},
+    bop:   { genre: 'ROCK', name: "big_bopper"},
     fc:    { genre: 'CLASSICAL', name: "chopin"},
     ca:    { genre: 'JAZZ', name: "cannonball_adderley"},
     carl:  { genre: 'ROCK', name: 'carl_perkins'},
