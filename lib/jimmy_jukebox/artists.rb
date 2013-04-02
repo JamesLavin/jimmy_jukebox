@@ -43,6 +43,7 @@ module Artists
     la:    { genre: 'JAZZ', name: "louis_armstrong"},
     lb:    { genre: 'JAZZ', name: "les_brown"},
     lh:    { genre: 'JAZZ', name: "lionel_hampton"},
+    lr:    { genre: 'ROCK', name: 'little_richard'},
     lvb:   { genre: 'CLASSICAL', name: "beethoven"},
     m:     { genre: 'CLASSICAL', name: "mendelssohn"},
     md:    { genre: 'JAZZ', name: "miles_davis"},
