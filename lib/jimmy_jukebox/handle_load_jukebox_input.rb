@@ -90,7 +90,7 @@ module JimmyJukebox
       puts "    ------------------------------------------------------------------------"
       puts "                     JimmyJukebox usage help\n\n"
       msg.call if msg
-      puts "    Full instructions: https://github.com/JamesLavin/jimmy_jukebox"
+      puts "    Full instructions: https://github.com/JamesLavin/jimmy_jukebox#readme"
       puts "    ------------------------------------------------------------------------"
     end
 
