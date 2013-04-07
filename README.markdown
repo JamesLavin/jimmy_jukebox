@@ -68,6 +68,7 @@ To download all songs by an artist, use the following commands:
     BLUEGRASS
     Earl Scruggs:                 "load_jukebox es"    ( 88 songs)
     Bill Monroe:                  "load_jukebox mon"   (155 songs)
+    Hot Buttered Rum String Band  "load_jukebox hbrsb" ( 10 songs)
 
     CLASSICAL
     Bach:                         "load_jukebox jsb"   (153 songs)
