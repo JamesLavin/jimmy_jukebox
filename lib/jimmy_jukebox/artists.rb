@@ -4,6 +4,7 @@ module Artists
     acb:   { genre: 'BANJO', name: "archibald_camp_banjo" },
     at:    { genre: 'JAZZ', name: "art_tatum" },
     as:    { genre: 'JAZZ', name: "artie_shaw"},
+    bb:    { genre: 'ROCK', name: 'the_beach_boys'},
     bg:    { genre: 'JAZZ', name: "benny_goodman"},
     bh:    { genre: 'JAZZ', name: "billie_holiday"},
     bhc:   { genre: 'ROCK', name: "bill_haley_comets"},

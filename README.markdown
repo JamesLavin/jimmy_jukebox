@@ -14,7 +14,7 @@ And I'm adding three more truly American inventions:
 
 1) Bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe
 2) Jugband
-3) Rock -- starting with the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, The Kingsmen, Jerry Lee Lewis, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, The Rolling Stones, Roy Orbison, The Supremes, and The Temptations.
+3) Rock -- starting with The Beach Boys, the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, The Kingsmen, Jerry Lee Lewis, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, The Rolling Stones, Roy Orbison, The Supremes, and The Temptations.
 
 ## REQUIREMENTS
 
@@ -120,6 +120,7 @@ To download all songs by an artist, use the following commands:
     Sidney Bechet:                "load_jukebox sb"    ( 25 songs)
 
     ROCK
+    The Beach Boys:               "load_jukebox bb"    ( 33 songs)
     The Big Bopper:               "load_jukebox bop"   ( 21 songs)
     Bill Haley & the Comets:      "load_jukebox bhc"   ( 63 songs)
     Buddy Holly:                  "load_jukebox holly" ( 57 songs)
