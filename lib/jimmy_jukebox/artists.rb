@@ -44,6 +44,7 @@ module Artists
     jrm:   { genre: 'JAZZ', name: "jelly_roll_morton"},
     jsb:   { genre: 'CLASSICAL', name: "bach"},
     jug:   { genre: 'JUGBAND', name: 'jugband'},
+    kings: { genre: 'ROCK', name: 'the_kingsmen'},
     ko:    { genre: 'JAZZ', name: "king_oliver"},
     la:    { genre: 'JAZZ', name: "louis_armstrong"},
     lb:    { genre: 'JAZZ', name: "les_brown"},
