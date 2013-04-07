@@ -61,6 +61,7 @@ module Artists
     riv:   { genre: 'ROCK', name: "the_rivieras"},
     rn:    { genre: 'JAZZ', name: "red_norvo"},
     ro:    { genre: 'ROCK', name: 'roy_orbison'},
+    rs:    { genre: 'ROCK', name: 'the_rolling_stones'},
     rt:    { genre: 'JAZZ', name: "ragtime"},
     rv:    { genre: 'ROCK', name: 'richie_valens'},
     sb:    { genre: 'JAZZ', name: "sidney_bechet"},
