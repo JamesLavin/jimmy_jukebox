@@ -68,6 +68,8 @@ module Artists
     rv:    { genre: 'ROCK', name: 'richie_valens'},
     sb:    { genre: 'JAZZ', name: "sidney_bechet"},
     sj:    { genre: 'JAZZ', name: "scott_joplin"},
+    sup:   { genre: 'ROCK', name: 'the_supremes'},
+    tempt: { genre: 'ROCK', name: 'the_temptations'},
     v:     { genre: 'CLASSICAL', name: "vivaldi"},
     wam:   { genre: 'CLASSICAL', name: "mozart"}
   }
