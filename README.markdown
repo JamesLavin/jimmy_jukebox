@@ -140,7 +140,7 @@ To download all songs by an artist, use the following commands:
 
     OTHER
     Archibald Camp (banjo):       "load_jukebox acb"   ( 20 songs) (old banjo songs)
-    Jugband:                      "load_jukebox jug"   ( 13 songs)
+    Jugband:                      "load_jukebox jug"   ( 62 songs)
 
 By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically).
 
