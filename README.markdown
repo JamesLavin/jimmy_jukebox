@@ -10,7 +10,11 @@ JimmyJukebox also enables you to download thousands of great jazz performances b
 
 You can also download wonderful old classical music performances composed by Bach, Beethoven, Brahms, Chopin, Haydn, Mendelssohn, Mozart, Ravel, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When JimmyJukebox was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches such things!)
 
-And I've started adding two more truly American inventions: bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe -- and rock -- starting with the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, Jerry Lee Lewis, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, and Roy Orbison.
+And I'm adding three more truly American inventions:
+
+1) Bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe
+2) Jugband
+3) Rock -- starting with the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, Jerry Lee Lewis, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, and Roy Orbison.
 
 ## REQUIREMENTS
 
@@ -134,6 +138,7 @@ To download all songs by an artist, use the following commands:
 
     OTHER
     Archibald Camp (banjo):       "load_jukebox acb"   ( 20 songs) (old banjo songs)
+    Jugband:                      "load_jukebox jug"   ( 13 songs)
 
 By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically).
 
