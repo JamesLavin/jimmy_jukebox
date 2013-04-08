@@ -14,7 +14,7 @@ And I'm adding three more truly American inventions:
 
 1) Bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe
 2) Jugband
-3) Folk
+3) Folk - Pete Seeger, Simon & Garfunkel
 4) Rock -- starting with The Beach Boys, the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, The Kingsmen, Jerry Lee Lewis, Jimi Hendrix, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, The Rolling Stones, Roy Orbison, The Supremes, and The Temptations.
 
 ## REQUIREMENTS
@@ -84,7 +84,8 @@ To download all songs by an artist, use the following commands:
     Vivaldi:                      "load_jukebox v"     ( 52 songs)
 
     FOLK
-    Simon & Garfunkel:            "load_jukebox sg"    ( songs)
+    Pete Seeger:                  "load_jukebox ps"    ( 34 songs)
+    Simon & Garfunkel:            "load_jukebox sg"    ( 38 songs)
 
     JAZZ
     Art Tatum:                    "load_jukebox at"    (168 songs)

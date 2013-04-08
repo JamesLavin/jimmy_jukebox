@@ -60,6 +60,7 @@ module Artists
     mr:    { genre: 'CLASSICAL', name: "maurice_ravel"},
     odjb:  { genre: 'JAZZ', name: "original_dixieland_jazz_band"},
     op:    { genre: 'JAZZ', name: "oscar_peterson"},
+    ps:    { genre: 'FOLK', name: 'pete_seeger'},
     pw:    { genre: 'JAZZ', name: "paul_whiteman"},
     rb:    { genre: 'ROCK', name: 'the_righteous_brothers'},
     riv:   { genre: 'ROCK', name: "the_rivieras"},
