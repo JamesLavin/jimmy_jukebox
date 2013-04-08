@@ -52,10 +52,13 @@ module JimmyJukebox
     end
 
     def shortcuts
-      { /^b$/i         => bluegrass_dir,
+      { /^banjo$/i     => banjo_dir,
+        /^b$/i         => bluegrass_dir,
         /^bluegrass$/i => bluegrass_dir,
         /^c$/i         => classical_dir,
         /^classical$/i => classical_dir,
+        /^f$/i         => folk_dir,
+        /^folk$/i      => folk_dir,
         /^j$/i         => jazz_dir,
         /^jazz$/i      => jazz_dir,
         /^r$/i         => rock_dir,
@@ -70,8 +73,20 @@ module JimmyJukebox
       File.expand_path(File.join("~","Music"))
     end
 
+    def banjo_dir
+      root_music_dir + '/BANJO'
+    end
+
     def bluegrass_dir
       root_music_dir + '/BLUEGRASS'
+    end
+
+    def classical_dir
+      root_music_dir + '/CLASSICAL'
+    end
+
+    def folk_dir
+      root_music_dir + '/FOLK'
     end
 
     def jazz_dir
@@ -80,10 +95,6 @@ module JimmyJukebox
 
     def rock_dir
       root_music_dir + '/ROCK'
-    end
-
-    def classical_dir
-      root_music_dir + '/CLASSICAL'
     end
 
     def set_music_players

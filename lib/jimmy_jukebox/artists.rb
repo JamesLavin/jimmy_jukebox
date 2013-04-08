@@ -68,6 +68,7 @@ module Artists
     rt:    { genre: 'JAZZ', name: "ragtime"},
     rv:    { genre: 'ROCK', name: 'richie_valens'},
     sb:    { genre: 'JAZZ', name: "sidney_bechet"},
+    sg:    { genre: 'FOLK', name: 'simon_and_garfunkel'},
     sj:    { genre: 'JAZZ', name: "scott_joplin"},
     sup:   { genre: 'ROCK', name: 'the_supremes'},
     tempt: { genre: 'ROCK', name: 'the_temptations'},

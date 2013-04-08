@@ -53,7 +53,7 @@ module JimmyJukebox
 
     def valid_genre?(arg)
       # probably shouldn't hardcode these
-      valid_genres = [/^JAZZ$/i, /^CLASSICAL$/i, /^BLUEGRASS$/i, /^BANJO$/i, /^ROCK$/i]
+      valid_genres = [/^BANJO$/i, /^BLUEGRASS$/i, /^CLASSICAL$/i, /^FOLK$/i, /^JAZZ$/i, /^JUGBAND$/i, /^ROCK$/i]
       valid_genres.any? { |g| g =~ arg }
     end
 

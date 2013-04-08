@@ -14,7 +14,8 @@ And I'm adding three more truly American inventions:
 
 1) Bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe
 2) Jugband
-3) Rock -- starting with The Beach Boys, the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, The Kingsmen, Jerry Lee Lewis, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, The Rolling Stones, Roy Orbison, The Supremes, and The Temptations.
+3) Folk
+4) Rock -- starting with The Beach Boys, the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, The Kingsmen, Jerry Lee Lewis, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, The Rolling Stones, Roy Orbison, The Supremes, and The Temptations.
 
 ## REQUIREMENTS
 
@@ -82,6 +83,9 @@ To download all songs by an artist, use the following commands:
     Schubert:                     "load_jukebox fs"    ( 38 songs)
     Vivaldi:                      "load_jukebox v"     ( 52 songs)
 
+    FOLK
+    Simon & Garfunkel:            "load_jukebox sg"    ( songs)
+
     JAZZ
     Art Tatum:                    "load_jukebox at"    (168 songs)
     Artie Shaw:                   "load_jukebox as"    (580 songs)
@@ -120,7 +124,7 @@ To download all songs by an artist, use the following commands:
     Sidney Bechet:                "load_jukebox sb"    ( 25 songs)
 
     ROCK
-    The Beach Boys:               "load_jukebox bb"    ( 33 songs)
+    The Beach Boys:               "load_jukebox bb"    ( 40 songs)
     The Big Bopper:               "load_jukebox bop"   ( 21 songs)
     Bill Haley & the Comets:      "load_jukebox bhc"   ( 63 songs)
     Buddy Holly:                  "load_jukebox holly" ( 57 songs)
@@ -143,8 +147,8 @@ To download all songs by an artist, use the following commands:
     The Temptations:              "load_jukebox tempt" (100 songs)
 
     OTHER
-    Archibald Camp (banjo):       "load_jukebox acb"   ( 20 songs) (old banjo songs)
-    Jugband:                      "load_jukebox jug"   ( 62 songs)
+    Archibald Camp (BANJO):       "load_jukebox acb"   ( 20 songs) (old banjo songs)
+    Jugband (JUGBAND):            "load_jukebox jug"   ( 62 songs)
 
 By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically).
 
@@ -154,10 +158,13 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 - By default, JimmyJukebox assumes your music is stored in a directory tree descending from `~/Music`
 - By default:
+  - Banjo is stored under `~/Music/BANJO`
   - Bluegrass is stored under `~/Music/BLUEGRASS`
   - Classical is stored under `~/Music/CLASSICAL`
+  - Folk is stored under `~/Music/FOLK`
   - Jazz is stored under `~/Music/JAZZ`
-  - Jazz is stored under `~/Music/ROCK`
+  - Jugband is stored under `~/Music/JUGBAND`
+  - Rock is stored under `~/Music/ROCK`
 
 - To play a random selection of music, type in the command line `play_jukebox`
   - A song will start playing
@@ -168,9 +175,12 @@ To specify a different directory, type the full directory path after `load_jukeb
   - To quit, type "q" or `<CTRL>-C`
 
 - To play a random selection of...
+  - Banjo: `play_jukebox banjo`
   - Bluegrass: `play_jukebox bluegrass` or `play_jukebox b`
   - Classical: `play_jukebox classical` or `play_jukebox c`
+  - Folk: `play_jukebox folk` or `play_jukebox f`
   - Jazz: `play_jukebox jazz` or `play_jukebox j`
+  - Jugband: `play_jukebox jug`
   - Rock: `play_jukebox rock` or `play_jukebox r`
 
 - To play a particular artist, type:
