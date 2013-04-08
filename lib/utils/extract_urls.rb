@@ -1,7 +1,9 @@
 require 'nokogiri'
 require 'open-uri'
 
-url = 'http://archive.org/details/ChubbyChecker-09-60'
+url = 'http://archive.org/details/CurtisLee-01-15'
+# http://archive.org/details/EddieCochran-01-30
+# http://archive.org/details/JackieWilson-01-80
 
 doc = Nokogiri::HTML(open(url))
 
