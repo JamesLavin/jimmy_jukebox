@@ -39,6 +39,7 @@ module Artists
     holly: { genre: 'ROCK', name: 'buddy_holly'},
     jb:    { genre: 'CLASSICAL', name: 'johannes_brahms'},
     jc:    { genre: 'JAZZ', name: "john_coltrane"},
+    jimi:  { genre: 'ROCK', name: 'jimi_hendrix'},
     jj:    { genre: 'JAZZ', name: "james_p_johnson"},
     jll:   { genre: 'ROCK', name: "jerry_lee_lewis"},
     jm:    { genre: 'JAZZ', name: "jazz_medleys"},
