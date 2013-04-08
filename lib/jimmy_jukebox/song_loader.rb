@@ -221,11 +221,9 @@ module JimmyJukebox
       return if song_already_exists?(savename, save_dir)
       puts "Downloading #{savename} to #{save_dir}"
       song_pathname = File.join(save_dir, savename)
-      open(song_pathname, 'wb') do |dst|
-        open(song_url) do |src|
-          dst.write(src.read)
-        end
-      end
+      open(song_url) { |src|
+        FileUtils.copy_stream(src, song_pathname)
+      }
       check_downloaded_song_size(song_pathname)
       rescue OpenURI::HTTPError
         puts "Warning: Could not download #{song_url}"
