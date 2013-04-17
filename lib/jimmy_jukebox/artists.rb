@@ -35,6 +35,7 @@ module Artists
     fs:    { genre: 'CLASSICAL', name: "franz_schubert"},
     gm:    { genre: 'JAZZ', name: "glenn_miller"},
     h:     { genre: 'CLASSICAL', name: 'haydn'},
+    hand:  { genre: 'CLASSICAL', name: 'handel'},
     hbrsb: { genre: 'BLUEGRASS', name: 'hot_buttered_rum_string_band'},
     holly: { genre: 'ROCK', name: 'buddy_holly'},
     jb:    { genre: 'CLASSICAL', name: 'johannes_brahms'},
