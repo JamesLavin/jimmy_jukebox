@@ -8,7 +8,7 @@ JimmyJukebox plays MP3/OGG songs in random order. You can pause/unpause a playin
 
 JimmyJukebox also enables you to download thousands of great jazz performances by Art Tatum, Artie Shaw, Bennie Moten, Benny Goodman, Billie Holiday, Bix Beiderbecke, Cannonball Adderley, Charlie Christian, Charlie Parker, Clifford Hayes, Coleman Hawkins, Count Basie, Dizzy Gillespie, Django Reinhardt, Duke Ellington, Earl Hines, Fletcher Henderson, Glenn Miller, James P Johnson, Jelly Roll Morton, John Coltrane, King Oliver, Les Brown, Lionel Hampton, Louis Armstrong, Miles Davis, the Original Dixieland Jazz Band, Oscar Peterson, Red Norvo, Scott Joplin, and Sidney Bechet.
 
-You can also download wonderful old classical music performances composed by Bach, Beethoven, Brahms, Chopin, Haydn, Mendelssohn, Mozart, Ravel, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When JimmyJukebox was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches such things!)
+You can also download wonderful old classical music performances composed by Bach, Beethoven, Brahms, Chopin, Haydn, Mendelssohn, Mozart, Ravel, Scarlatti, Schubert and Vivaldi. (You have my 6-year-old son to thank for the classical music. When JimmyJukebox was all jazz, he asked whether I had any Beethoven. After I added Beethoven and Haydn, I expected he would be pleased. Instead, he asked, "but do you have any Mozart, Vivaldi or Bach?" He even used the German pronunciation of Bach! He attends an awesome school that teaches such things!)
 
 And I'm adding three more truly American inventions:
 
@@ -80,6 +80,7 @@ To download all songs by an artist, use the following commands:
     Mendelssohn:                  "load_jukebox m"     ( 57 songs)
     Mozart:                       "load_jukebox wam"   (141 songs)
     Ravel:                        "load_jukebox mr"    ( 33 songs)
+    Domenico Scarlatti:           "load_jukebox scar"  ( 72 songs)
     Schubert:                     "load_jukebox fs"    ( 38 songs)
     Vivaldi:                      "load_jukebox v"     ( 52 songs)
 
