@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 
-url = 'http://archive.org/details/CurtisLee-01-15'
+url = 'http://archive.org/details/JamesTaylorJoniMitchell'
 # http://archive.org/details/EddieCochran-01-30
 # http://archive.org/details/JackieWilson-01-80
 

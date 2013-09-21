@@ -87,6 +87,7 @@ To download all songs by an artist, use the following commands:
     Vivaldi:                      "load_jukebox v"     ( 52 songs)
 
     FOLK
+    James Taylor:                 "load_jukebox jt"    ( 19 songs)
     Pete Seeger:                  "load_jukebox ps"    ( 34 songs)
     Simon & Garfunkel:            "load_jukebox sg"    ( 38 songs)
 
@@ -101,7 +102,7 @@ To download all songs by an artist, use the following commands:
     Charlie Christian:            "load_jukebox cc"    (  8 songs)
     Charlie Parker:               "load_jukebox cp"    ( 34 songs) [Archive.org has apparently removed many of these]
     Clifford Hayes Jug Blowers:   "load_jukebox chjb"  ( 15 songs)
-    Coleman Hawkins:              "load_jukebox ch"    ( 16 songs)
+    Coleman Hawkins:              "load_jukebox ch"    ( 28 songs)
     Count Basie:                  "load_jukebox cb"    ( 44 songs)
     Dixieland (various artists):  "load_jukebox dx"    (  8 songs)
     Dizzy Gillespie:              "load_jukebox dg"    (  3 songs)
@@ -121,7 +122,7 @@ To download all songs by an artist, use the following commands:
     Miles Davis:                  "load_jukebox md"    ( 62 songs)
     Modern Jazz Quartet:          "load_jukebox mjq"   (  3 songs)
     Original Dixieland Jazz Band: "load_jukebox odjb"  ( 45 songs)
-    Oscar Peterson:               "load_jukebox op"    ( 10 songs) [one "song" is > 2 hour performance]
+    Oscar Peterson:               "load_jukebox op"    ( 49 songs) [one "song" is > 2 hour performance]
     Ragtime (various artists):    "load_jukebox rt"    ( 14 songs)
     Red Norvo:                    "load_jukebox rn"    ( 39 songs)
     Scott Joplin:                 "load_jukebox sj"    ( 10 songs)

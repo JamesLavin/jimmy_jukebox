@@ -47,6 +47,7 @@ module Artists
     jm:    { genre: 'JAZZ', name: "jazz_medleys"},
     jrm:   { genre: 'JAZZ', name: "jelly_roll_morton"},
     jsb:   { genre: 'CLASSICAL', name: "bach"},
+    jt:    { genre: 'FOLK', name: "james_taylor"},
     jug:   { genre: 'JUGBAND', name: 'jugband'},
     kings: { genre: 'ROCK', name: 'the_kingsmen'},
     ko:    { genre: 'JAZZ', name: "king_oliver"},
