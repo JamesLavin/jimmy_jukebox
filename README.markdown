@@ -127,6 +127,7 @@ To download all songs by an artist, use the following commands:
     Red Norvo:                    "load_jukebox rn"    ( 39 songs)
     Scott Joplin:                 "load_jukebox sj"    ( 10 songs)
     Sidney Bechet:                "load_jukebox sb"    ( 25 songs)
+    Thelonious Monk:              "load_jukebox monk"  ( 134 songs)
 
     ROCK
     The Beach Boys:               "load_jukebox bb"    ( 40 songs)

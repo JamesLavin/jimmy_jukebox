@@ -60,6 +60,7 @@ module Artists
     md:    { genre: 'JAZZ', name: "miles_davis"},
     mjq:   { genre: 'JAZZ', name: "modern_jazz_quartet"},
     mon:   { genre: 'BLUEGRASS', name: "bill_monroe"},
+    monk:  { genre: 'JAZZ', name: "thelonious_monk"},
     mr:    { genre: 'CLASSICAL', name: "maurice_ravel"},
     odjb:  { genre: 'JAZZ', name: "original_dixieland_jazz_band"},
     op:    { genre: 'JAZZ', name: "oscar_peterson"},
