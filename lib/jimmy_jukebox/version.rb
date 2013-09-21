@@ -1,4 +1,4 @@
 module JimmyJukebox
-  VERSION = '0.6.5'
-  DATE = '2013-04-07'
+  VERSION = '0.6.6'
+  DATE = '2013-09-21'
 end
