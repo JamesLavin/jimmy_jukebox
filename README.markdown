@@ -99,7 +99,7 @@ To download all songs by an artist, use the following commands:
     Billie Holiday:               "load_jukebox bh"    ( 63 songs)
     Bix Beiderbecke:              "load_jukebox bb"    ( 95 songs)
     Cannonball Adderley:          "load_jukebox ca"    (  7 songs)
-    Charlie Christian:            "load_jukebox cc"    ( 53 songs)
+    Charlie Christian:            "load_jukebox cc"    ( 56 songs)
     Charlie Parker:               "load_jukebox cp"    ( 34 songs) [Archive.org has apparently removed many of these]
     Clifford Hayes Jug Blowers:   "load_jukebox chjb"  ( 15 songs)
     Coleman Hawkins:              "load_jukebox ch"    ( 28 songs)
@@ -127,7 +127,7 @@ To download all songs by an artist, use the following commands:
     Red Norvo:                    "load_jukebox rn"    ( 39 songs)
     Scott Joplin:                 "load_jukebox sj"    ( 10 songs)
     Sidney Bechet:                "load_jukebox sb"    ( 25 songs)
-    Thelonious Monk:              "load_jukebox monk"  ( 134 songs)
+    Thelonious Monk:              "load_jukebox monk"  (134 songs)
 
     ROCK
     The Beach Boys:               "load_jukebox bb"    ( 40 songs)
