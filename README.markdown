@@ -114,7 +114,7 @@ To download all songs by an artist, use the following commands:
     James P Johnson:              "load_jukebox jj"    (  8 songs)
     Jelly Roll Morton:            "load_jukebox jrm"   ( 89 songs)
     Jazz medleys (various):       "load_jukebox jm"    ( 13 songs) [some are long radio broadcasts]
-    John Coltrane:                "load_jukebox jc"    ( 10 songs)
+    John Coltrane:                "load_jukebox jc"    ( 49 songs)
     King Oliver:                  "load_jukebox ko"    ( 60 songs)
     Les Brown:                    "load_jukebox lb"    ( 41 songs)
     Lionel Hampton:               "load_jukebox lh"    (148 songs)
