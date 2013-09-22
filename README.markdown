@@ -100,7 +100,7 @@ To download all songs by an artist, use the following commands:
     Bix Beiderbecke:              "load_jukebox bb"    ( 95 songs)
     Cannonball Adderley:          "load_jukebox ca"    (  7 songs)
     Charlie Christian:            "load_jukebox cc"    ( 56 songs)
-    Charlie Parker:               "load_jukebox cp"    ( 34 songs) [Archive.org has apparently removed many of these]
+    Charlie Parker:               "load_jukebox cp"    ( 52 songs) [Archive.org has apparently removed many of these]
     Clifford Hayes Jug Blowers:   "load_jukebox chjb"  ( 15 songs)
     Coleman Hawkins:              "load_jukebox ch"    ( 28 songs)
     Count Basie:                  "load_jukebox cb"    ( 44 songs)
