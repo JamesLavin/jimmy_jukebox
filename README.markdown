@@ -119,7 +119,7 @@ To download all songs by an artist, use the following commands:
     Les Brown:                    "load_jukebox lb"    ( 41 songs)
     Lionel Hampton:               "load_jukebox lh"    (148 songs)
     Louis Armstrong:              "load_jukebox la"    (150 songs)
-    Miles Davis:                  "load_jukebox md"    ( 62 songs)
+    Miles Davis:                  "load_jukebox md"    ( 93 songs)
     Modern Jazz Quartet:          "load_jukebox mjq"   (  3 songs)
     Original Dixieland Jazz Band: "load_jukebox odjb"  ( 45 songs)
     Oscar Peterson:               "load_jukebox op"    ( 49 songs) [one "song" is > 2 hour performance]
