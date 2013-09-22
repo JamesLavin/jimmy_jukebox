@@ -87,9 +87,9 @@ To download all songs by an artist, use the following commands:
     Vivaldi:                      "load_jukebox v"     ( 52 songs)
 
     FOLK
-    James Taylor:                 "load_jukebox jt"    ( 19 songs)
+    James Taylor:                 "load_jukebox jt"    ( 20 songs)
     Pete Seeger:                  "load_jukebox ps"    ( 34 songs)
-    Simon & Garfunkel:            "load_jukebox sg"    ( 38 songs)
+    Simon & Garfunkel:            "load_jukebox sg"    ( 42 songs)
 
     JAZZ
     Art Tatum:                    "load_jukebox at"    (168 songs)
@@ -104,6 +104,7 @@ To download all songs by an artist, use the following commands:
     Clifford Hayes Jug Blowers:   "load_jukebox chjb"  ( 15 songs)
     Coleman Hawkins:              "load_jukebox ch"    ( 28 songs)
     Count Basie:                  "load_jukebox cb"    ( 44 songs)
+    Dave Brubeck:                 "load_jukebox bru"   ( 30 songs)
     Dixieland (various artists):  "load_jukebox dx"    (  8 songs)
     Dizzy Gillespie:              "load_jukebox dg"    (  3 songs)
     Django Reinhardt:             "load_jukebox dr"    ( 75 songs)

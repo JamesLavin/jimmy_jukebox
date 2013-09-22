@@ -12,6 +12,7 @@ module Artists
     berry: { genre: 'ROCK', name: "chuck_berry"},
     bm:    { genre: 'JAZZ', name: "bennie_moten"},
     bop:   { genre: 'ROCK', name: "big_bopper"},
+    bru:   { genre: 'JAZZ', name: "dave_brubeck"},
     ca:    { genre: 'JAZZ', name: "cannonball_adderley"},
     carl:  { genre: 'ROCK', name: 'carl_perkins'},
     cb:    { genre: 'JAZZ', name: "count_basie"},
