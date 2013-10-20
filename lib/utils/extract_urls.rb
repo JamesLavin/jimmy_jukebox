@@ -1,32 +1,61 @@
-require 'nokogiri'
-require 'open-uri'
-
-url = 'http://archive.org/details/JamesTaylorJoniMitchell'
+url = 'http://archive.org/details/VincentLopezOrchestra-01-10Of10'
 # http://archive.org/details/EddieCochran-01-30
 # http://archive.org/details/JackieWilson-01-80
 
-doc = Nokogiri::HTML(open(url))
+class ArchiveOrgLinkGrabber
 
-def all_links(doc)
-  links = []
-  doc.css('a').each do |link|
-    links << link['href']
+  require 'nokogiri'
+  require 'open-uri'
+
+  class Links
+
+    attr_accessor :links
+
+    def initialize(lnks)
+      self.links = lnks
+    end
+
+    def only_mp3s
+      links.delete_if { |l| !l.match(/\.mp3$/i) }
+      self
+    end
+
+    def add_archive_org
+      links.map! { |l| 'http://archive.org' + l }
+      self
+    end
+
+    def add_leading_dash
+      links.map! { |l| '- ' + l }
+      self
+    end
+
+    def yaml_formatted
+      only_mp3s.add_archive_org.add_leading_dash.links
+    end
+
   end
-  links
+
+  attr_accessor :doc, :links
+
+  def initialize(url)
+    self.doc = Nokogiri::HTML(open(url))
+    self.links = Links.new(extract_links(doc))
+  end
+
+  def extract_links(doc)
+    found_links = []
+    doc.css('a').each do |link|
+      found_links << link['href']
+    end
+    found_links
+  end
+
+  def yaml_formatted
+    links.yaml_formatted
+  end
+
 end
 
-def only_mp3s(links)
-  links.delete_if { |l| !l.match(/\.mp3$/i) }
-end
+puts ArchiveOrgLinkGrabber.new(url).yaml_formatted
 
-def add_archive_org(links)
-  links.map! { |l| 'http://archive.org' + l }
-end
-
-def add_leading_dash(links)
-  links.map! { |l| '- ' + l }
-end
-
-links = add_leading_dash(add_archive_org(only_mp3s(all_links(doc))))
-
-puts links
