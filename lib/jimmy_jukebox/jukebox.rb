@@ -84,6 +84,15 @@ module JimmyJukebox
       @songs_played ||= []
     end
 
+    def replay_song
+      enable_continuous_play
+      self.next_song = current_song
+      puts "Replaying #{current_song.music_file}"
+      current_song.terminate
+      self.current_song = nil
+      self.playing = false
+    end
+
     def replay_previous_song
       if previous_song && current_song
         enable_continuous_play

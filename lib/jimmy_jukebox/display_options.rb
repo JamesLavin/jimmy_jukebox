@@ -3,7 +3,7 @@ module JimmyJukebox
   module DisplayOptions
     
     def display_options
-      puts "'p' = (un)pause, 'q' = quit, 'r' = replay previous song, 's' = skip this song, 'e' = erase this song"
+      puts "'p' = (un)pause, 'q' = quit, 'r' = replay previous, 's' = skip song, 'e' = erase song, 'b' = from beginning"
     end
 
     def display_options_after_delay
