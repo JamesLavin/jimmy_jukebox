@@ -30,6 +30,7 @@ module Artists
     dx:    { genre: 'JAZZ', name: "dixieland"},
     e:     { genre: 'ROCK', name: 'elvis'},
     eb:    { genre: 'ROCK', name: "everly_brothers"},
+    ef:    { genre: 'DIXIELAND', name: "earl_fuller"},
     eh:    { genre: 'JAZZ', name: "earl_hines"},
     es:    { genre: 'BLUEGRASS', name: "earl_scruggs"},
     fc:    { genre: 'CLASSICAL', name: "chopin"},
@@ -51,6 +52,7 @@ module Artists
     jt:    { genre: 'FOLK', name: "james_taylor"},
     jug:   { genre: 'JUGBAND', name: 'jugband'},
     kings: { genre: 'ROCK', name: 'the_kingsmen'},
+    kh:    { genre: 'RAGTIME', name: 'kings_of_harmony'},
     ko:    { genre: 'JAZZ', name: "king_oliver"},
     la:    { genre: 'JAZZ', name: "louis_armstrong"},
     lb:    { genre: 'JAZZ', name: "les_brown"},
@@ -79,6 +81,7 @@ module Artists
     sg:    { genre: 'FOLK', name: 'simon_and_garfunkel'},
     sj:    { genre: 'JAZZ', name: "scott_joplin"},
     sup:   { genre: 'ROCK', name: 'the_supremes'},
+    tea:   { genre: 'DIXIELAND', name: "jack_teagarden"},
     tempt: { genre: 'ROCK', name: 'the_temptations'},
     v:     { genre: 'CLASSICAL', name: "vivaldi"},
     wam:   { genre: 'CLASSICAL', name: "mozart"}
