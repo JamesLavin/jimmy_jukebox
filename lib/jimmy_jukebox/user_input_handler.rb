@@ -44,6 +44,7 @@ module JimmyJukebox
           jukebox.erase_song
         when "p", "P"
           if jukebox.current_song.paused?
+            puts "Unpausing. To re-pause, enter 'p' again"
             jukebox.unpause_current_song
           else
             puts "Pausing. To unpause, enter 'p' again"
@@ -53,6 +54,8 @@ module JimmyJukebox
           jukebox.replay_previous_song
         when "s", "S"
           jukebox.skip_song
+        when "b", "B"
+          jukebox.replay_song
         else
           puts "#{char.strip} is not a valid response" if char
         end
