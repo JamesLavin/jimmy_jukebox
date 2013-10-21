@@ -1,4 +1,8 @@
-url = 'http://archive.org/details/VincentLopezOrchestra-01-10Of10'
+urls = [
+  'http://archive.org/details/DukeEllington-01-10',
+  'http://archive.org/details/DukeEllington-11-17',
+  'http://archive.org/details/1920s-dukeEllington-01-09'
+]
 # http://archive.org/details/EddieCochran-01-30
 # http://archive.org/details/JackieWilson-01-80
 
@@ -13,6 +17,10 @@ class ArchiveOrgLinkGrabber
 
     def initialize(lnks)
       self.links = lnks
+    end
+
+    def add_links(lnks)
+      self.links << lnks
     end
 
     def only_mp3s
@@ -36,11 +44,19 @@ class ArchiveOrgLinkGrabber
 
   end
 
-  attr_accessor :doc, :links
+  attr_accessor :links
 
-  def initialize(url)
-    self.doc = Nokogiri::HTML(open(url))
-    self.links = Links.new(extract_links(doc))
+  def initialize(urls)
+    process_urls(Array(urls))
+  end
+
+  def process_urls(urls)
+    lnks = []
+    urls.each do |url|
+      doc = Nokogiri::HTML(open(url))
+      lnks = lnks + extract_links(doc)
+    end
+    self.links = Links.new(lnks)
   end
 
   def extract_links(doc)
@@ -57,5 +73,5 @@ class ArchiveOrgLinkGrabber
 
 end
 
-puts ArchiveOrgLinkGrabber.new(url).yaml_formatted
+puts ArchiveOrgLinkGrabber.new(urls).yaml_formatted
 
