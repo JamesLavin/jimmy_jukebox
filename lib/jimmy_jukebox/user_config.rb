@@ -20,9 +20,11 @@ module JimmyJukebox
     end
   end
 
+  HOST_OS = RbConfig::CONFIG['host_os']
+  RUNNING_OSX = HOST_OS =~ /darwin/i || HOST_OS =~ /mac os/i
   RUNNING_JRUBY = defined?(JRUBY_VERSION) || (defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby') || RUBY_PLATFORM == 'java'
-  RUNNING_LINUX = RbConfig::CONFIG['host_os'] =~ /linux/i
-  RUNNING_X_WINDOWS = running_x_windows
+  RUNNING_LINUX = HOST_OS =~ /linux/i
+  RUNNING_X_WINDOWS = !RUNNING_OSX && running_x_windows
 
   class UserConfig
 

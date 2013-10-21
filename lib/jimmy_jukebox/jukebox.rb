@@ -8,28 +8,30 @@ module JimmyJukebox
     class NoNewSongException < Exception; end
     class NoCurrentSongException < Exception; end
     class NoPreviousSongException < Exception; end
-    class NotRunningXWindowsException < Exception; end
 
     attr_accessor :current_song, :continuous_play, :songs_played, :initial_dpms_state
     attr_writer   :user_config, :next_song, :playing
 
     def dpms_state
-      raise NotRunningXWindowsException unless JimmyJukebox::RUNNING_X_WINDOWS
-      xsettings = `xset q`
-      xsettings.match(/DPMS is (.*)/)[1]
+      if JimmyJukebox::RUNNING_X_WINDOWS
+        xsettings = `xset q`
+        xsettings.match(/DPMS is (.*)/)[1]
+      end
     end
 
     def restore_dpms_state
-      raise NotRunningXWindowsException unless JimmyJukebox::RUNNING_X_WINDOWS
-      puts "*** Restoring DPMS state to 'Enabled' ***"
-      `xset +dpms` if initial_dpms_state == 'Enabled'
+      if JimmyJukebox::RUNNING_X_WINDOWS
+        puts "*** Restoring DPMS state to 'Enabled' ***"
+        `xset +dpms` if initial_dpms_state == 'Enabled'
+      end
     end
 
     def disable_monitor_powerdown
-      raise NotRunningXWindowsException unless JimmyJukebox::RUNNING_X_WINDOWS
-      self.initial_dpms_state = dpms_state
-      puts "*** Disabling DPMS. Will re-enable DPMS on shutdown ***" if initial_dpms_state == 'Enabled'
-      `xset -dpms` #`; xset s off`
+      if JimmyJukebox::RUNNING_X_WINDOWS
+        self.initial_dpms_state = dpms_state
+        puts "*** Disabling DPMS. Will re-enable DPMS on shutdown ***" if initial_dpms_state == 'Enabled'
+        `xset -dpms` #`; xset s off`
+      end
     end
 
     def initialize(new_user_config = UserConfig.new, continuous_play = true)
