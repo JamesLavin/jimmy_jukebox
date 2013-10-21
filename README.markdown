@@ -30,7 +30,7 @@ Linux/Unix:
 
 Mac:
 
-- No additional requirements. The built-in `afplay` should play MP3, OGG, FLAC and WAV files.
+- No additional requirements. The built-in `afplay` should play MP3, OGG, FLAC and WAV files. (When I finally tried running this on a Mac in Oct 2013, it didn't work, but then I fixed it.)
 
 JRuby:
 
