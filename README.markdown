@@ -244,6 +244,14 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 - Still having problems? Please let me (j a m e s AT j a m e s l a v i n DOT c o m) know your operating system, Ruby environment and problem. I learned far more about the nuances of fork, exec, system, \`\`, spawnp and related commands and how they're implemented (differently) on various versions of Ruby than I ever wanted (or imagined possible). In fact, I wasted more time struggling over these glitches than writing JimmyJukebox.
 
+## FEATURE IDEAS
+
+* Mode for playing only songs by the current artist
+* Mode for playing only songs in the genre of the current song
+* Get more songs by the current artist
+* Favoriting songs and replaying in favorites-only mode
+* Skipping ahead/back within a song (useful for long radio broadcast recordings)
+
 ## LEGAL DISCLAIMER
 
 Download music at your own risk. I DO NOT guarantee that any music this program enables you to download is in the public domain, but the music is all from a reputable website (archive.org), and most/all of the songs seem to have been uploaded by someone who vouched that they are now in the public domain. Many of the songs are old enough that they are no longer eligible for copyright protection. More recently recorded songs may or may not be in the public domain, but copyright law is very complex, and it is often difficult or impossible to determine whether or not a particular song currently enjoys copyright protection.
