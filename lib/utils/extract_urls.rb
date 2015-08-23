@@ -1,7 +1,10 @@
+require 'pry'
+
 urls = [
-  'http://archive.org/details/DukeEllington-01-10',
-  'http://archive.org/details/DukeEllington-11-17',
-  'http://archive.org/details/1920s-dukeEllington-01-09'
+  'https://archive.org/details/LionelHamptonHisOrchestraI'
+  #'http://archive.org/details/DukeEllington-01-10',
+  #'http://archive.org/details/DukeEllington-11-17',
+  #'http://archive.org/details/1920s-dukeEllington-01-09'
 ]
 # http://archive.org/details/EddieCochran-01-30
 # http://archive.org/details/JackieWilson-01-80
@@ -29,7 +32,7 @@ class ArchiveOrgLinkGrabber
     end
 
     def add_archive_org
-      links.map! { |l| 'http://archive.org' + l }
+      links.map! { |l| 'https://archive.org' + l }
       self
     end
 
@@ -61,7 +64,8 @@ class ArchiveOrgLinkGrabber
 
   def extract_links(doc)
     found_links = []
-    doc.css('a').each do |link|
+    doc.css('a.stealth.download-pill').each do |link|
+      next unless link['href'] =~ /mp3$/
       found_links << link['href']
     end
     found_links

@@ -105,10 +105,10 @@ To download all songs by an artist, use the following commands:
     Coleman Hawkins:                 "load_jukebox ch"    ( 28 songs)
     Count Basie:                     "load_jukebox cb"    ( 44 songs)
     Dave Brubeck:                    "load_jukebox bru"   ( 30 songs)
-    Dixieland (various artists):     "load_jukebox dx"    (  8 songs)
+    Dixieland (various artists):     "load_jukebox dx"    ( 12 songs)
     Dizzy Gillespie:                 "load_jukebox dg"    (  3 songs)
     Django Reinhardt:                "load_jukebox dr"    ( 75 songs)
-    Duke Ellington:                  "load_jukebox de"    (158 songs)
+    Duke Ellington:                  "load_jukebox de"    (  9 songs) [Archive.org has apparently removed hundreds previously in the jukebox]
     Earl Hines:                      "load_jukebox eh"    ( 98 songs)
     Fletcher Henderson:              "load_jukebox fh"    (158 songs)
     Glenn Miller:                    "load_jukebox gm"    (211 songs)
@@ -119,10 +119,10 @@ To download all songs by an artist, use the following commands:
     King Oliver:                     "load_jukebox ko"    ( 60 songs)
     Les Brown:                       "load_jukebox lb"    ( 41 songs)
     Lionel Hampton:                  "load_jukebox lh"    (148 songs)
-    Louis Armstrong:                 "load_jukebox la"    (150 songs)
+    Louis Armstrong:                 "load_jukebox la"    (168 songs)
     Miles Davis:                     "load_jukebox md"    ( 93 songs)
     Modern Jazz Quartet:             "load_jukebox mjq"   (  3 songs)
-    Original Dixieland Jazz Band:    "load_jukebox odjb"  ( 45 songs)
+    Original Dixieland Jazz Band:    "load_jukebox odjb"  ( 50 songs)
     Oscar Peterson:                  "load_jukebox op"    ( 49 songs) [one "song" is > 2 hour performance]
     Ragtime (various artists):       "load_jukebox rt"    ( 14 songs)
     Red Norvo:                       "load_jukebox rn"    ( 39 songs)
@@ -131,6 +131,7 @@ To download all songs by an artist, use the following commands:
     Thelonious Monk:                 "load_jukebox monk"  (134 songs)
 
     DIXIELAND / RAGTIME
+    Dixieland (assorted)             "load_jukebox dx"    ( 12 songs)
     Earl Fuller's Famous Jazz Band   "load_jukebox ef"    (  6 songs)
     Jack Teagarden's Dixieland Orch  "load_jukebox tea"   ( 70 songs)
     Vincent Lopez's Kings of Harmony "load_jukebox kh"    ( 59 songs)
@@ -151,16 +152,18 @@ To download all songs by an artist, use the following commands:
     Jimi Hendrix:                    "load_jukebox jimi"  ( 61 songs)
     The Kingsmen:                    "load_jukebox kings" (  4 songs)
     Little Richard:                  "load_jukebox lr"    ( 26 songs)
+    Michael Jackson:                 "load_jukeox mj"     (  5 songs)
     Richie Valens:                   "load_jukebox rv"    (  6 songs)
     The Righteous Brothers:          "load_jukebox rb"    ( 33 songs)
     The Rivieras:                    "load_jukebox riv"   ( 56 songs)
-    The Rolling Stones:              "load_jukebox rs"    (  5 songs) (one is an album)
+    The Rolling Stones:              "load_jukebox rs"    ( 21 songs) (one is an album)
     Roy Orbison:                     "load_jukebox ro"    ( 79 songs)
     The Supremes:                    "load_jukebox sup"   (100 songs)
     The Temptations:                 "load_jukebox tempt" (100 songs)
 
     OTHER
     Archibald Camp (BANJO):          "load_jukebox acb"   ( 20 songs) (old banjo songs)
+    Buena Vista Social Club (LATIN): "load_jukebox bvsc"  ( 20 songs)
     Jugband (JUGBAND):               "load_jukebox jug"   ( 62 songs)
 
 By default, music will be downloaded to a directory under `~/Music/JAZZ/`, like `~/Music/JAZZ/Original_Dixieland_Jazz_Band` (and that directory will be created automatically).

@@ -1,5 +1,8 @@
 TODO:
+  update extract_urls to work with new format
   figure out why Macs running Ruby 1.8 won't skip song
+  remove error message when pausing/unpausing songs
+  when downloading file fails, add new file to list to replace it (but don't go into infinite loop)
   add file downloading error handling
   make playable on Windows
   call strip on music directory names
