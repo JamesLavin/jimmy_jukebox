@@ -21,6 +21,6 @@ spec = Gem::Specification.new do |s|
   s.test_files = Dir.glob('spec/*.rb')
   s.version = JimmyJukebox::VERSION
   s.rubyforge_project = "jimmy_jukebox"
-  s.post_install_message = "I really hope you enjoy the great jazz, classical, bluegrass, and early rock music downloadable using this gem!"
+  s.post_install_message = "I hope you enjoy the great jazz, classical, bluegrass, folk and rock music downloadable using this gem!"
 end
 
