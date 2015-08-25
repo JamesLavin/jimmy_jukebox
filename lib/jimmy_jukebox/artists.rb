@@ -6,6 +6,7 @@ module Artists
     as:    { genre: 'JAZZ', name: "artie_shaw"},
     beach: { genre: 'ROCK', name: 'the_beach_boys'},
     bg:    { genre: 'JAZZ', name: "benny_goodman"},
+    bgees: { genre: 'ROCK', name: "the_bee_gees"},
     bh:    { genre: 'JAZZ', name: "billie_holiday"},
     bhc:   { genre: 'ROCK', name: "bill_haley_comets"},
     bb:    { genre: 'JAZZ', name: "bix_beiderbecke"},
