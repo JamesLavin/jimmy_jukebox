@@ -150,8 +150,9 @@ module JimmyJukebox
     end
 
     def downloadable(song_urls, current_songs)
-      # song_urls are URLs; current_songs are filenames
-      song_urls.delete_if { |url| current_songs.include?(File.basename(URI.parse(url).path)) }
+      # song_urls are URLs
+      # current_songs are filenames
+      song_urls.delete_if { |url| current_songs.include?(File.basename(url)) }
     end
 
     private
@@ -203,7 +204,7 @@ module JimmyJukebox
     end
 
     def song_savename(song_url)
-      File.basename(song_url)  
+      File.basename(song_url)
     end
 
     def song_already_exists?(savename, save_dir)
@@ -221,7 +222,7 @@ module JimmyJukebox
       return if song_already_exists?(savename, save_dir)
       puts "Downloading #{savename} to #{save_dir}"
       song_pathname = File.join(save_dir, savename)
-      open(song_url) { |src|
+      open(song_url.gsub(/ /, '%20')) { |src|
         FileUtils.copy_stream(src, song_pathname)
       }
       check_downloaded_song_size(song_pathname)

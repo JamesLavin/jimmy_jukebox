@@ -45,7 +45,7 @@ module JimmyJukebox
     def grandchild_pid
       # returns grandchild's pid if the child process spawns a grandchild
       # if so, the child is probably "/bin/sh" and the grandchild is "mpg123" or similar
-      gpid = `ps h --ppid #{playing_pid} -o pid`.strip.to_i
+      gpid = JimmyJukebox::RUNNING_LINUX && `ps --ppid #{playing_pid} -o pid`.strip.to_i
       gpid == 0 ? nil : gpid
     end
 
@@ -72,7 +72,7 @@ module JimmyJukebox
         if grandchild_pid
           `kill -s CONT #{grandchild_pid}`
         else playing_pid
-        `kill -s CONT #{playing_pid}`
+          `kill -s CONT #{playing_pid}`
         end
       else
         raise NoPlayingPidException, "*** Can't unpause song because can't find playing_pid #{playing_pid} ***"
@@ -111,7 +111,7 @@ module JimmyJukebox
       else
         begin
           lambda { |command, arg| POSIX::Spawn::spawn(command + ' ' + arg) }
-          
+
           # posix/spawn is much faster than fork-exec
           #pid = Process.fork do
           #  exec(command + ' ' + arg)
@@ -129,11 +129,19 @@ module JimmyJukebox
     end
 
     def play_with_player
-      run_command(player, music_file)
+      escaped_music_file = escape_characters_in_string(music_file)
+      run_command(player, escaped_music_file)
       puts "Now playing '#{music_file}'"
       display_options_after_delay
       Process.waitpid(playing_pid) # Waits for a child process to exit, returns its process id, and sets $? to a Process::Status object
       $? # return Process::Status object with instance methods .stopped?, .exited?, .exitstatus
+    end
+
+    private
+
+    def escape_characters_in_string(string)
+      pattern = /( |\'|\"|\-|\)|\$|\+|\(|\?|\!|\`)/
+      string.gsub(pattern) { |match| "\\"  + match }
     end
 
   end

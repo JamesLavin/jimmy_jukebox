@@ -1,9 +1,10 @@
 require File.join(File.dirname(__FILE__), 'lib', 'jimmy_jukebox','version.rb')
 
-spec = Gem::Specification.new do |s|  
+spec = Gem::Specification.new do |s|
   s.name = 'jimmy_jukebox'
   s.author = 'James Lavin'
   s.date = JimmyJukebox::DATE
+  s.add_development_dependency('pry')
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec-core')
   s.add_development_dependency('rspec-mocks')
