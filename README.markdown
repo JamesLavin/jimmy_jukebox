@@ -105,6 +105,7 @@ To download all songs by an artist, use the following commands:
     Coleman Hawkins:                 "load_jukebox ch"    ( 28 songs)
     Count Basie:                     "load_jukebox cb"    ( 44 songs)
     Dave Brubeck:                    "load_jukebox bru"   ( 30 songs)
+    Dexter Gordon:                   "load_jukebox dex"   ( 20 songs)
     Dixieland (various artists):     "load_jukebox dx"    ( 12 songs)
     Dizzy Gillespie:                 "load_jukebox dg"    (  3 songs)
     Django Reinhardt:                "load_jukebox dr"    ( 75 songs)
@@ -137,7 +138,7 @@ To download all songs by an artist, use the following commands:
     Vincent Lopez's Kings of Harmony "load_jukebox kh"    ( 59 songs)
 
     ROCK
-    The Beach Boys:                  "load_jukebox bb"    ( 40 songs)
+    The Beach Boys:                  "load_jukebox beach" ( 40 songs)
     The Big Bopper:                  "load_jukebox bop"   ( 21 songs)
     Bill Haley & the Comets:         "load_jukebox bhc"   ( 63 songs)
     Buddy Holly:                     "load_jukebox holly" ( 57 songs)
