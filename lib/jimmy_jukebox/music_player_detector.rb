@@ -7,6 +7,8 @@ module JimmyJukebox
         "ogg123"
       elsif music123_exists?
         "music123"
+      elsif vlc_exists?
+        "/Applications/VLC.app/Contents/MacOS/VLC"
       elsif afplay_exists?
         "afplay"
       elsif mplayer_exists?
@@ -93,6 +95,10 @@ module JimmyJukebox
 
     def music123_exists?
       `which music123`.match(/.*\/music123$/) ? true : false
+    end
+
+    def vlc_exists?
+      `which /Applications/VLC.app/Contents/MacOS/VLC`.match(/\/Contents\/MacOS\/VLC/)
     end
 
     def mpg321_exists?

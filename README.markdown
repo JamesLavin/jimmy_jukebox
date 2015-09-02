@@ -138,7 +138,8 @@ To download all songs by an artist, use the following commands:
     Vincent Lopez's Kings of Harmony "load_jukebox kh"    ( 59 songs)
 
     ROCK
-    The Beach Boys:                  "load_jukebox beach" ( 40 songs)
+    The Beach Boys:                  "load_jukebox beach" ( 78 songs)
+    The Bee Gees:                    "load_jukebox bgees" ( 26 songs)
     The Big Bopper:                  "load_jukebox bop"   ( 21 songs)
     Bill Haley & the Comets:         "load_jukebox bhc"   ( 63 songs)
     Buddy Holly:                     "load_jukebox holly" ( 57 songs)

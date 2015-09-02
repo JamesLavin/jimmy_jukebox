@@ -1,4 +1,6 @@
 TODO:
+  ensure .ogg files play
+  set execute bit on downloaded songs!
   update extract_urls to work with new format
   figure out why Macs running Ruby 1.8 won't skip song
   remove error message when pausing/unpausing songs
@@ -21,3 +23,5 @@ TODO:
   http://www.archive.org/details/1920sJazz-01-90
   http://www.archive.org/details/LilArmstrong-01-10
 
+Option for downloading more content I'm personally less excited about:
+https://archive.org/details/BeeGees-01-120

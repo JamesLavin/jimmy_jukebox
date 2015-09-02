@@ -140,7 +140,7 @@ module JimmyJukebox
     private
 
     def escape_characters_in_string(string)
-      pattern = /( |\'|\"|\-|\)|\$|\+|\(|\?|\!|\`)/
+      pattern = /( |&|\'|\"|\-|\)|\$|\+|\(|\?|\!|\`)/
       string.gsub(pattern) { |match| "\\"  + match }
     end
 
