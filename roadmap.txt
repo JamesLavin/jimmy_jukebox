@@ -1,5 +1,5 @@
 TODO:
-  ensure .ogg files play
+  fix problem of VLC not allowing user to skip a song
   set execute bit on downloaded songs!
   update extract_urls to work with new format
   figure out why Macs running Ruby 1.8 won't skip song
