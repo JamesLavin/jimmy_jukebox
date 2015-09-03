@@ -7,10 +7,12 @@ module JimmyJukebox
         "ogg123"
       elsif music123_exists?
         "music123"
+      elsif ffmpeg_exists?
+        "ffmpeg -i"
       elsif vlc_exists?
-        "/Applications/VLC.app/Contents/MacOS/VLC"
-      elsif afplay_exists?
-        "afplay"
+        # http://askubuntu.com/questions/548915/how-to-run-cvlc-closing-after-the-play
+        # https://wiki.videolan.org/VLC_command-line_help/
+        "/Applications/VLC.app/Contents/MacOS/VLC --play-and-exit --no-interact -I rc"
       elsif mplayer_exists?
         "mplayer -nolirc -noconfig all"
       elsif play_exists?
@@ -95,6 +97,10 @@ module JimmyJukebox
 
     def music123_exists?
       `which music123`.match(/.*\/music123$/) ? true : false
+    end
+
+    def ffmpeg_exists?
+      `which ffmpeg`.match(/ffmpeg$/) ? true : false
     end
 
     def vlc_exists?
