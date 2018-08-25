@@ -45,8 +45,14 @@ module JimmyJukebox
     def grandchild_pid
       # returns grandchild's pid if the child process spawns a grandchild
       # if so, the child is probably "/bin/sh" and the grandchild is "mpg123" or similar
-      gpid = JimmyJukebox::RUNNING_LINUX && `ps --ppid #{playing_pid} -o pid`.strip.to_i
-      gpid == 0 ? nil : gpid
+      if JimmyJukebox::RUNNING_LINUX
+        gpid_str = `ps --ppid #{playing_pid} -o pid`
+        gpid_match = /\D*([0-9]*)\D*/m.match(gpid_str)[1]
+        gpid = gpid_match ? gpid_match : nil
+        gpid == 0 ? nil : gpid
+      else
+        nil
+      end
     end
 
     def process_group_id
@@ -57,8 +63,10 @@ module JimmyJukebox
       self.paused = true
       if playing_pid
         if grandchild_pid
+          puts "pausing grandchild_pid #{grandchild_pid}"
           `kill -s STOP #{grandchild_pid}`
         else
+          puts "pausing playing_pid #{playing_pid}"
           `kill -s STOP #{playing_pid}`
         end
       else
@@ -70,8 +78,10 @@ module JimmyJukebox
       self.paused = false
       if playing_pid
         if grandchild_pid
+          puts "unpausing grandchild_pid #{grandchild_pid}"
           `kill -s CONT #{grandchild_pid}`
         else playing_pid
+          puts "unpausing playing_pid #{playing_pid}"
           `kill -s CONT #{playing_pid}`
         end
       else
