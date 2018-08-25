@@ -63,10 +63,8 @@ module JimmyJukebox
       self.paused = true
       if playing_pid
         if grandchild_pid
-          puts "pausing grandchild_pid #{grandchild_pid}"
           `kill -s STOP #{grandchild_pid}`
         else
-          puts "pausing playing_pid #{playing_pid}"
           `kill -s STOP #{playing_pid}`
         end
       else
@@ -78,10 +76,8 @@ module JimmyJukebox
       self.paused = false
       if playing_pid
         if grandchild_pid
-          puts "unpausing grandchild_pid #{grandchild_pid}"
           `kill -s CONT #{grandchild_pid}`
         else playing_pid
-          puts "unpausing playing_pid #{playing_pid}"
           `kill -s CONT #{playing_pid}`
         end
       else
