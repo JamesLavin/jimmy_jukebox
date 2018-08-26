@@ -56,6 +56,8 @@ module JimmyJukebox
           jukebox.skip_song
         when "b", "B"
           jukebox.replay_song
+        when "h", "H"
+          jukebox.display_songs_played
         else
           puts "#{char.strip} is not a valid response" if char
         end

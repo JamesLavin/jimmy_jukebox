@@ -86,6 +86,13 @@ module JimmyJukebox
       @songs_played ||= []
     end
 
+    def display_songs_played
+      puts "Songs played:"
+      @songs_played.each { |song|
+        puts song.music_file
+      }
+    end
+
     def replay_song
       enable_continuous_play
       self.next_song = current_song
