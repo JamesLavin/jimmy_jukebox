@@ -1,7 +1,10 @@
-require 'pry'
+# require 'pry'
 
 urls = [
-  'https://archive.org/details/LionelHamptonHisOrchestraI'
+  'https://archive.org/download/78_barnyard-blues_eddie-edwards-and-his-original-dixieland-jazz-band-eddie-edwards-max_gbia0032255'
+  #'https://archive.org/download/78_boppin-the-blues_lucky-thompson-and-his-lucky-seven-lucky-thompson-benny-carter-bo_gbia0082682'
+  #'https://archive.org/download/10IGotRythm'
+  #'https://archive.org/details/LionelHamptonHisOrchestraI'
   #'http://archive.org/details/DukeEllington-01-10',
   #'http://archive.org/details/DukeEllington-11-17',
   #'http://archive.org/details/1920s-dukeEllington-01-09'
@@ -63,10 +66,14 @@ class ArchiveOrgLinkGrabber
   end
 
   def extract_links(doc)
+    base_url = doc.css('base').first['href']
     found_links = []
-    doc.css('a.stealth.download-pill').each do |link|
+    doc.css('a').each do |link|
       next unless link['href'] =~ /mp3$/
-      found_links << link['href']
+      next if link['href'] =~ /_flat.mp3$/
+      next if link['href'] =~ /_CT_EQ.mp3$/
+      next if link['href'] =~ /_CT_EQ.mp3$/
+      found_links << base_url + link['href']
     end
     found_links
   end

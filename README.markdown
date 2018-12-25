@@ -12,10 +12,10 @@ You can also download wonderful old classical music performances composed by Bac
 
 And I'm adding three more truly American inventions:
 
-1) Bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe
-2) Jugband
-3) Folk - Pete Seeger, Simon & Garfunkel
-4) Rock -- starting with The Beach Boys, the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, The Kingsmen, Jerry Lee Lewis, Jimi Hendrix, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, The Rolling Stones, Roy Orbison, The Supremes, and The Temptations.
+1. Bluegrass -- starting with greats Earl Scruggs (and Lester Flatt) and Bill Monroe
+2. Jugband
+3. Folk - Pete Seeger, Simon & Garfunkel
+4. Rock -- starting with The Beach Boys, the Big Bopper, Bill Haley (and The Comets), Buddy Holly (and The Crickets), Carl Perkins, Chubby Checker, Chuck Berry, The Coasters, Curtis Lee, Elvis, The Everly Brothers, The Kingsmen, Jerry Lee Lewis, Jimi Hendrix, Little Richard, Richie Valens, The Righteous Brothers, The Rivieras, The Rolling Stones, Roy Orbison, The Supremes, and The Temptations.
 
 ## REQUIREMENTS
 
@@ -45,6 +45,7 @@ Windows:
 ## QUICK-START INSTRUCTIONS
 
 - Download music:
+
   - Load all music for an artist: `load_jukebox [artist name]` (see next section)
   - Load 8 songs for an artist: `load_jukebox [artist name] 8` (see next section)
   - Load sample of 20 songs from all genres: `load_jukebox sample 20`
@@ -94,6 +95,7 @@ To download all songs by an artist, use the following commands:
     JAZZ
     Art Tatum:                       "load_jukebox at"    (168 songs)
     Artie Shaw:                      "load_jukebox as"    (580 songs)
+    Bebop (collection):              "load_jukebox bebop" ( 73 songs)
     Bennie Moten:                    "load_jukebox bm"    (107 songs)
     Benny Goodman:                   "load_jukebox bg"    (401 songs)
     Billie Holiday:                  "load_jukebox bh"    ( 63 songs)
@@ -114,6 +116,7 @@ To download all songs by an artist, use the following commands:
     Fletcher Henderson:              "load_jukebox fh"    (158 songs)
     Glenn Miller:                    "load_jukebox gm"    (211 songs)
     James P Johnson:                 "load_jukebox jj"    (  8 songs)
+    Jay Jay Johnson:                 "load_jukebox jjj"   ( 23 songs)
     Jelly Roll Morton:               "load_jukebox jrm"   (193 songs)
     Jazz medleys (various):          "load_jukebox jm"    ( 13 songs) [some are long radio broadcasts]
     John Coltrane:                   "load_jukebox jc"    ( 49 songs)
@@ -176,6 +179,7 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 - By default, JimmyJukebox assumes your music is stored in a directory tree descending from `~/Music`
 - By default:
+
   - Banjo is stored under `~/Music/BANJO`
   - Bluegrass is stored under `~/Music/BLUEGRASS`
   - Classical is stored under `~/Music/CLASSICAL`
@@ -185,6 +189,7 @@ To specify a different directory, type the full directory path after `load_jukeb
   - Rock is stored under `~/Music/ROCK`
 
 - To play a random selection of music, type in the command line `play_jukebox`
+
   - A song will start playing
   - To skip to the next song, type `s`
   - To pause the song, type `p`
@@ -193,6 +198,7 @@ To specify a different directory, type the full directory path after `load_jukeb
   - To quit, type "q" or `<CTRL>-C`
 
 - To play a random selection of...
+
   - Banjo: `play_jukebox banjo`
   - Bluegrass: `play_jukebox bluegrass` or `play_jukebox b`
   - Classical: `play_jukebox classical` or `play_jukebox c`
@@ -203,11 +209,11 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 - To play a particular artist, type:
 
-    Art Tatum:                    "play_jukebox at"
-    Artie Shaw:                   "play_jukebox as"
-    Bennie Moten:                 "play_jukebox bm"
-    Haydn:                        "load_jukebox h"
-    etc.
+  Art Tatum: "play_jukebox at"
+  Artie Shaw: "play_jukebox as"
+  Bennie Moten: "play_jukebox bm"
+  Haydn: "load_jukebox h"
+  etc.
 
 ## TELLING JIMMYJUKEBOX WHERE TO FIND YOUR MUSIC
 
@@ -229,12 +235,14 @@ To specify a different directory, type the full directory path after `load_jukeb
 - Create a `~/.jimmy_jukebox` directory
 
 - Create one or more files in `~/.jimmy_jukebox` named whatever you want but ending in `.txt`. Each will become a playlist:
+
   - ~/.jimmy_jukebox/jazz.txt
   - ~/.jimmy_jukebox/rock.txt
   - ~/.jimmy_jukebox/country.txt
   - etc.
 
 - Inside each file, add a row name for each top-level music directory tree for that playlist. (No need to escape spaces and other frequently escaped characters.) For example, `~/.jimmy_jukebox/rock.txt` might contain the following:
+
   - ~/My_rock_files/The_Beatles
   - ~/My_rock_files/The Eagles
   - /home/my_name/My_rock_files/The_Rolling_Stones
@@ -251,13 +259,12 @@ To specify a different directory, type the full directory path after `load_jukeb
 
 ## FEATURE IDEAS
 
-* Mode for playing only songs by the current artist
-* Mode for playing only songs in the genre of the current song
-* Get more songs by the current artist
-* Favoriting songs and replaying in favorites-only mode
-* Skipping ahead/back within a song (useful for long radio broadcast recordings)
+- Mode for playing only songs by the current artist
+- Mode for playing only songs in the genre of the current song
+- Get more songs by the current artist
+- Favoriting songs and replaying in favorites-only mode
+- Skipping ahead/back within a song (useful for long radio broadcast recordings)
 
 ## LEGAL DISCLAIMER
 
 Download music at your own risk. I DO NOT guarantee that any music this program enables you to download is in the public domain, but the music is all from a reputable website (archive.org), and most/all of the songs seem to have been uploaded by someone who vouched that they are now in the public domain. Many of the songs are old enough that they are no longer eligible for copyright protection. More recently recorded songs may or may not be in the public domain, but copyright law is very complex, and it is often difficult or impossible to determine whether or not a particular song currently enjoys copyright protection.
-
